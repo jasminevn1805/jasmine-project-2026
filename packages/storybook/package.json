@@ -1,0 +1,32 @@
+{
+  "name": "@jasmine/storybook",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Storybook documentation for Jasmine Design System",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "start": "./start-storybook.sh",
+    "build": "storybook build",
+    "preview": "npx http-server storybook-static"
+  },
+  "dependencies": {
+    "@jasmine/design-system": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-feather": "^2.0.10"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.21",
+    "@storybook/addon-interactions": "^7.6.21",
+    "@storybook/addon-links": "^7.6.21",
+    "@storybook/blocks": "^7.6.21",
+    "@storybook/react": "^7.6.21",
+    "@storybook/react-vite": "^7.6.21",
+    "@storybook/testing-library": "^0.2.2",
+    "storybook": "^7.6.21",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
+  }
+}

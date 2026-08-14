@@ -1,0 +1,13 @@
+/**
+ * Design System Utilities (safe to bundle)
+ * Only includes utilities that don't conflict with Tailwind or other CSS frameworks.
+ */
+
+/* ── Hide scrollbar ─────────────────────────────────────── */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

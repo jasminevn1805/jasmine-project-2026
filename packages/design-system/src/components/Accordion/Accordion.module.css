@@ -1,0 +1,126 @@
+/**
+ * Accordion Component Styles — mapped 1:1 from Figma `Accordion` symbol
+ *
+ * Figma variables → CSS tokens:
+ *   Space/M             → var(--space-12)
+ *   Space/S             → var(--space-8)
+ *   Border Width/S      → var(--border-width-s)       1px
+ *   Border/Subtle       → var(--color-border-subtle)  #e5e5e5
+ *   Text/Primary        → var(--color-text-primary)   #1a1a1a
+ *   Icon/Primary        → var(--color-icon-primary)   #1a1a1a
+ *   Heading/S/Semi Bold → --typography-desktop-heading-s-semi-bold-*
+ *   Text/L/Regular      → --typography-desktop-text-l-regular-*
+ */
+
+/* ─── Root ─────────────────────────────────────────────────────────────────── */
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ─── Item ─────────────────────────────────────────────────────────────────── */
+
+.item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* Bottom Subtle divider from Figma */
+  border-bottom: var(--border-width-s) solid var(--color-border-subtle);
+}
+
+/* ─── Trigger (Content row in Figma) ───────────────────────────────────────── */
+
+.trigger {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-8); /* Space/S */
+  width: 100%;
+  padding: var(--space-12) 0; /* Space/M vertical, no horizontal padding (matches Figma) */
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-text-primary);
+  font-family: var(--typography-desktop-family-main);
+}
+
+.trigger:focus-visible {
+  outline: var(--border-width-l) solid var(--color-border-focus);
+  outline-offset: var(--space-2);
+  border-radius: var(--border-radius-xs);
+}
+
+.trigger:disabled {
+  cursor: not-allowed;
+  color: var(--color-text-disabled);
+}
+
+/* ─── Heading (Heading/S/Semi Bold) ────────────────────────────────────────── */
+
+.heading {
+  flex: 1 0 0;
+  min-width: 0;
+  font-size: var(--typography-desktop-heading-s-semi-bold-size); /* 20px */
+  font-weight: var(--typography-desktop-heading-s-semi-bold-weight); /* 600 */
+  line-height: var(--typography-desktop-heading-s-semi-bold-line-height); /* 28px */
+  letter-spacing: var(--typography-desktop-heading-s-semi-bold-letter-spacing); /* -0.5px */
+  color: inherit;
+}
+
+/* ─── Chevron (24x24, flips on open) ───────────────────────────────────────── */
+
+.icon {
+  flex-shrink: 0;
+  width: var(--space-24);
+  height: var(--space-24);
+  color: var(--color-icon-primary);
+  transition: transform 0.2s ease;
+}
+
+.open .icon {
+  transform: rotate(180deg);
+}
+
+.disabled .icon {
+  color: var(--color-icon-disabled, var(--color-text-disabled));
+}
+
+/* ─── Panel (body when open) ───────────────────────────────────────────────── */
+
+.panel {
+  overflow: hidden;
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.panelInner {
+  padding-bottom: var(--space-12); /* Space/M */
+  color: var(--color-text-secondary);
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-text-l-regular-size); /* 16px */
+  font-weight: var(--typography-desktop-text-l-regular-weight); /* 400 */
+  line-height: var(--typography-desktop-text-l-regular-line-height); /* 24px */
+  letter-spacing: var(--typography-desktop-text-l-regular-letter-spacing); /* 0px */
+}
+
+/* ─── Mobile breakpoint ────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .heading {
+    font-size: var(--typography-mobile-heading-s-semi-bold-size);
+    font-weight: var(--typography-mobile-heading-s-semi-bold-weight);
+    line-height: var(--typography-mobile-heading-s-semi-bold-line-height);
+    letter-spacing: var(--typography-mobile-heading-s-semi-bold-letter-spacing);
+  }
+
+  .panelInner {
+    font-size: var(--typography-mobile-text-l-regular-size);
+    font-weight: var(--typography-mobile-text-l-regular-weight);
+    line-height: var(--typography-mobile-text-l-regular-line-height);
+    letter-spacing: var(--typography-mobile-text-l-regular-letter-spacing);
+  }
+}

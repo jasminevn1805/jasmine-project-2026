@@ -1,0 +1,145 @@
+/**
+ * Meal Prep — Typography Utility Classes
+ *
+ * Purpose-driven type roles that bundle font-family + size + weight +
+ * line-height + letter-spacing into a single class. Removes the inline
+ * style soup where every page redeclares 5 font properties per heading.
+ *
+ * Source values: --typography-{desktop,mobile}-* tokens from the DS.
+ * Color is intentionally left to the consumer (e.g. .text-primary uses
+ * the surrounding `color` rule).
+ *
+ * Responsive: each role steps down via @media (max-width: 767px),
+ * mirroring the mobile variants exposed by the DS.
+ *
+ * Role map:
+ *   .text-display   Hero / page-defining display (large, semi-bold)
+ *   .text-h1        Page title
+ *   .text-h2        Section title
+ *   .text-h3        Subsection title
+ *   .text-body      Default body copy (14px)
+ *   .text-body-sm   Caption / fine print (12px)
+ *   .text-meta      Numeric/inline meta — tabular-nums, tertiary cast
+ *   .text-eyebrow   Uppercase pre-header / small label (tracked)
+ */
+
+/* ── Display ─────────────────────────────────────────────── */
+.text-display {
+  font-family: var(--font-display);
+  font-size: var(--typography-desktop-heading-2-xl-semi-bold-size);
+  font-weight: var(--typography-desktop-heading-2-xl-semi-bold-weight);
+  line-height: var(--typography-desktop-heading-2-xl-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-heading-2-xl-semi-bold-letter-spacing);
+  margin: 0;
+}
+
+/* ── Heading 1 — page title ──────────────────────────────── */
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: var(--typography-desktop-heading-l-semi-bold-size);
+  font-weight: var(--typography-desktop-heading-l-semi-bold-weight);
+  line-height: var(--typography-desktop-heading-l-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-heading-l-semi-bold-letter-spacing);
+  margin: 0;
+}
+
+/* ── Heading 2 — section title ───────────────────────────── */
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: var(--typography-desktop-heading-m-semi-bold-size);
+  font-weight: var(--typography-desktop-heading-m-semi-bold-weight);
+  line-height: var(--typography-desktop-heading-m-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-heading-m-semi-bold-letter-spacing);
+  margin: 0;
+}
+
+/* ── Heading 3 — subsection / card title ─────────────────── */
+.text-h3 {
+  font-family: var(--font-display);
+  font-size: var(--typography-desktop-heading-s-semi-bold-size);
+  font-weight: var(--typography-desktop-heading-s-semi-bold-weight);
+  line-height: var(--typography-desktop-heading-s-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-heading-s-semi-bold-letter-spacing);
+  margin: 0;
+}
+
+/* ── Body ────────────────────────────────────────────────── */
+.text-body {
+  font-family: var(--font-body);
+  font-size: var(--typography-desktop-text-m-regular-size);
+  font-weight: var(--typography-desktop-text-m-regular-weight);
+  line-height: var(--typography-desktop-text-m-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-m-regular-letter-spacing);
+  margin: 0;
+}
+
+.text-body-strong {
+  font-family: var(--font-body);
+  font-size: var(--typography-desktop-text-m-semi-bold-size);
+  font-weight: var(--typography-desktop-text-m-semi-bold-weight);
+  line-height: var(--typography-desktop-text-m-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-text-m-semi-bold-letter-spacing);
+  margin: 0;
+}
+
+/* ── Body small / caption ────────────────────────────────── */
+.text-body-sm {
+  font-family: var(--font-body);
+  font-size: var(--typography-desktop-text-s-regular-size);
+  font-weight: var(--typography-desktop-text-s-regular-weight);
+  line-height: var(--typography-desktop-text-s-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-s-regular-letter-spacing);
+  margin: 0;
+}
+
+/* ── Meta — numeric/inline secondary info ────────────────── */
+.text-meta {
+  font-family: var(--font-body);
+  font-size: var(--typography-desktop-text-s-regular-size);
+  font-weight: var(--typography-desktop-text-s-regular-weight);
+  line-height: var(--typography-desktop-text-s-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-s-regular-letter-spacing);
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+
+/* ── Eyebrow — uppercase pre-header / label ──────────────── */
+.text-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--typography-desktop-text-s-semi-bold-size);
+  font-weight: var(--typography-desktop-text-s-semi-bold-weight);
+  line-height: var(--typography-desktop-text-s-semi-bold-line-height);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+/* ── Responsive: mobile step-down ────────────────────────── */
+@media (max-width: 767px) {
+  .text-display {
+    font-size: var(--typography-mobile-heading-2-xl-semi-bold-size);
+    line-height: var(--typography-mobile-heading-2-xl-semi-bold-line-height);
+  }
+  .text-h1 {
+    font-size: var(--typography-mobile-heading-l-semi-bold-size);
+    line-height: var(--typography-mobile-heading-l-semi-bold-line-height);
+  }
+  .text-h2 {
+    font-size: var(--typography-mobile-heading-m-semi-bold-size);
+    line-height: var(--typography-mobile-heading-m-semi-bold-line-height);
+  }
+  .text-h3 {
+    font-size: var(--typography-mobile-heading-s-semi-bold-size);
+    line-height: var(--typography-mobile-heading-s-semi-bold-line-height);
+  }
+}
+
+/* ── Color modifiers (composable with role classes) ──────── *
+ * Usage: <h1 className="text-h1 text-ink">…</h1>            */
+.text-ink       { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary  { color: var(--color-text-tertiary); }
+.text-brand     { color: var(--color-text-brand); }
+.text-inverse   { color: var(--color-text-primary-inverse); }

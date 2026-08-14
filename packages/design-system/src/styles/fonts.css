@@ -1,0 +1,23 @@
+/**
+ * Font Imports
+ * Google Fonts used in Jasmine Design System
+ */
+
+/* ===== Inter Font Family ===== */
+/* Primary font for UI */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/* ===== Roboto Font Family ===== */
+/* Secondary/alternative font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* ===== Optional: SF Pro Text ===== */
+/* Note: SF Pro is a system font on Apple devices */
+/* It's already available on macOS/iOS without importing */
+/* For other platforms, you may need to license it separately */
+
+/* ===== Amiri (product family, not loaded here) ===== */
+/* Used by portfolio-site as its editorial display serif.       */
+/* Not imported by the DS — portfolio-site loads it itself via  */
+/* next/font/google in app/layout.tsx and exposes it as the CSS */
+/* variable --font-amiri. See tokens/primitives/typography.ts.  */

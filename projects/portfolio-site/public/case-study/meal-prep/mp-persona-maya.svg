@@ -1,0 +1,38 @@
+<svg width="720" height="540" viewBox="0 0 720 540" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect width="720" height="540" fill="#FAFAFA"/>
+
+  <!-- card -->
+  <rect x="48" y="48" width="624" height="444" rx="16" fill="#FFFFFF" stroke="#E5E5E5" stroke-width="1.5"/>
+
+  <!-- eyebrow -->
+  <text x="80" y="92" fill="#9B9B9B" font-size="12" letter-spacing="2.5" font-weight="600">PROTO-PERSONA</text>
+
+  <!-- avatar -->
+  <circle cx="124" cy="168" r="44" fill="#F5F5F5" stroke="#1A1A1A" stroke-width="1.5"/>
+  <circle cx="124" cy="156" r="15" fill="#1A1A1A"/>
+  <path d="M96 200a28 22 0 0 1 56 0" fill="#1A1A1A"/>
+
+  <!-- name + role -->
+  <text x="192" y="150" fill="#1A1A1A" font-size="30" font-weight="600">Maya</text>
+  <text x="192" y="178" fill="#6B6B6B" font-size="15">28 · works in tech · cooks solo</text>
+  <text x="192" y="200" fill="#9B9B9B" font-size="13">Home at 7 PM, tired, fridge bare</text>
+
+  <!-- divider -->
+  <line x1="80" y1="244" x2="640" y2="244" stroke="#E5E5E5" stroke-width="1"/>
+
+  <!-- two columns of traits -->
+  <text x="80" y="284" fill="#9B9B9B" font-size="11" letter-spacing="1.5" font-weight="600">BEHAVIOUR</text>
+  <text x="80" y="312" fill="#1A1A1A" font-size="14">Discovers recipes on TikTok &amp; Instagram</text>
+  <text x="80" y="338" fill="#1A1A1A" font-size="14">Saves favourites, never re-finds them</text>
+  <text x="80" y="364" fill="#1A1A1A" font-size="14">Plans the week inside the Notes app</text>
+
+  <text x="392" y="284" fill="#9B9B9B" font-size="11" letter-spacing="1.5" font-weight="600">NEEDS</text>
+  <text x="392" y="312" fill="#1A1A1A" font-size="14">One trusted home for saved recipes</text>
+  <text x="392" y="338" fill="#1A1A1A" font-size="14">A fast week-of-meals planner</text>
+  <text x="392" y="364" fill="#1A1A1A" font-size="14">A grocery list that builds itself</text>
+
+  <!-- goal pill -->
+  <rect x="80" y="404" width="560" height="56" rx="10" fill="#F5F5F5"/>
+  <text x="104" y="430" fill="#9B9B9B" font-size="11" letter-spacing="1.5" font-weight="600">THE WIN</text>
+  <text x="104" y="450" fill="#1A1A1A" font-size="14" font-weight="500">Less friction between inspiration and dinner — not more features.</text>
+</svg>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typography T-Shirt Sizing Example</title>
+  <link rel="stylesheet" href="./fonts.css">
+  <link rel="stylesheet" href="./reset.css">
+  <link rel="stylesheet" href="./variables.css">
+  <link rel="stylesheet" href="./global.css">
+  <link rel="stylesheet" href="./typography.css">
+  <style>
+    body {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: var(--color-background-secondary);
+      border-radius: 8px;
+    }
+    h2 {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--color-border-default);
+    }
+    .example {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: var(--color-background-primary);
+      border-radius: 4px;
+    }
+    .example code {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--color-text-tertiary);
+    }
+  </style>
+</head>
+<body>
+  <h1 class="heading-4xl">Typography T-Shirt Sizing System</h1>
+  <p class="text-l">Examples of all typography classes available in the design system.</p>
+
+  <!-- Headings Section -->
+  <section>
+    <h2 class="heading-2xl">Headings (10 sizes)</h2>
+    
+    <div class="example">
+      <h1 class="heading-5xl">Heading 5XL - Hero Title</h1>
+      <code>.heading-5xl</code>
+    </div>
+
+    <div class="example">
+      <h2 class="heading-4xl">Heading 4XL - Section Title</h2>
+      <code>.heading-4xl</code>
+    </div>
+
+    <div class="example">
+      <h3 class="heading-3xl">Heading 3XL</h3>
+      <code>.heading-3xl</code>
+    </div>
+
+    <div class="example">
+      <h4 class="heading-2xl">Heading 2XL</h4>
+      <code>.heading-2xl</code>
+    </div>
+
+    <div class="example">
+      <h5 class="heading-xl">Heading XL</h5>
+      <code>.heading-xl</code>
+    </div>
+
+    <div class="example">
+      <h6 class="heading-l">Heading L</h6>
+      <code>.heading-l</code>
+    </div>
+
+    <div class="example">
+      <div class="heading-m">Heading M</div>
+      <code>.heading-m</code>
+    </div>
+
+    <div class="example">
+      <div class="heading-s">Heading S</div>
+      <code>.heading-s</code>
+    </div>
+
+    <div class="example">
+      <div class="heading-xs">Heading XS</div>
+      <code>.heading-xs</code>
+    </div>
+
+    <div class="example">
+      <div class="heading-2xs">Heading 2XS</div>
+      <code>.heading-2xs</code>
+    </div>
+  </section>
+
+  <!-- Text Section -->
+  <section>
+    <h2 class="heading-2xl">Text (6 sizes)</h2>
+    
+    <div class="example">
+      <p class="text-2xl">Text 2XL - Large body text for emphasis</p>
+      <code>.text-2xl</code>
+    </div>
+
+    <div class="example">
+      <p class="text-xl">Text XL - Slightly larger body text</p>
+      <code>.text-xl</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l">Text L - Standard body text for paragraphs</p>
+      <code>.text-l</code>
+    </div>
+
+    <div class="example">
+      <p class="text-m">Text M - Medium body text</p>
+      <code>.text-m</code>
+    </div>
+
+    <div class="example">
+      <p class="text-s">Text S - Small text</p>
+      <code>.text-s</code>
+    </div>
+
+    <div class="example">
+      <p class="text-xs">Text XS - Extra small text for captions</p>
+      <code>.text-xs</code>
+    </div>
+  </section>
+
+  <!-- Labels Section -->
+  <section>
+    <h2 class="heading-2xl">Labels (3 sizes)</h2>
+    
+    <div class="example">
+      <label class="label-l">Label L - Large form label</label>
+      <code>.label-l</code>
+    </div>
+
+    <div class="example">
+      <label class="label-m">Label M - Standard form label</label>
+      <code>.label-m</code>
+    </div>
+
+    <div class="example">
+      <label class="label-s">Label S - Small form label</label>
+      <code>.label-s</code>
+    </div>
+  </section>
+
+  <!-- Links Section -->
+  <section>
+    <h2 class="heading-2xl">Links (3 sizes)</h2>
+    
+    <div class="example">
+      <a href="#" class="link-l">Link L - Large navigation link</a>
+      <code>.link-l</code>
+    </div>
+
+    <div class="example">
+      <a href="#" class="link-m">Link M - Standard navigation link</a>
+      <code>.link-m</code>
+    </div>
+
+    <div class="example">
+      <a href="#" class="link-s">Link S - Small link</a>
+      <code>.link-s</code>
+    </div>
+  </section>
+
+  <!-- Utility Classes Section -->
+  <section>
+    <h2 class="heading-2xl">Utility Classes</h2>
+    
+    <h3 class="heading-l" style="margin-top: 1.5rem; margin-bottom: 1rem;">Font Weights</h3>
+    <div class="example">
+      <p class="text-l font-light">Light weight text</p>
+      <code>.font-light</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l font-regular">Regular weight text</p>
+      <code>.font-regular</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l font-semibold">Semi-bold weight text</p>
+      <code>.font-semibold</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l font-bold">Bold weight text</p>
+      <code>.font-bold</code>
+    </div>
+
+    <h3 class="heading-l" style="margin-top: 1.5rem; margin-bottom: 1rem;">Text Colors</h3>
+    <div class="example">
+      <p class="text-l text-primary">Primary text color</p>
+      <code>.text-primary</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l text-secondary">Secondary text color</p>
+      <code>.text-secondary</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l text-brand">Brand text color</p>
+      <code>.text-brand</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l text-positive">Positive text color</p>
+      <code>.text-positive</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l text-warning">Warning text color</p>
+      <code>.text-warning</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l text-negative">Negative text color</p>
+      <code>.text-negative</code>
+    </div>
+
+    <h3 class="heading-l" style="margin-top: 1.5rem; margin-bottom: 1rem;">Text Alignment</h3>
+    <div class="example">
+      <p class="text-l text-left">Left aligned text</p>
+      <code>.text-left</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l text-center">Center aligned text</p>
+      <code>.text-center</code>
+    </div>
+
+    <div class="example">
+      <p class="text-l text-right">Right aligned text</p>
+      <code>.text-right</code>
+    </div>
+  </section>
+
+  <!-- Combinations Section -->
+  <section>
+    <h2 class="heading-2xl">Combining Classes</h2>
+    <p class="text-l">You can combine typography classes with utility classes:</p>
+    
+    <div class="example">
+      <h1 class="heading-3xl font-light text-brand">Light Brand Heading</h1>
+      <code>.heading-3xl .font-light .text-brand</code>
+    </div>
+
+    <div class="example">
+      <p class="text-xl font-semibold text-center">Semi-bold Centered Text</p>
+      <code>.text-xl .font-semibold .text-center</code>
+    </div>
+
+    <div class="example">
+      <a href="#" class="link-l font-bold">Bold Large Link</a>
+      <code>.link-l .font-bold</code>
+    </div>
+  </section>
+
+</body>
+</html>

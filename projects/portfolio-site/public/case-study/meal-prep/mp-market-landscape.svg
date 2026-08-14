@@ -1,0 +1,42 @@
+<svg width="720" height="540" viewBox="0 0 720 540" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect width="720" height="540" fill="#FAFAFA"/>
+
+  <!-- eyebrow -->
+  <text x="56" y="72" fill="#9B9B9B" font-size="12" letter-spacing="2.5" font-weight="600">MARKET SCAN</text>
+  <text x="56" y="104" fill="#1A1A1A" font-size="24" font-weight="500">The loop nobody owns end to end</text>
+
+  <!-- the spectrum baseline -->
+  <line x1="56" y1="300" x2="664" y2="300" stroke="#E5E5E5" stroke-width="2"/>
+  <text x="56" y="338" fill="#9B9B9B" font-size="12">Discover</text>
+  <text x="178" y="338" fill="#9B9B9B" font-size="12">Save</text>
+  <text x="470" y="338" fill="#9B9B9B" font-size="12" text-anchor="end">Plan · Shop</text>
+  <text x="664" y="338" fill="#9B9B9B" font-size="12" text-anchor="end">Cook</text>
+
+  <!-- Pure Savers cluster -->
+  <rect x="56" y="176" width="184" height="100" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+  <text x="76" y="212" fill="#1A1A1A" font-size="16" font-weight="600">Pure Savers</text>
+  <text x="76" y="236" fill="#6B6B6B" font-size="12">Instagram · TikTok</text>
+  <text x="76" y="254" fill="#6B6B6B" font-size="12">Pinterest</text>
+  <circle cx="148" cy="300" r="6" fill="#1A1A1A"/>
+
+  <!-- Pure Planners cluster -->
+  <rect x="480" y="176" width="184" height="100" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+  <text x="500" y="212" fill="#1A1A1A" font-size="16" font-weight="600">Pure Planners</text>
+  <text x="500" y="236" fill="#6B6B6B" font-size="12">Mealime · Paprika</text>
+  <text x="500" y="254" fill="#6B6B6B" font-size="12">Yummly</text>
+  <circle cx="572" cy="300" r="6" fill="#1A1A1A"/>
+
+  <!-- The whitespace gap -->
+  <rect x="264" y="176" width="192" height="100" rx="12" fill="#FFF1F2" stroke="#F43F5E" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <text x="360" y="212" fill="#F43F5E" font-size="16" font-weight="600" text-anchor="middle">The whitespace</text>
+  <text x="360" y="236" fill="#9B9B9B" font-size="12" text-anchor="middle">no path from</text>
+  <text x="360" y="254" fill="#9B9B9B" font-size="12" text-anchor="middle">save → plan</text>
+
+  <!-- broken handoff marks on baseline -->
+  <line x1="300" y1="290" x2="300" y2="310" stroke="#F43F5E" stroke-width="2"/>
+  <line x1="420" y1="290" x2="420" y2="310" stroke="#F43F5E" stroke-width="2"/>
+
+  <!-- caption -->
+  <text x="56" y="436" fill="#1A1A1A" font-size="14" font-weight="500">Each product is strong on one stage —</text>
+  <text x="56" y="458" fill="#6B6B6B" font-size="14">and structurally locked out of the next. The gap is the opportunity.</text>
+</svg>

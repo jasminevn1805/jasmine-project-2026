@@ -1,0 +1,210 @@
+/* ─── Backdrop ────────────────────────────────────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16);
+  z-index: 1000;
+  animation: fadeIn 120ms ease-out;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ─── Panel (shared) ─────────────────────────────────────────────────────── */
+.panel {
+  font-family: var(--typography-desktop-family-main);
+  background: var(--color-background-primary);
+  border-radius: var(--border-radius-l);
+  /* Shadow/L3 */
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.1);
+  max-height: calc(100vh - 32px);
+  width: 100%;
+  animation: scaleIn 160ms ease-out;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ─── Default variant — Desktop & Mobile ─────────────────────────────────── */
+.panelDefault {
+  gap: var(--space-24);                /* Space/XL */
+}
+
+.panelDesktop {
+  padding: var(--space-32);            /* Space/2XL */
+  max-width: 608px;
+}
+
+.panelMobile {
+  padding: var(--space-16);            /* Space/L */
+  max-width: 370px;
+}
+
+/* ─── Form variant ───────────────────────────────────────────────────────── */
+.panelForm { padding: 0; gap: 0; }
+
+.panelS  { max-width: 400px; }
+.panelM  { max-width: 440px; }
+.panelL  { max-width: 608px; }
+.panelXL { max-width: 720px; }
+
+/* ─── Header / Content row ───────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+.panelForm .header {
+  padding: var(--space-24) var(--space-24) var(--space-16);
+  align-items: flex-start;
+}
+
+.headerTitleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.headerTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  flex: 1;
+}
+
+/* Title — Desktop: Heading/M (24/32/-0.5) */
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-weight: var(--typography-desktop-heading-m-semi-bold-weight);
+  font-size: var(--typography-desktop-heading-m-semi-bold-size);
+  line-height: var(--typography-desktop-heading-m-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-heading-m-semi-bold-letter-spacing);
+}
+
+/* Title — Mobile: Heading/S (20/28/-0.5) */
+.titleCompact {
+  font-weight: var(--typography-desktop-heading-s-semi-bold-weight);
+  font-size: var(--typography-desktop-heading-s-semi-bold-size);
+  line-height: var(--typography-desktop-heading-s-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-heading-s-semi-bold-letter-spacing);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--typography-desktop-text-m-regular-size);
+  font-weight: var(--typography-desktop-text-m-regular-weight);
+  line-height: var(--typography-desktop-text-m-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-m-regular-letter-spacing);
+}
+
+/* Close button — 24×24 Icon/24/X */
+.closeButton {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-icon-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-24);
+  height: var(--space-24);
+  border-radius: var(--border-radius-s);
+}
+.closeButton:hover { background: var(--color-background-hover); }
+.closeButton:focus-visible {
+  outline: var(--border-width-l) solid var(--color-border-focus);
+  outline-offset: var(--space-2);
+}
+
+/* ─── Slot ───────────────────────────────────────────────────────────────── */
+.slot {
+  width: 100%;
+  color: var(--color-text-primary);
+  font-size: var(--typography-desktop-text-m-regular-size);
+  font-weight: var(--typography-desktop-text-m-regular-weight);
+  line-height: var(--typography-desktop-text-m-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-m-regular-letter-spacing);
+}
+
+/* Dashed placeholder (rendered when no slot/children provided) */
+.slotPlaceholder {
+  background: var(--color-background-brand-subtle);
+  border: var(--border-width-s) dashed var(--color-border-focus);
+  border-radius: var(--border-radius-m);
+  padding: var(--space-32) var(--space-16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slotPlaceholderLabel {
+  color: var(--color-text-link);
+  font-size: var(--typography-desktop-text-s-regular-size);
+  font-weight: var(--typography-desktop-text-s-regular-weight);
+  line-height: var(--typography-desktop-text-s-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-s-regular-letter-spacing);
+}
+
+/* ─── Form variant Body / Footer ─────────────────────────────────────────── */
+.body {
+  padding: 0 var(--space-24) var(--space-16);
+  overflow-y: auto;
+  flex: 1;
+  color: var(--color-text-primary);
+}
+
+.footer {
+  padding: var(--space-16) var(--space-24) var(--space-24);
+  border-top: var(--border-width-s) solid var(--color-border-subtle);
+}
+
+/* ─── Actions row (default variant) ──────────────────────────────────────── */
+.actions {
+  display: flex;
+  width: 100%;
+  gap: var(--space-8);
+}
+
+.actionsDesktop { flex-direction: row; align-items: stretch; }
+.actionsMobile  { flex-direction: column; align-items: stretch; }
+
+/* Each Button stretches inside the row. Button styling (bg, color, radius,
+   typography, focus) is owned by the shared <Button /> component. */
+.actionBtn {
+  flex: 1 0 0;
+  width: 100%;
+  min-width: 0;
+}
+
+/* ─── Text button wrap (default variant) ─────────────────────────────────── */
+.textActionWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-8) 0;
+}
+
+/* ─── Legacy Modal.Actions (form variant compound) ───────────────────────── */
+.legacyActions {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: flex-end;
+  align-items: center;
+}

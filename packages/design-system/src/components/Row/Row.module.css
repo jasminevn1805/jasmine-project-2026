@@ -1,0 +1,145 @@
+/**
+ * Row Component Styles — Jasmine Design System
+ *
+ * Matches Figma "Row" component (node 1423:7241): a list-item primitive
+ * with an optional leading accessory, primary/secondary text, an optional
+ * trailing accessory, and an optional bottom divider.
+ *
+ * Token Architecture:
+ * - Colors: var(--color-*)
+ * - Spacing: var(--space-*)
+ * - Typography: var(--typography-desktop-text-*)
+ * - Borders: var(--border-radius-*), var(--border-width-*)
+ */
+
+.row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  width: 100%;
+  padding: var(--space-m) 0;
+}
+
+.divider {
+  flex-shrink: 0;
+}
+
+/* ─── Text block ─────────────────────────────────────────────────────────── */
+.text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  min-width: 0;
+  font-family: var(--typography-desktop-family-main);
+}
+
+.primaryText {
+  margin: 0;
+  width: 100%;
+  font-size: var(--typography-desktop-text-l-regular-size);
+  font-weight: var(--typography-desktop-text-l-regular-weight);
+  line-height: var(--typography-desktop-text-l-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-l-regular-letter-spacing);
+  color: var(--color-text-secondary);
+  word-break: break-word;
+}
+
+.secondaryText {
+  margin: 0;
+  width: 100%;
+  font-size: var(--typography-desktop-text-m-regular-size);
+  font-weight: var(--typography-desktop-text-m-regular-weight);
+  line-height: var(--typography-desktop-text-m-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-m-regular-letter-spacing);
+  color: var(--color-text-tertiary);
+  word-break: break-word;
+}
+
+/* ─── Leading / trailing: checkmark, checkbox, radio ────────────────────── */
+.checkmark,
+.checkbox,
+.radio {
+  flex-shrink: 0;
+  width: var(--space-24);
+  height: var(--space-24);
+  box-sizing: border-box;
+  background: var(--color-background-primary);
+  border: var(--border-width-s) solid var(--color-border-primary);
+}
+
+.checkmark,
+.radio {
+  border-radius: var(--border-radius-pill);
+}
+
+.checkbox {
+  border-radius: var(--border-radius-s);
+}
+
+/* ─── Leading: icon ──────────────────────────────────────────────────────── */
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-24);
+  height: var(--space-24);
+  color: var(--color-icon-primary);
+}
+
+/* ─── Leading: avatar ────────────────────────────────────────────────────── */
+.avatar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-48);
+  height: var(--space-48);
+  border-radius: var(--border-radius-pill);
+  background: var(--color-background-subtle);
+}
+
+.avatarInitials {
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-text-l-regular-size);
+  font-weight: var(--typography-desktop-text-l-regular-weight);
+  line-height: var(--typography-desktop-text-l-regular-line-height);
+  color: var(--color-text-secondary);
+}
+
+/* ─── Leading: image ─────────────────────────────────────────────────────── */
+.image {
+  flex-shrink: 0;
+  width: var(--space-48);
+  height: var(--space-48);
+  border-radius: var(--border-radius-s);
+  object-fit: cover;
+}
+
+/* ─── Trailing: toggle ───────────────────────────────────────────────────── */
+.toggle {
+  position: relative;
+  flex-shrink: 0;
+  display: block;
+  width: 66px;
+  height: var(--space-28);
+  border-radius: var(--border-radius-pill);
+  background: var(--color-background-neutral);
+}
+
+.toggleKnob {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  width: var(--space-40);
+  height: var(--space-24);
+  border-radius: var(--border-radius-pill);
+  background: var(--color-background-primary);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.08), 0px 6px 4px -4px rgba(0, 0, 0, 0.08);
+}

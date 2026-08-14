@@ -1,0 +1,61 @@
+/**
+ * Meal Prep — Project Theme, Dark Mode
+ *
+ * Scoped to [data-theme="meal-prep"][data-mode="dark"], wrapped in
+ * `@layer theme-mode` (the layer the DS reserves for exactly this - see
+ * THEMING-CONTRACT.md §2/§5).
+ *
+ * WHY THIS FILE EXISTS AT ALL (most themes shouldn't need one):
+ * THEMING-CONTRACT.md Rule 3 says most themes need zero theme-mode overrides,
+ * because dark mode is inherited for free from the DS's own brand-dark layer
+ * for every token a theme doesn't touch. Meal-prep doesn't get that for free
+ * on most of its own tokens, because theme.css redefines background/text/
+ * border tokens with meal-prep's own warm-neutral values *unconditionally*
+ * (not mode-gated) - so without this file, toggling data-mode="dark" would
+ * leave meal-prep's backgrounds and text stuck in the light warm-cream
+ * palette while only DS tokens meal-prep never touches would go dark. That's
+ * a broken, half-dark UI, not a design nuance to skip.
+ *
+ * PROVENANCE OF THE VALUES BELOW - please read before treating this as final:
+ * No designer has reviewed meal-prep's dark palette yet. These values are a
+ * systematic, mechanical first pass: for each token, the light→dark shift
+ * mirrors the *relationship* the DS's own default (blue/neutral) theme
+ * already uses between its brand-light and brand-dark layers, applied to the
+ * equivalent step on meal-prep's warmNeutral/forestGreen scales instead
+ * (e.g. DS shifts brand 500→400, hover 600→300, pressed 700→200, subtle
+ * 100→800, background 0→900 — the same relative shifts are used here for
+ * forestGreen/warmNeutral). It's a coherent starting point, not a designed
+ * one - flag anything that reads as low-contrast or muddy for a real review.
+ *
+ * Decorative gradient stops (--color-brand-gradient-*) are deliberately left
+ * unchanged - full-bleed decorative panel color, not a text/background
+ * contrast pair, and there's no clear signal it needs a different treatment
+ * in dark mode.
+ */
+
+@layer theme-mode {
+[data-theme="meal-prep"][data-mode="dark"] {
+  /* ── Backgrounds ── */
+  --color-background-primary:       var(--primitive-warm-neutral-900);
+  --color-background-secondary:     var(--primitive-warm-neutral-800);
+  --color-background-hover:         var(--primitive-warm-neutral-700);
+  --color-background-brand:         var(--primitive-forest-green-400);
+  --color-background-brand-subtle:  var(--primitive-forest-green-800);
+  --color-background-brand-hover:   var(--primitive-forest-green-300);
+  --color-background-brand-pressed: var(--primitive-forest-green-200);
+
+  /* --color-background-veil references --color-background-primary via
+     color-mix(), so it updates automatically - no override needed here. */
+
+  /* ── Text ── */
+  --color-text-brand:               var(--primitive-forest-green-400);
+  --color-text-secondary:           var(--primitive-warm-neutral-100);
+  --color-text-tertiary:            var(--primitive-warm-neutral-200);
+
+  /* ── Borders ── */
+  --color-border-default:           var(--primitive-warm-neutral-700);
+  --color-border-subtle:            var(--primitive-warm-neutral-800);
+  --color-border-brand:             var(--primitive-forest-green-400);
+  --color-border-focus:             var(--primitive-forest-green-400);
+}
+} /* @layer theme-mode */

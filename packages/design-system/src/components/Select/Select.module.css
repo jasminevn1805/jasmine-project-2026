@@ -1,0 +1,172 @@
+/**
+ * Select Component Styles
+ *
+ * Custom dropdown select for the Jasmine Design System.
+ * Replaces the native OS picker with a fully styled options panel
+ * that matches the minimal aesthetic of Input / Textarea.
+ */
+
+/* ── wrapper ── */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  position: relative;
+}
+
+/* ── label ── */
+
+.label {
+  display: block;
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-label-s-semi-bold-size);
+  font-weight: var(--typography-desktop-label-s-semi-bold-weight);
+  line-height: var(--typography-desktop-label-s-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-label-s-semi-bold-letter-spacing);
+  color: var(--color-text-secondary);
+}
+
+/* ── trigger button (looks like Input) ── */
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: var(--border-radius-s);
+  border: var(--border-width-s) solid var(--color-border-subtle);
+  background: var(--color-background-primary);
+  padding: 0 var(--space-m);
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-text-s-regular-size);
+  font-weight: var(--typography-desktop-text-s-regular-weight);
+  line-height: var(--typography-desktop-text-s-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-s-regular-letter-spacing);
+  color: var(--color-text-primary);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 150ms ease;
+  text-align: left;
+}
+
+.trigger:focus-visible {
+  border-color: var(--color-border-brand);
+}
+
+.triggerOpen {
+  border-color: var(--color-border-brand);
+}
+
+.trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.triggerText {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.placeholder .triggerText {
+  color: var(--color-text-tertiary);
+}
+
+/* ── chevron ── */
+
+.chevron {
+  flex-shrink: 0;
+  margin-left: var(--space-xs);
+  color: var(--color-text-tertiary);
+  transition: transform 200ms ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ── dropdown panel ── */
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  margin-top: var(--space-2xs, 4px);
+  padding: var(--space-2xs, 4px) 0;
+  list-style: none;
+  background: var(--color-background-primary);
+  border: var(--border-width-s) solid var(--color-border-subtle);
+  border-radius: var(--border-radius-s);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-height: 220px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* thin scrollbar */
+.dropdown::-webkit-scrollbar {
+  width: var(--space-4);
+}
+.dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dropdown::-webkit-scrollbar-thumb {
+  background: var(--color-border-subtle);
+  border-radius: var(--border-radius-xs);
+}
+
+/* ── option item ── */
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: var(--space-xs, 6px) var(--space-m);
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-text-s-regular-size);
+  font-weight: var(--typography-desktop-text-s-regular-weight);
+  line-height: var(--typography-desktop-text-s-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-s-regular-letter-spacing);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+  user-select: none;
+}
+
+.optionFocused {
+  background: var(--color-background-secondary, rgba(0, 0, 0, 0.04));
+}
+
+.optionSelected {
+  font-weight: var(--typography-desktop-text-s-semi-bold-weight, 600);
+  color: var(--color-text-brand, var(--color-text-primary));
+}
+
+.optionDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── error state ── */
+
+.error .trigger {
+  border-color: var(--color-border-negative);
+}
+
+.error .trigger:focus-visible,
+.error .triggerOpen {
+  border-color: var(--color-border-negative);
+}
+
+.errorMessage {
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-text-s-regular-size);
+  line-height: var(--typography-desktop-text-s-regular-line-height);
+  color: var(--color-text-negative);
+  margin: 0;
+}

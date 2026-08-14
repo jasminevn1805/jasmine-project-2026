@@ -1,0 +1,43 @@
+<svg width="440" height="560" viewBox="0 0 440 560" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect width="440" height="560" fill="#FAFAFA"/>
+  <!-- phone frame -->
+  <rect x="120" y="36" width="200" height="488" rx="28" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+  <rect x="186" y="52" width="68" height="6" rx="3" fill="#E5E5E5"/>
+
+  <!-- header -->
+  <text x="140" y="100" fill="#1A1A1A" font-size="16" font-weight="600">Library</text>
+  <rect x="140" y="116" width="160" height="26" rx="13" fill="#F5F5F5"/>
+  <text x="156" y="133" fill="#9B9B9B" font-size="11">Search · filter by ingredient</text>
+
+  <!-- recipe cards grid -->
+  <g>
+    <rect x="140" y="158" width="74" height="92" rx="8" fill="#FAFAFA" stroke="#E5E5E5" stroke-width="1"/>
+    <rect x="140" y="158" width="74" height="52" rx="8" fill="#E5E5E5"/>
+    <rect x="150" y="220" width="48" height="7" rx="3" fill="#1A1A1A"/>
+    <rect x="150" y="233" width="34" height="6" rx="3" fill="#9B9B9B"/>
+  </g>
+  <g>
+    <rect x="226" y="158" width="74" height="92" rx="8" fill="#FAFAFA" stroke="#E5E5E5" stroke-width="1"/>
+    <rect x="226" y="158" width="74" height="52" rx="8" fill="#E5E5E5"/>
+    <rect x="236" y="220" width="44" height="7" rx="3" fill="#1A1A1A"/>
+    <rect x="236" y="233" width="30" height="6" rx="3" fill="#9B9B9B"/>
+  </g>
+  <g>
+    <rect x="140" y="262" width="74" height="92" rx="8" fill="#FAFAFA" stroke="#E5E5E5" stroke-width="1"/>
+    <rect x="140" y="262" width="74" height="52" rx="8" fill="#E5E5E5"/>
+    <rect x="150" y="324" width="50" height="7" rx="3" fill="#1A1A1A"/>
+    <rect x="150" y="337" width="32" height="6" rx="3" fill="#9B9B9B"/>
+  </g>
+  <g>
+    <rect x="226" y="262" width="74" height="92" rx="8" fill="#FAFAFA" stroke="#E5E5E5" stroke-width="1"/>
+    <rect x="226" y="262" width="74" height="52" rx="8" fill="#E5E5E5"/>
+    <rect x="236" y="324" width="40" height="7" rx="3" fill="#1A1A1A"/>
+    <rect x="236" y="337" width="36" height="6" rx="3" fill="#9B9B9B"/>
+  </g>
+
+  <!-- bottom nav -->
+  <line x1="120" y1="470" x2="320" y2="470" stroke="#E5E5E5" stroke-width="1"/>
+  <circle cx="160" cy="496" r="4" fill="#1A1A1A"/>
+  <circle cx="220" cy="496" r="4" fill="#9B9B9B"/>
+  <circle cx="280" cy="496" r="4" fill="#9B9B9B"/>
+</svg>

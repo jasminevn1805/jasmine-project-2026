@@ -1,0 +1,99 @@
+# Design System Guardrails
+#
+# Enforces THEMING-CONTRACT.md Rule 2 ("never hardcode a raw value outside
+# packages/design-system") and catches visual regressions across the
+# data-theme x data-mode matrix - see
+# bmad_output/planning-artifacts/token-architecture-brand-theme-mode-proposal.md,
+# Phase 5.
+#
+# NOTE: this repo has no git remote yet (confirmed at the time this was
+# written), so this workflow is currently dormant - nothing triggers it until
+# the repo is pushed to GitHub. It's checked in ready to go rather than
+# written later, so the guardrail activates the moment CI exists instead of
+# being forgotten. Written against well-established GitHub Actions patterns
+# but not validated by an actual run (there's nowhere for it to run yet) -
+# sanity-check the visual-snapshot job specifically once it can run for real,
+# server startup timing across three services is the part most likely to
+# need adjustment.
+
+name: Design System Guardrails
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-tokens:
+    name: No hardcoded token values
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run lint:tokens
+
+  build:
+    name: Build design-system + consuming apps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run build:ds
+      - run: npm run build:meal-prep
+      - run: npm run build:portfolio
+      - run: npm run build:storybook
+
+  visual-snapshot:
+    name: Theme x Mode visual snapshot
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+
+      - run: npm run build:ds
+      - run: npm run build:meal-prep
+      - run: npm run build:portfolio
+      - run: npm run build:storybook
+
+      # Production builds, not dev servers - `next dev`'s HMR overlay
+      # introduces non-deterministic pixels between otherwise-identical
+      # captures (confirmed while building this locally: two consecutive
+      # dev-mode captures differed from each other, not just from a
+      # baseline). Ports differ from the local dev-server convention
+      # (3000/3001) specifically to avoid ever colliding with a dev server
+      # a contributor might have running locally.
+      - name: Start production servers
+        run: |
+          npm run start --workspace=meal-prep -- -p 3010 &
+          npm run start --workspace=portfolio-site -- -p 3011 &
+          npx http-server packages/storybook/storybook-static -p 6006 &
+          npx wait-on http://localhost:3010 http://localhost:3011 http://localhost:6006
+
+      - name: Compare against committed baseline
+        env:
+          MEAL_PREP_URL: http://localhost:3010
+          PORTFOLIO_URL: http://localhost:3011
+          STORYBOOK_URL: http://localhost:6006
+        run: npm run snapshot:theme-matrix
+
+      - name: Upload diff screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-snapshot-diffs
+          path: scripts/visual-baselines/*.new.png
+          if-no-files-found: ignore

@@ -1,0 +1,18 @@
+/**
+ * @storybook/addon-docs renders each Docs page's embedded story canvas inside
+ * its own `.sbdocs-preview` wrapper, styled by Storybook's *own* light/dark
+ * tool theme - a completely separate system from this project's `data-mode`
+ * global (see preview.ts's `mode` toolbar + THEMING-CONTRACT.md). Storybook's
+ * tool theme is fixed to light, so without this override, switching `data-mode`
+ * to dark recolors the component correctly but leaves it sitting in a
+ * still-white box: e.g. Row's `--color-text-secondary` correctly becomes a
+ * light gray for a dark background, then renders nearly invisible against the
+ * white one `.sbdocs-preview` still supplies.
+ *
+ * Story view (non-docs) doesn't need this - there, the canvas *is* `<body>`,
+ * which already carries `--color-background-primary` correctly.
+ */
+.sbdocs-preview {
+  background: var(--color-background-primary) !important;
+  transition: background-color 150ms ease;
+}

@@ -1,0 +1,58 @@
+# ── Secrets — NEVER commit these ──────────────────────────────────────────────
+secrets/
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ── Dependencies ───────────────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ── Next.js build output ───────────────────────────────────────────────────────
+.next/
+out/
+build/
+dist/
+
+# ── TypeScript cache ───────────────────────────────────────────────────────────
+*.tsbuildinfo
+
+# ── OS files ───────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Editor / IDE ───────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# ── Logs ───────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Misc ───────────────────────────────────────────────────────────────────────
+.vercel
+.turbo
+coverage/
+
+# ── Not part of the public release — local tooling, planning docs, editor config ──
+.claude/
+.vscode/
+.mcp.json
+.github/agents/
+_archive/
+_bmad/
+bmad_output/
+plans/
+
+# ── Visual snapshot guardrail — the baseline (*.png + manifest.json) is
+# intentionally committed; the .new.png files are transient failure output
+# written by scripts/snapshot-theme-matrix.mjs, regenerated on every run. ──
+scripts/visual-baselines/*.new.png

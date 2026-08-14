@@ -1,0 +1,140 @@
+/**
+ * Radio Component Styles — Jasmine Design System
+ *
+ * Matches the 6 Figma states:
+ *   Default · Focus · Selected · Disabled · Selected+Disabled · Negative/Error
+ *
+ * The native <input> is visually hidden; all styling is on the custom
+ * .indicator span. Focus ring is driven by :focus-visible on the input
+ * via the adjacent-sibling combinator.
+ */
+
+/* ─── Outer wrapper ───────────────────────────────────────────────────────── */
+.wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.wrapper.disabled {
+  cursor: not-allowed;
+}
+
+/* ─── Label row (input + indicator + text) ────────────────────────────────── */
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--typography-desktop-family-main);
+}
+
+.wrapper.disabled .label {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Hide native input while keeping it accessible ─────────────────────── */
+.nativeInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Custom indicator circle (24 × 24, fully rounded) ──────────────────── */
+.indicator {
+  flex-shrink: 0;
+  position: relative;
+  width: var(--space-24);
+  height: var(--space-24);
+  border-radius: var(--border-radius-pill);
+  box-sizing: border-box;
+  background: var(--color-background-primary);
+  border: var(--border-width-s) solid var(--color-border-primary);
+  transition: border-color 150ms ease, background-color 150ms ease,
+    border-width 150ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Focus ring — driven by focus-visible on the hidden native input */
+.nativeInput:focus-visible + .indicator {
+  border-width: var(--border-width-l);
+  border-color: var(--color-border-focus);
+  outline: none;
+}
+
+/* Selected */
+.indicatorChecked {
+  background: var(--color-background-brand);
+  border-color: var(--color-background-brand);
+  border-width: var(--border-width-s);
+}
+
+/* Error / Negative */
+.indicatorError {
+  border-width: var(--border-width-l);
+  border-color: var(--color-border-negative);
+}
+
+/* Disabled (not checked) */
+.indicatorDisabled {
+  background: var(--color-background-disabled);
+  border-color: var(--color-border-disabled);
+  border-width: var(--border-width-s);
+}
+
+/* Selected + Disabled */
+.indicatorCheckedDisabled {
+  background: var(--color-background-disabled);
+  border-color: var(--color-border-disabled);
+  border-width: var(--border-width-s);
+}
+
+/* ─── Dot inside selected circle (12 × 12 white circle) ─────────────────── */
+.dot {
+  display: block;
+  width: var(--space-12);
+  height: var(--space-12);
+  border-radius: var(--border-radius-pill);
+  background: var(--color-background-primary);         /* white dot on brand bg */
+}
+
+/* Greyed dot for selected+disabled */
+.indicatorCheckedDisabled .dot {
+  background: var(--color-border-disabled);
+}
+
+/* ─── Label text ─────────────────────────────────────────────────────────── */
+.labelText {
+  font-size: var(--typography-desktop-text-m-regular-size);
+  font-weight: var(--typography-desktop-text-m-regular-weight);
+  line-height: var(--typography-desktop-text-m-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-m-regular-letter-spacing);
+  color: var(--color-text-primary);
+  transition: color 150ms ease;
+}
+
+.wrapper.disabled .labelText {
+  color: var(--color-text-disabled);
+}
+
+/* ─── Error message ──────────────────────────────────────────────────────── */
+.errorMessage {
+  margin: 0;
+  padding-left: calc(var(--space-24) + var(--space-8)); /* 24px indicator + 8px gap */
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-text-s-regular-size);
+  font-weight: var(--typography-desktop-text-s-regular-weight);
+  line-height: var(--typography-desktop-text-s-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-s-regular-letter-spacing);
+  color: var(--color-text-negative);
+}

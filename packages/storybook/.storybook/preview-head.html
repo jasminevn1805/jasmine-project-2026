@@ -1,0 +1,22 @@
+<style>
+  /*
+   * Storybook Docs scroll fix
+   * Ensures the Docs page (and all story iframes) are always scrollable.
+   * Needed because layout: 'fullscreen' in some stories sets overflow: hidden
+   * on the iframe body, which propagates into the Docs canvas wrappers.
+   */
+  .sb-show-main.sb-main-fullscreen,
+  .sb-show-main.sb-main-padded,
+  .sb-show-main.sb-main-centered {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100%;
+  }
+
+  /* Docs page outer wrapper */
+  .docs-story,
+  .sbdocs-wrapper,
+  .sbdocs-content {
+    overflow: visible !important;
+  }
+</style>

@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+/* Shared DS primitives (--primitive-*) - variables only, no reset/globals,
+   the correct entry point for a project layering the DS on top of its own
+   framework (here: Tailwind). Makes `primitiveColors.warmGray` from
+   packages/design-system/src/tokens/primitives/colors.ts available as
+   --primitive-warm-gray-* below. */
+@import '@jasmine/design-system/tokens';
+
+/**
+ * Portfolio Semantic Tokens — Tailwind v4 Theme
+ *
+ * Each token here mirrors a value in `lib/tokens/semantic/`.
+ * Two parallel naming systems are exposed:
+ *
+ *   1. ROLE-BASED (matches the DS semantic structure)
+ *        text-primary | text-secondary | text-muted | text-inverse
+ *        bg-canvas    | bg-surface     | bg-inverse
+ *        border-subtle| border-strong  | border-bold
+ *
+ *   2. SHORT ALIASES (portfolio component-facing API)
+ *        text-ink         ≡ text-primary
+ *        text-secondary   ≡ text-secondary
+ *        text-muted       ≡ text-muted
+ *        bg-canvas        ≡ bg-canvas
+ *        bg-surface       ≡ bg-surface
+ *        border-line      ≡ border-subtle
+ *
+ * Source of truth for the *palette*: the DS's shared
+ * `primitiveColors.warmGray` scale (packages/design-system/src/tokens/
+ * primitives/colors.ts). Source of truth for *which step maps to which
+ * role*: `lib/tokens/semantic/colors.ts` (kept in sync with the var()
+ * references below by hand, since Tailwind's CSS and that TS file are two
+ * different tools reading the same upstream values - but there's now only
+ * one place the actual color values themselves live, not two).
+ *
+ * `@theme inline` (not plain `@theme`) is required here: plain `@theme`
+ * snapshots a literal value at build time, and can't reference another
+ * custom property. These reference --primitive-warm-gray-*, so they need
+ * `inline` to stay live var() references instead of Tailwind resolving them
+ * to a static hex at build time.
+ */
+@theme inline {
+  /* ── Text ─────────────────────────────────────────── */
+  --color-primary:    var(--primitive-warm-gray-900); /* semanticColors.text.primary */
+  --color-secondary:  var(--primitive-warm-gray-600); /* semanticColors.text.secondary */
+  --color-muted:      var(--primitive-warm-gray-400); /* semanticColors.text.muted */
+  --color-disabled:   var(--primitive-warm-gray-300); /* semanticColors.text.disabled */
+  --color-inverse:    var(--primitive-warm-gray-0);   /* semanticColors.text.inverse */
+
+  /* ── Backgrounds ──────────────────────────────────── */
+  --color-canvas:     var(--primitive-warm-gray-canvas); /* semanticColors.background.canvas */
+  --color-surface:    var(--primitive-warm-gray-50);     /* semanticColors.background.surface */
+
+  /* ── Borders ──────────────────────────────────────── */
+  --color-subtle:     var(--primitive-warm-gray-100); /* semanticColors.border.subtle */
+  --color-strong:     var(--primitive-warm-gray-600); /* semanticColors.border.strong */
+  --color-bold:       var(--primitive-warm-gray-900); /* semanticColors.border.bold */
+
+  /* ── Short aliases (component-facing) ─────────────── */
+  --color-ink:        var(--color-primary); /* alias of --color-primary */
+  --color-line:       var(--color-subtle);  /* alias of --color-subtle  */
+
+  /* ── Radius ───────────────────────────────────────── */
+  /* lib/tokens/primitives/borders.ts already re-exports the DS's shared    */
+  /* scale verbatim (no fork) - this now does the same at the CSS layer,    */
+  /* instead of duplicating the resolved px values by hand.                */
+  --radius-xs:   var(--primitive-border-radius-x-s);
+  --radius-sm:   var(--primitive-border-radius-s);
+  --radius-md:   var(--primitive-border-radius-m);
+  --radius-lg:   var(--primitive-border-radius-l);
+  --radius-xl:   var(--primitive-border-radius-x-l);
+  --radius-2xl:  var(--primitive-border-radius-x-l2);
+  --radius-pill: var(--primitive-border-radius-pill);
+}
+
+@theme {
+  /* ── Spacing (semantic t-shirt scale) ─────────────── */
+  /* Not yet sourced from a shared DS scale - same-shaped gap as radius     */
+  /* was, not fixed in this pass. See design-system-architecture-reference.md §6. */
+  --spacing-xs:   4px;
+  --spacing-s:    8px;
+  --spacing-m:   12px;
+  --spacing-l:   16px;
+  --spacing-xl:  24px;
+  --spacing-2xl: 32px;
+  --spacing-3xl: 40px;
+  --spacing-4xl: 64px;
+  --spacing-5xl: 80px;
+  --spacing-6xl: 120px;
+
+  /* ── Shadows / Elevation ──────────────────────────── */
+  /* Mirrors meal-prep's elevation language (soft, large */
+  /* blur, low opacity) but tinted with --color-ink via  */
+  /* color-mix so shadows harmonize with the cool        */
+  /* neutral palette instead of going pure black.        */
+  --shadow-xs: 0 1px 2px color-mix(in srgb, var(--color-ink) 4%, transparent);
+  --shadow-sm:
+    0 1px 2px color-mix(in srgb, var(--color-ink) 3%, transparent),
+    0 4px 12px color-mix(in srgb, var(--color-ink) 4%, transparent);
+  --shadow-md:
+    0 2px 4px color-mix(in srgb, var(--color-ink) 3%, transparent),
+    0 8px 24px color-mix(in srgb, var(--color-ink) 6%, transparent);
+  --shadow-lg:
+    0 4px 8px color-mix(in srgb, var(--color-ink) 4%, transparent),
+    0 16px 40px color-mix(in srgb, var(--color-ink) 8%, transparent);
+  --shadow-xl:
+    0 8px 16px color-mix(in srgb, var(--color-ink) 6%, transparent),
+    0 24px 64px color-mix(in srgb, var(--color-ink) 14%, transparent);
+
+  /* Legacy aliases — keep semantic intent at call sites */
+  --shadow-card:  var(--shadow-sm);
+  --shadow-hover: var(--shadow-lg);
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-canvas);
+  }
+
+  body {
+    font-family: var(--font-amiri), Georgia, 'Times New Roman', serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbar — uses semantic tokens */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-subtle);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}

@@ -1,0 +1,70 @@
+/**
+ * Textarea Component Styles
+ *
+ * Unified multi-line text input for the Jasmine Design System.
+ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.label {
+  display: block;
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-label-s-semi-bold-size);
+  font-weight: var(--typography-desktop-label-s-semi-bold-weight);
+  line-height: var(--typography-desktop-label-s-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-label-s-semi-bold-letter-spacing);
+  color: var(--color-text-secondary);
+}
+
+.textarea {
+  width: 100%;
+  min-height: var(--space-56);
+  box-sizing: border-box;
+  border-radius: var(--border-radius-s);
+  border: var(--border-width-s) solid var(--color-border-subtle);
+  background: var(--color-background-primary);
+  padding: var(--space-s) var(--space-m);
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-text-s-regular-size);
+  font-weight: var(--typography-desktop-text-s-regular-weight);
+  line-height: var(--typography-desktop-text-s-regular-line-height);
+  letter-spacing: var(--typography-desktop-text-s-regular-letter-spacing);
+  color: var(--color-text-primary);
+  outline: none;
+  resize: none;
+  transition: border-color 150ms ease;
+}
+
+.textarea::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.textarea:focus {
+  border-color: var(--color-border-brand);
+}
+
+.textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Error state */
+.error .textarea {
+  border-color: var(--color-border-negative);
+}
+
+.error .textarea:focus {
+  border-color: var(--color-border-negative);
+}
+
+.errorMessage {
+  font-family: var(--typography-desktop-family-main);
+  font-size: var(--typography-desktop-text-s-regular-size);
+  line-height: var(--typography-desktop-text-s-regular-line-height);
+  color: var(--color-text-negative);
+  margin: 0;
+}

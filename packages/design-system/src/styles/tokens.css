@@ -1,0 +1,17 @@
+/**
+ * Jasmine Design System — Token Variables Only
+ *
+ * USE THIS in projects that have their own CSS framework (Tailwind, etc.).
+ * This exports ONLY the CSS custom properties — no reset, no global styles,
+ * no typography resets that would conflict with Tailwind Preflight.
+ *
+ * Usage in project globals.css:
+ *   @import '@jasmine/design-system/tokens';   ← just the variables
+ *   @import './theme.css';                     ← project theme overrides
+ *   @import 'tailwindcss';                     ← Tailwind handles the rest
+ *
+ * Use @import '@jasmine/design-system/styles' only in Storybook or non-Tailwind
+ * contexts that need the full DS stack (reset + fonts + global + typography).
+ */
+
+@import './variables.css';

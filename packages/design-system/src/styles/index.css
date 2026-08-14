@@ -1,0 +1,33 @@
+/**
+ * Jasmine Design System - Main Styles Entry Point
+ *
+ * Import order matters!
+ * 1. Reset    - Establish baseline
+ * 2. Fonts    - Load web fonts
+ * 3. Variables - DEFAULT THEME CSS custom properties (blue brand)
+ *               Projects override this by loading their own theme.css AFTER
+ *               this import in their globals.css
+ * 4. Global   - Base HTML/body styles
+ * 5. Typography - Text element styles
+ * 6. Utilities - Helper classes
+ */
+
+/* 1. Reset - CSS Reset/Normalize */
+@import './reset.css';
+
+/* 2. Fonts - Google Fonts */
+@import './fonts.css';
+
+/* 3. Default Theme - CSS custom properties (blue brand)
+      Projects: load your theme.css AFTER @import '@jasmine/design-system/styles'
+      to override these variables with your own palette */
+@import './variables.css';
+
+/* 4. Global - Base styles for html, body, focus, etc. */
+@import './global.css';
+
+/* 5. Typography - Headings, paragraphs, links */
+@import './typography.css';
+
+/* 6. Utilities - Helper classes (.container, .flex, etc.) */
+@import './utilities.css';

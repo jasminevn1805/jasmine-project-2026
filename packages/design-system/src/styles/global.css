@@ -1,0 +1,125 @@
+/**
+ * Global Styles
+ * Base styles for HTML, body, and global elements
+ */
+
+/* ===== HTML Root ===== */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px; /* Base font size for rem calculations */
+}
+
+/* ===== Body Defaults ===== */
+/* Sets default font, color, and background for the entire page */
+/* All text inherits these unless overridden */
+body {
+  font-family: var(--font-family-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-background-primary);
+  
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
+}
+
+/* ===== Focus Styles (Accessibility) ===== */
+/* Shows a blue outline when you navigate with keyboard (Tab key) */
+/* Accessibility requirement for users who can't use a mouse */
+/* focus-visible → Only shows for keyboard, not mouse clicks */
+*:focus-visible {
+  outline: 2px solid var(--color-border-brand);
+  outline-offset: 2px;
+  border-radius: var(--border-radius-xs);
+}
+
+/* Remove focus outline for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===== Selection Styles ===== */
+/* Changes the highlight color when you select text with your mouse */
+/* Default is blue, this makes it match your brand color */
+::selection {
+  background-color: var(--color-background-brand);
+  color: var(--color-text-inverse);
+}
+
+::-moz-selection {
+  background-color: var(--color-background-brand);
+  color: var(--color-text-inverse);
+}
+
+/* ===== Custom Scrollbar (Webkit browsers) ===== */
+/* Styles the browser scrollbar to match your design */
+/* Only works in Chrome/Safari/Edge (not Firefox) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-default);
+  border-radius: var(--border-radius-pill);
+  border: 2px solid var(--color-background-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-background-secondary);
+}
+
+/* ===== Smooth Scrolling for Anchor Links ===== */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ===== Skip to Content Link (Accessibility) ===== */
+/* Hidden link at the top of the page */
+/* Keyboard users can press Tab once and skip navigation */
+/* Accessibility best practice */
+.skip-to-content {
+  position: absolute;
+  top: -40px; /* Hidden by default */
+  left: 0;
+  background: var(--color-background-brand);
+  color: var(--color-text-inverse);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--border-radius-s);
+  z-index: 100;
+  transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+  top: var(--space-4); /* Shows on keyboard focus */
+}
+
+/* ===== Print Styles ===== */
+/* Optimizes the page for printing (Ctrl+P / Cmd+P) */
+/* Removes background colors to save ink */
+/* Makes links underlined */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+  
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+}

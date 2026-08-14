@@ -1,0 +1,319 @@
+/**
+ * Button Component Styles
+ * 
+ * Mapped to Design System Tokens and CSS Variables
+ * Uses variables from: packages/design-system/src/styles/variables.css
+ * 
+ * Token Architecture:
+ * - Colors: var(--color-*)
+ * - Spacing: var(--space-*)
+ * - Typography: var(--typography-desktop-label-*)
+ * - Borders: var(--border-radius-*), var(--border-width-*)
+ */
+
+/* Base Button Styles */
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--typography-desktop-family-main);
+  font-weight: var(--typography-desktop-label-m-semi-bold-weight);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.button:focus-visible {
+  outline: var(--border-width-l) solid var(--color-border-focus);
+  outline-offset: var(--space-xs);
+}
+
+.button:disabled,
+.button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.button__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.button__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.button__loader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.button__spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Size Variants - Mapped to Design System Tokens */
+.button.s {
+  padding: var(--space-xs) var(--space-m);
+  border-radius: var(--border-radius-s);
+  font-size: var(--typography-desktop-label-m-semi-bold-size);
+  line-height: var(--typography-desktop-label-m-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-label-m-semi-bold-letter-spacing);
+  min-height: var(--space-32);
+  gap: var(--space-xs);
+}
+
+.button.m {
+  padding: var(--space-s) var(--space-l);
+  border-radius: var(--border-radius-s);
+  font-size: var(--typography-desktop-label-m-semi-bold-size);
+  line-height: var(--typography-desktop-label-m-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-label-m-semi-bold-letter-spacing);
+  min-height: var(--space-40);
+  gap: var(--space-s);
+}
+
+.button.l {
+  padding: var(--space-m) var(--space-xl);
+  border-radius: var(--border-radius-m);
+  font-size: var(--typography-desktop-label-l-semi-bold-size);
+  line-height: var(--typography-desktop-label-l-semi-bold-line-height);
+  letter-spacing: var(--typography-desktop-label-l-semi-bold-letter-spacing);
+  min-height: var(--space-48);
+  gap: var(--space-s);
+}
+
+/* Primary Button */
+.button.primary {
+  background-color: var(--color-background-brand);
+  color: var(--color-text-primary-inverse);
+}
+
+.button.primary:hover:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-brand-hover);
+}
+
+.button.primary:active:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-brand-pressed);
+}
+
+/* Secondary Button */
+.button.secondary {
+  background-color: var(--color-background-neutral);
+  color: var(--color-text-primary);
+}
+
+.button.secondary:hover:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-neutral-hover);
+}
+
+.button.secondary:active:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-neutral-pressed);
+}
+
+/* Tertiary Button */
+.button.tertiary {
+  background-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.button.tertiary:hover:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-hover);
+}
+
+.button.tertiary:active:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-pressed);
+}
+
+/* Tertiary Mono Button */
+.button.tertiaryMono {
+  background-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.button.tertiaryMono:hover:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-hover);
+}
+
+.button.tertiaryMono:active:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-pressed);
+}
+
+/* Inverse Button */
+.button.inverse {
+  background-color: var(--color-background-primary);
+  color: var(--color-text-primary);
+}
+
+.button.inverse:hover:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-hover);
+}
+
+.button.inverse:active:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-pressed);
+}
+
+/* Mono Button */
+.button.mono {
+  background-color: var(--color-background-mono);
+  color: var(--color-text-primary-inverse);
+}
+
+.button.mono:hover:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-mono-hover);
+}
+
+.button.mono:active:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-mono-pressed);
+}
+
+/* Outline Button */
+.button.outline {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: var(--border-width-l) solid var(--color-border-primary);
+}
+
+.button.outline:hover:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-hover);
+}
+
+.button.outline:active:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-pressed);
+}
+
+/* Outline Mono Button */
+.button.outlineMono {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: var(--border-width-l) solid var(--color-border-mono);
+}
+
+.button.outlineMono:hover:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-hover);
+}
+
+.button.outlineMono:active:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-pressed);
+}
+
+/* Text Button */
+.button.text {
+  background-color: transparent;
+  color: var(--color-text-link);
+  padding: var(--space-xs);
+}
+
+.button.text:hover:not(:disabled):not(.disabled):not(.loading) {
+  color: var(--color-text-link-hover);
+}
+
+/* Text Mono Button */
+.button.textMono {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  padding: var(--space-xs);
+}
+
+.button.textMono:hover:not(:disabled):not(.disabled):not(.loading) {
+  color: var(--color-text-secondary);
+}
+
+/* Negative Primary Button */
+.button.negativePrimary {
+  background-color: var(--color-background-negative);
+  color: var(--color-text-primary-inverse);
+}
+
+.button.negativePrimary:hover:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-negative-hover);
+}
+
+.button.negativePrimary:active:not(:disabled):not(.disabled):not(.loading) {
+  background-color: var(--color-background-negative-pressed);
+}
+
+/* Negative Outline Button */
+.button.negativeOutline {
+  background-color: transparent;
+  color: var(--color-text-negative);
+  border: var(--border-width-l) solid var(--color-border-negative);
+}
+
+.button.negativeOutline:hover:not(:disabled):not(.disabled):not(.loading) {
+  color: var(--color-text-negative-hover);
+  border-color: var(--color-text-negative-hover);
+}
+
+.button.negativeOutline:active:not(:disabled):not(.disabled):not(.loading) {
+  color: var(--color-text-negative-pressed);
+  border-color: var(--color-text-negative-pressed);
+}
+
+/* Negative Text Button */
+.button.negativeText {
+  background-color: transparent;
+  color: var(--color-text-negative);
+  padding: var(--space-xs);
+}
+
+.button.negativeText:hover:not(:disabled):not(.disabled):not(.loading) {
+  color: var(--color-text-negative-hover);
+}
+
+.button.negativeText:active:not(:disabled):not(.disabled):not(.loading) {
+  color: var(--color-text-negative-pressed);
+}
+
+/* Loading State */
+.button.loading {
+  cursor: wait;
+  pointer-events: none;
+}
+
+/* ===== RESPONSIVE STYLES (Mobile) ===== */
+@media (max-width: 768px) {
+  /* Mobile Size Variants - Adjust typography */
+  .button.s {
+    font-size: var(--typography-mobile-label-m-semi-bold-size);
+    line-height: var(--typography-mobile-label-m-semi-bold-line-height);
+    letter-spacing: var(--typography-mobile-label-m-semi-bold-letter-spacing);
+  }
+
+  .button.m {
+    font-size: var(--typography-mobile-label-m-semi-bold-size);
+    line-height: var(--typography-mobile-label-m-semi-bold-line-height);
+    letter-spacing: var(--typography-mobile-label-m-semi-bold-letter-spacing);
+  }
+
+  .button.l {
+    font-size: var(--typography-mobile-label-l-semi-bold-size);
+    line-height: var(--typography-mobile-label-l-semi-bold-line-height);
+    letter-spacing: var(--typography-mobile-label-l-semi-bold-letter-spacing);
+  }
+}

@@ -1,0 +1,118 @@
+/**
+ * ScrollTabBar — CSS Module
+ *
+ * Token-first: every colour, radius, and spacing value comes from
+ * design-system CSS custom properties so the component adapts to
+ * any theme automatically.
+ */
+
+/* ── Container ──────────────────────────────────────────── */
+
+.container {
+  display: flex;
+  overflow-x: auto;
+  max-width: 100%;
+  padding-bottom: var(--space-xs);
+
+  /* Hide scrollbar — cross-browser */
+  scrollbar-width: none;          /* Firefox  */
+  -ms-overflow-style: none;       /* IE / Edge legacy */
+  -webkit-overflow-scrolling: touch;
+}
+
+.container::-webkit-scrollbar {
+  display: none;                  /* Chrome / Safari */
+}
+
+/* ── Tab (base) ─────────────────────────────────────────── */
+
+.tab {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-family: var(--typography-desktop-family-main);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: background 180ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 180ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Default (inactive) appearance */
+  background: transparent;
+  color: var(--color-text-tertiary);
+}
+
+.tab:focus-visible {
+  outline: var(--border-width-l, 2px) solid var(--color-border-focus);
+  outline-offset: var(--space-2);
+}
+
+/* ── Size variants ──────────────────────────────────────── */
+
+.sm {
+  border-radius: var(--border-radius-m);
+  padding: var(--space-8) var(--space-16);
+  font-size: var(--typography-desktop-label-m-semi-bold-size);
+  font-weight: var(--typography-desktop-label-m-semi-bold-weight);
+  min-height: var(--space-36);
+}
+
+.md {
+  border-radius: var(--border-radius-m);
+  padding: var(--space-8) var(--space-18);
+  font-size: var(--typography-desktop-label-m-semi-bold-size);
+  font-weight: var(--typography-desktop-label-m-semi-bold-weight);
+  min-height: 40px;
+}
+
+/* ── Active-tab variants ────────────────────────────────── */
+
+/* Brand (green bg) — e.g. month selector */
+.active_brand {
+  background: var(--color-background-brand);
+  color: var(--color-text-primary-inverse);
+  font-weight: var(--typography-desktop-label-m-semi-bold-weight);
+}
+
+/* Inverse (dark bg) — e.g. dark pill tabs */
+.active_inverse {
+  background: var(--color-background-inverse);
+  color: var(--color-text-primary-inverse);
+  font-weight: var(--typography-desktop-label-m-semi-bold-weight);
+}
+
+/* Neutral (subtle bg) */
+.active_neutral {
+  background: var(--color-background-subtle);
+  color: var(--color-text-primary);
+  font-weight: var(--typography-desktop-label-m-semi-bold-weight);
+}
+
+/* ── Hover states (inactive tabs only) ──────────────────── */
+
+.tab:not(.active_brand):not(.active_inverse):not(.active_neutral):hover {
+  background: var(--color-background-subtle);
+  color: var(--color-text-primary);
+}
+
+/* ── Highlighted (e.g. "current month") ─────────────────── */
+
+.highlighted {
+  color: var(--color-text-brand);
+}
+
+/* ── Dot indicator ──────────────────────────────────────── */
+
+.dot {
+  position: absolute;
+  bottom: var(--space-2);
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--space-4);
+  height: var(--space-4);
+  border-radius: var(--border-radius-pill);
+  background: var(--color-text-brand);
+}

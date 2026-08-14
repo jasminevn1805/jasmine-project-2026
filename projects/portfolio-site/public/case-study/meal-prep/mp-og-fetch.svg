@@ -1,0 +1,38 @@
+<svg width="720" height="540" viewBox="0 0 720 540" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <rect width="720" height="540" fill="#FAFAFA"/>
+
+  <!-- eyebrow -->
+  <text x="56" y="72" fill="#9B9B9B" font-size="12" letter-spacing="2.5" font-weight="600">SAVE FLOW</text>
+  <text x="56" y="104" fill="#1A1A1A" font-size="24" font-weight="500">One paste, zero forms</text>
+
+  <!-- step 1: paste a link -->
+  <text x="56" y="160" fill="#9B9B9B" font-size="11" letter-spacing="1.5" font-weight="600">1 · PASTE</text>
+  <rect x="56" y="174" width="608" height="52" rx="10" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+  <text x="80" y="206" fill="#6B6B6B" font-size="14" font-family="monospace">https://tiktok.com/@chef/video/…</text>
+  <rect x="556" y="184" width="92" height="32" rx="8" fill="#1A1A1A"/>
+  <text x="602" y="205" fill="#FFFFFF" font-size="13" font-weight="500" text-anchor="middle">Save</text>
+
+  <!-- arrow -->
+  <line x1="360" y1="226" x2="360" y2="258" stroke="#E5E5E5" stroke-width="1.5"/>
+  <path d="M354 252l6 8 6 -8z" fill="#9B9B9B"/>
+
+  <!-- step 2: server fetch -->
+  <text x="56" y="286" fill="#9B9B9B" font-size="11" letter-spacing="1.5" font-weight="600">2 · SERVER FETCH</text>
+  <rect x="56" y="300" width="608" height="72" rx="10" fill="#F5F5F5" stroke="#E5E5E5" stroke-width="1.5"/>
+  <text x="80" y="330" fill="#1A1A1A" font-size="14" font-weight="500">Open Graph metadata · title · thumbnail · platform</text>
+  <text x="80" y="354" fill="#6B6B6B" font-size="12">SSRF-blocked · 5s timeout · 3-tier recipe check (Schema.org → keywords → reject)</text>
+
+  <!-- arrow -->
+  <line x1="360" y1="372" x2="360" y2="404" stroke="#E5E5E5" stroke-width="1.5"/>
+  <path d="M354 398l6 8 6 -8z" fill="#9B9B9B"/>
+
+  <!-- step 3: recipe card -->
+  <text x="56" y="432" fill="#9B9B9B" font-size="11" letter-spacing="1.5" font-weight="600">3 · IN YOUR LIBRARY</text>
+  <rect x="56" y="446" width="304" height="64" rx="10" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+  <rect x="72" y="462" width="48" height="32" rx="6" fill="#E5E5E5"/>
+  <text x="136" y="478" fill="#1A1A1A" font-size="13" font-weight="600">Garlic butter pasta</text>
+  <text x="136" y="497" fill="#9B9B9B" font-size="11">TikTok · saved in 1 second</text>
+
+  <text x="384" y="474" fill="#6B6B6B" font-size="13">Edit drawer one tap away —</text>
+  <text x="384" y="494" fill="#6B6B6B" font-size="13">optimise the 90% path, make the 10% fixable.</text>
+</svg>

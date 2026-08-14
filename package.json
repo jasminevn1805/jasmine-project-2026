@@ -1,0 +1,39 @@
+{
+  "name": "jasmine-portfolio-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Jasmine's portfolio monorepo with design system and projects",
+  "workspaces": [
+    "packages/*",
+    "projects/*"
+  ],
+  "scripts": {
+    "dev:ds": "npm run dev --workspace=@jasmine/design-system",
+    "dev:storybook": "npm run dev --workspace=@jasmine/storybook",
+    "start:storybook": "npm run start --workspace=@jasmine/storybook",
+
+    "dev:meal-prep": "npm run build:ds && npm run dev --workspace=meal-prep",
+    "dev:portfolio": "npm run build:ds && npm run dev --workspace=portfolio-site",
+
+    "build:ds": "npm run build --workspace=@jasmine/design-system",
+    "build:storybook": "npm run build:ds && npm run build --workspace=@jasmine/storybook",
+    "build:meal-prep": "npm run build:ds && npm run build --workspace=meal-prep",
+    "build:portfolio": "npm run build:ds && npm run build --workspace=portfolio-site",
+
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:tokens": "node scripts/check-hardcoded-tokens.js",
+    "snapshot:theme-matrix": "node scripts/snapshot-theme-matrix.mjs",
+    "install:all": "npm install && npm install --workspaces"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "author": "Jasmine Hoang",
+  "license": "MIT"
+}
