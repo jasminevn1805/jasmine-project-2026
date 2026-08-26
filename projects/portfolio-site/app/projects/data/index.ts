@@ -1,4 +1,4 @@
-export type { StatItem, JourneyStep, JourneyScenario, ContentSection, ProjectData } from './types';
+export type { StatItem, JourneyStep, JourneyScenario, ContentSection, ProjectData, ImageAspectRatio } from './types';
 
 import type { ProjectData } from './types';
 import { designSystem } from './design-system';

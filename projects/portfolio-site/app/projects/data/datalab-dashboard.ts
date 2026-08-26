@@ -9,6 +9,7 @@ export const datalabDashboard: ProjectData = {
   industry: 'Spatial Data Platform (BigGeo DataLab)',
   description:
     "A single, information-dense dashboard request turned into three focused experiences. DataLab Dashboard gives BigGeo's data providers a clear view of Credit Consumption, Sales Performance, and Channel Performance — each built around the question that business area actually needs answered, sharing one consistent analytical pattern.",
+  heroImage: '/case-study/datalab-dashboard/dd-hero.png',
 
   sections: [
     {
@@ -75,16 +76,53 @@ export const datalabDashboard: ProjectData = {
       type: 'text',
       heading: 'Research approach',
       content:
-        'I combined stakeholder interviews, product and requirement exploration, and competitive analysis to understand the business context, user needs, and information relationships before defining the dashboard structure — stakeholder conversations to surface business goals and constraints, requirement exploration to break the ask into metrics and relationships, affinity mapping to group findings into recurring questions and decision areas, and information mapping to connect questions to metrics to insights to actions.',
+        'I combined stakeholder interviews, product and requirement exploration, and competitive analysis to understand the business context, user needs, and information relationships before defining the dashboard structure — four methods, each answering a different question about what the dashboard needed to be.',
     },
     {
-      type: 'image-grid',
-      images: ['', '', '', ''],
+      type: 'list',
+      heading: 'Four methods, four questions',
+      items: [
+        {
+          summary: 'Stakeholder conversations',
+          body: [
+            '**Goal:** Understand what "business health" means to the people who actually rely on this data, and surface the constraints before defining any metrics.',
+            '**Process:** Structured conversations with product, sales, and platform stakeholders, each walking through how they currently judge whether a data provider\'s account is "healthy" and what decision they\'d want the dashboard to support.',
+            '**Output:** A shared list of the questions each business area actually needed answered, plus the data and credit-system constraints that would shape what could realistically be shown.',
+          ],
+        },
+        {
+          summary: 'Requirement exploration',
+          body: [
+            '**Goal:** Turn the original brief — "give users a quick view of statistics and highlighted information" — into something buildable.',
+            '**Process:** Worked through the requirement line by line, separating it into metrics (what to measure), relationships (what connects to what), and user needs (why it matters), instead of treating it as a flat feature list.',
+            '**Output:** A metrics–relationships–needs map for each business area, which is what first exposed that Credit, Sales, and Channel didn\'t share a single information hierarchy.',
+          ],
+        },
+        {
+          summary: 'Affinity mapping',
+          body: [
+            '**Goal:** Find the recurring questions and decision points hiding inside a large, unsorted set of requirements and stakeholder notes.',
+            '**Process:** Grouped every finding from the conversations and requirement exploration onto a shared board, clustering by the underlying question being asked rather than by which stakeholder raised it.',
+            '**Output:** Four recurring decision themes — current state, performance, drivers, opportunities — that became the backbone of the shared dashboard pattern used across all three experiences.',
+          ],
+        },
+        {
+          summary: 'Information mapping',
+          body: [
+            '**Goal:** Make sure every metric earns its place on the dashboard by tracing it back to a real user question and a real action, not just "data that exists."',
+            '**Process:** Connected each clustered question to the specific metrics that answer it, the insight those metrics produce, and the action a data provider could take as a result.',
+            '**Output:** A questions → metrics → insights → actions chain for each business area, which became the KPI Summary → Trend → Driver → Insights structure every dashboard follows today.',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-stakeholders-kickoff-initial-hypotheses-validate-questions.png',
+      // Source is ~1.62:1, 16:10 is 1.6:1 — near-exact match, so 'cover'
+      // imageDefaults: { aspectRatio: '16:10', objectFit: 'contain' },
       captions: [
-        'Stakeholder conversations — understanding business goals, user context, and constraints.',
-        'Requirement exploration — breaking the requirement into metrics, relationships, and user needs.',
-        'Affinity mapping — grouping findings into recurring questions and decision areas.',
-        'Information mapping — connecting questions to metrics to insights to actions.',
+        'Stakeholder interview kick-off — Round 1 working board.',
       ],
     },
     {
@@ -106,6 +144,14 @@ export const datalabDashboard: ProjectData = {
       ],
     },
     {
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-IA-creation.png',
+      /*imageDefaults: { aspectRatio: '16:10', objectFit: 'contain' },*/
+      captions: [
+        'Stakeholder interview kick-off — Round 1 working board.',
+      ],
+    },
+    {
       type: 'quote',
       content:
         'The research shifted the project from "How do we fit all this information into one dashboard?" to "How should we structure the experience so each business question can be understood and acted on clearly?"',
@@ -120,6 +166,14 @@ export const datalabDashboard: ProjectData = {
       content: [
         'Separate the three business areas into focused dashboards, while maintaining a consistent experience across DataLab.',
         'Original concept: one dashboard, three business areas. Research-driven direction: three focused dashboards, one coherent dashboard experience. This became the first major product decision — separate the experiences by business purpose while maintaining a consistent structure and interaction model across them.',
+      ],
+    },
+    {
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-IA-structure.png',
+      /*imageDefaults: { aspectRatio: '16:10', objectFit: 'contain' },*/
+      captions: [
+        'Stakeholder interview kick-off — Round 1 working board.',
       ],
     },
     {
@@ -139,12 +193,6 @@ export const datalabDashboard: ProjectData = {
     {
       type: 'section-group',
       heading: 'Design Strategy',
-    },
-    {
-      type: 'text',
-      heading: 'Deciding how information should be organized and prioritized',
-      content:
-        'The goal was not to display everything the system could provide. It was to create a hierarchy that helps users quickly understand what matters, find context, and investigate further when needed.',
     },
     {
       type: 'list',
@@ -183,6 +231,13 @@ export const datalabDashboard: ProjectData = {
       content: [
         'Every dashboard follows the same progression: KPI Summary, then Trend / Performance, then Driver / Breakdown, then Insights — establish the current state, provide context, explain the drivers, surface opportunities.',
         'The pattern remained consistent across the product, while the content and analytical relationships were adapted to each business area.',
+      ],
+    },
+    {
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-dashboard-pattern.png',
+      captions: [
+        'Stakeholder interview kick-off — Round 1 working board.',
       ],
     },
     {
@@ -231,7 +286,7 @@ export const datalabDashboard: ProjectData = {
         'Decision: Lead the experience with the most important current-state information — Balance, Estimated Spend, and Expiring Soon — with Platform and Data Credit clearly distinguished.',
         'Rationale: This gives users an immediate understanding of where they stand and surfaces information that may require attention.',
       ],
-      image: '/case-study/datalab-dashboard/dd-design-secision-01-current-credit.png',
+      image: '/case-study/datalab-dashboard/dd-credit-consumption-KPIs.png',
       layout: 'right',
     },
     {
@@ -242,7 +297,7 @@ export const datalabDashboard: ProjectData = {
         'Decision: Use the spending visualization to connect actual spending, estimated spending, and balance over time.',
         'Rationale: Users can understand not only what they have spent, but how consumption is evolving and what that may mean for their remaining credits.',
       ],
-      image: '/case-study/datalab-dashboard/dd-design-secision-02-spending-trend.png',
+      image: '/case-study/datalab-dashboard/dd-spending-trend-chart.png',
       layout: 'left',
     },
     {
@@ -253,7 +308,7 @@ export const datalabDashboard: ProjectData = {
         'Decision: Provide a breakdown of consumption across the key features — Adding Data, Always On, and Variant Creation.',
         'Rationale: Making the drivers visible helps users move from "What happened?" to "Why is this happening?" and identify where further investigation may be needed.',
       ],
-      image: '/case-study/datalab-dashboard/dd-design-secision-03-drives.png',
+      image: '/case-study/datalab-dashboard/dd-spending-by-features.png',
       layout: 'right',
     },
     {
@@ -264,8 +319,34 @@ export const datalabDashboard: ProjectData = {
         'Decision: Use visual hierarchy and progressive disclosure to keep the primary view focused while giving secondary information enough context for deeper investigation.',
         'Rationale: Users can quickly scan the overall state of their credits without losing access to the detail needed to understand performance.',
       ],
-      image: '/case-study/datalab-dashboard/dd-design-secision-04-prioritize-attention.png',
+      image: '/case-study/datalab-dashboard/dd-context-support.png',
       layout: 'left',
+    },
+    {
+      type: 'text-image',
+      heading: 'Decision 5 — Prioritize attention without overwhelming the overview',
+      content: [
+        'Design problem: The dashboard contains a large amount of information, but not everything deserves equal visual weight.',
+        'Decision: Use visual hierarchy and progressive disclosure to keep the primary view focused while giving secondary information enough context for deeper investigation.',
+        'Rationale: Users can quickly scan the overall state of their credits without losing access to the detail needed to understand performance.',
+      ],
+      image: '/case-study/datalab-dashboard/dd-side-dialog-drilldown.png',
+      layout: 'right',
+    },
+    {
+      type: 'text',
+      heading: 'Final design of Credit Dashboard',
+      content: [
+        'Credit Consumption brought together multiple credit types, spending metrics, forecasts, expiration information, and consumption drivers. The design challenge was to create a clear hierarchy that helps users understand their current position, recognize what requires attention, and investigate the factors behind their consumption.',
+        "The information was organized around the user's decision journey rather than the underlying data structure — establishing a focused overview while preserving deeper context for investigation.",
+      ],
+    },
+    {
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-credit-dashboard.png',
+      captions: [
+        'Stakeholder interview kick-off — Round 1 working board.',
+      ],
     },
     {
       type: 'quote',
@@ -287,13 +368,18 @@ export const datalabDashboard: ProjectData = {
       ],
     },
     {
-      type: 'list',
-      heading: 'Structure adapts, pattern stays consistent',
-      items: [
-        { summary: 'State', body: 'Credit: balance. Sales: revenue. Channel: visitors.' },
-        { summary: 'Performance', body: 'Credit: spending trend. Sales: revenue / transactions. Channel: funnel.' },
-        { summary: 'Drivers', body: 'Credit: features. Sales: products / channels. Channel: listings.' },
-        { summary: 'Insight', body: 'Credit: consumption. Sales: sales. Channel: conversion.' },
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-sales-dashboard.png',
+      captions: [
+        'Stakeholder interview kick-off — Round 1 working board.',
+      ],
+    },
+    {
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-channel-dashboard.png',
+      // imageDefaults: { aspectRatio: '16:10', objectFit: 'contain' },
+      captions: [
+        'Stakeholder interview kick-off — Round 1 working board.',
       ],
     },
     {
@@ -333,20 +419,30 @@ export const datalabDashboard: ProjectData = {
       heading: 'Final Design',
     },
     {
-      type: 'image-grid',
-      images: ['', '', '', ''],
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-credit-dashboard-responsive.png',
+      // imageDefaults: { aspectRatio: '16:10', objectFit: 'contain' },
       captions: [
-        'Credit Consumption dashboard — final view.',
-        'Sales Performance dashboard — final view.',
-        'Channel Performance dashboard — final view.',
-        'Shared navigation and interaction pattern across all three dashboards.',
+        'Stakeholder interview kick-off — Round 1 working board.',
+      ],
+    },
+    {
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-sales-dashboard-responsive.png',
+      // imageDefaults: { aspectRatio: '16:10', objectFit: 'contain' },
+      captions: [
+        'Stakeholder interview kick-off — Round 1 working board.',
+      ],
+    },
+    {
+      type: 'image',
+      image: '/case-study/datalab-dashboard/dd-channel-dashboard-responsive.png',
+      // imageDefaults: { aspectRatio: '16:10', objectFit: 'contain' },
+      captions: [
+        'Stakeholder interview kick-off — Round 1 working board.',
       ],
     },
   ],
-
-  images: [
-    '/case-study/datalab-dashboard/dd-design-secision-01-current-credit.png',
-    '/case-study/datalab-dashboard/dd-design-secision-02-spending-trend.png',
-  ],
+  images: [],
   link: 'https://www.biggeo.com/products/datalab',
 };

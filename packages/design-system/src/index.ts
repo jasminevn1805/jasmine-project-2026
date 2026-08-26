@@ -20,6 +20,7 @@ export * from './components/Radio';
 export * from './components/Checkbox';
 export * from './components/Divider';
 export * from './components/Row';
+export * from './components/Image';
 
 // Shared light/dark mode helper - see THEMING-CONTRACT.md §4
 export * from './utils/mode';

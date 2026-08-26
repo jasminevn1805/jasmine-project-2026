@@ -3,13 +3,66 @@
 import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { use, useRef } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import { projects, ContentSection } from '../data';
+import { Image as DSImage } from '@jasmine/design-system';
+import { Image as ImageIcon } from 'react-feather';
+
+// Full-screen click-to-zoom viewer for a single image — scrollable so very
+// large/panoramic source images (e.g. board exports) stay legible at native res.
+function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-100 bg-black/95 flex flex-col cursor-zoom-out"
+      onClick={onClose}
+    >
+      <div className="flex items-center justify-between px-6 py-4 text-white/80 text-sm shrink-0">
+        <span>Scroll to pan · click anywhere to close</span>
+        <div className="flex items-center gap-4" onClick={(e) => e.stopPropagation()}>
+          <a
+            href={src}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white transition-colors underline underline-offset-2"
+          >
+            Open full resolution ↗
+          </a>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="hover:text-white transition-colors text-xl leading-none"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+      <div className="flex-1 overflow-auto cursor-default" onClick={(e) => e.stopPropagation()}>
+        <div className="min-w-fit min-h-full flex items-center justify-center p-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={src} alt={alt} className="max-w-none h-auto" style={{ height: '85vh' }} />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // Component to render individual content sections
 function SectionRenderer({ section, fullWidthDivider }: { section: ContentSection; index: number; fullWidthDivider: boolean }) {
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   // Chapter breaks (section-group) get a full-bleed divider; everything else
   // gets a divider scoped to the content column width.
@@ -117,6 +170,7 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
 
   // Image-only section
   if (section.type === 'image') {
+    const defaults = section.imageDefaults;
     return (
       <section className={`py-20 px-6 ${outerDivider}`} ref={sectionRef}>
         <div className={`max-w-screen-2xl mx-auto ${innerDivider}`}>
@@ -124,16 +178,53 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
             initial={{ opacity: 0, scale: 0.95 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.6 }}
-            className="relative bg-surface rounded-xl overflow-hidden shadow-sm"
+            className="relative bg-surface rounded-xl overflow-hidden shadow-sm group"
           >
-            {section.image ? (
-              <img src={section.image} alt={section.heading || ''} className="w-full h-auto object-cover" />
+            {defaults?.aspectRatio ? (
+              // Fixed ratio resolved — render through the real DS Image
+              // component (Figma "Image", node 75026:34010). Its own
+              // placeholder state covers the empty-src case natively.
+              <DSImage
+                src={section.image}
+                alt={section.heading || ''}
+                aspectRatio={defaults.aspectRatio}
+                objectFit={defaults.objectFit ?? 'contain'}
+                objectPosition={defaults.objectPosition}
+                className={section.image ? 'cursor-zoom-in' : undefined}
+                onClick={section.image ? () => setLightboxIndex(0) : undefined}
+              />
+            ) : section.image ? (
+              // No fixed ratio: keep raw natural-aspect-ratio rendering — the
+              // DS Image component has no "natural/intrinsic" variant.
+              <button
+                type="button"
+                onClick={() => setLightboxIndex(0)}
+                className="block w-full cursor-zoom-in"
+                aria-label="View full resolution"
+              >
+                <img src={section.image} alt={section.heading || ''} className="w-full h-auto object-cover" />
+              </button>
             ) : (
               <div className="h-125 md:h-175 bg-linear-to-br from-surface to-line flex items-center justify-center">
-                <span className="text-8xl opacity-20">🎨</span>
+                <ImageIcon size={80} className="text-ink opacity-20" aria-hidden />
               </div>
             )}
+            {section.image && (
+              <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                Click to zoom
+              </div>
+            )}
+            {lightboxIndex !== null && section.image && (
+              <ImageLightbox
+                src={section.image}
+                alt={section.heading || ''}
+                onClose={() => setLightboxIndex(null)}
+              />
+            )}
           </motion.div>
+          {section.captions?.[0] && (
+            <p className="mt-3 text-[12px] text-muted leading-relaxed">{section.captions[0]}</p>
+          )}
         </div>
       </section>
     );
@@ -188,6 +279,7 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
   // Text + Image section (side by side)
   if (section.type === 'text-image') {
     const isImageRight = section.layout === 'right';
+    const defaults = section.imageDefaults;
     return (
       <section className={`py-20 px-6 ${outerDivider}`} ref={sectionRef}>
         <div className={`max-w-screen-2xl mx-auto ${innerDivider}`}>
@@ -211,11 +303,19 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
               transition={{ duration: 0.6, delay: 0.1 }}
               className={`relative bg-surface rounded-xl overflow-hidden shadow-sm ${isImageRight ? '' : 'lg:col-start-1 lg:row-start-1'}`}
             >
-              {section.image ? (
+              {defaults?.aspectRatio ? (
+                <DSImage
+                  src={section.image}
+                  alt={section.heading || ''}
+                  aspectRatio={defaults.aspectRatio}
+                  objectFit={defaults.objectFit ?? 'contain'}
+                  objectPosition={defaults.objectPosition}
+                />
+              ) : section.image ? (
                 <img src={section.image} alt={section.heading || ''} className="w-full h-auto block" />
               ) : (
                 <div className="h-100 md:h-125 bg-linear-to-br from-surface to-line flex items-center justify-center">
-                  <span className="text-8xl opacity-20">📸</span>
+                  <ImageIcon size={80} className="text-ink opacity-20" aria-hidden />
                 </div>
               )}
             </motion.div>
@@ -228,6 +328,7 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
   // List + Image section (scannable summary/body list, paired with supporting image)
   if (section.type === 'list-image') {
     const isImageRight = section.layout === 'right';
+    const defaults = section.imageDefaults;
     return (
       <section className={`py-20 px-6 ${outerDivider}`} ref={sectionRef}>
         <div className={`max-w-screen-2xl mx-auto ${innerDivider}`}>
@@ -270,11 +371,19 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
               transition={{ duration: 0.6, delay: 0.1 }}
               className={`relative bg-surface rounded-xl overflow-hidden shadow-sm ${isImageRight ? '' : 'lg:col-start-1 lg:row-start-1'}`}
             >
-              {section.image ? (
+              {defaults?.aspectRatio ? (
+                <DSImage
+                  src={section.image}
+                  alt={section.heading || ''}
+                  aspectRatio={defaults.aspectRatio}
+                  objectFit={defaults.objectFit ?? 'contain'}
+                  objectPosition={defaults.objectPosition}
+                />
+              ) : section.image ? (
                 <img src={section.image} alt={section.heading || ''} className="w-full h-auto block" />
               ) : (
                 <div className="h-100 md:h-125 bg-linear-to-br from-surface to-line flex items-center justify-center">
-                  <span className="text-8xl opacity-20">📸</span>
+                  <ImageIcon size={80} className="text-ink opacity-20" aria-hidden />
                 </div>
               )}
             </motion.div>
@@ -286,14 +395,102 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
 
   // Image grid section
   if (section.type === 'image-grid') {
-    const imageCount = section.images?.length || 0;
-    const gridCols = imageCount === 2 ? 'md:grid-cols-2' : imageCount === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2';
-    
+    // Normalize `images` (string | ImageGridItem)[] into one resolved shape:
+    // a plain string inherits every `imageDefaults` field; an ImageGridItem
+    // overrides any of them per tile. This is what lets two same-size
+    // containers each pick their own crop behavior (e.g. one 'cover', one
+    // 'contain') and, within that, their own focal point — while still
+    // sharing one aspectRatio for equal sizing.
+    const defaults = section.imageDefaults;
+    const items = (section.images ?? []).map((entry) =>
+      typeof entry === 'string'
+        ? {
+            src: entry,
+            aspectRatio: defaults?.aspectRatio,
+            objectFit: defaults?.objectFit,
+            objectPosition: defaults?.objectPosition,
+          }
+        : {
+            src: entry.src,
+            aspectRatio: entry.aspectRatio ?? defaults?.aspectRatio,
+            objectFit: entry.objectFit ?? defaults?.objectFit,
+            objectPosition: entry.objectPosition ?? defaults?.objectPosition,
+          }
+    );
+
+    if (section.arrangement === 'row') {
+      // Equal-HEIGHT layout: every tile capped to one shared height, width
+      // flows from each image's own natural ratio. For different-width crops
+      // of the same source at the same scale — the equal-WIDTH grid mode
+      // below would shrink (letterbox) the narrower one's content instead of
+      // just rendering it narrower on screen, which is what should happen.
+      return (
+        <section className={`py-20 px-6 ${outerDivider}`} ref={sectionRef}>
+          <div className={`max-w-screen-2xl mx-auto ${innerDivider}`}>
+            <div className="flex flex-wrap items-start gap-8">
+              {items.map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="flex flex-col gap-3 flex-none max-w-full"
+                >
+                  <div className="relative bg-surface rounded-xl overflow-hidden shadow-sm group h-100 md:h-125 max-w-full">
+                    {item.src ? (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => setLightboxIndex(i)}
+                          className="block h-full max-w-full mx-auto cursor-zoom-in"
+                          aria-label="View full resolution"
+                        >
+                          <img
+                            src={item.src}
+                            alt={section.captions?.[i] || ''}
+                            className="h-full w-auto max-w-full object-contain block"
+                          />
+                        </button>
+                        <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                          Click to zoom
+                        </div>
+                      </>
+                    ) : (
+                      <div className="h-full w-40 bg-linear-to-br from-surface to-line flex items-center justify-center">
+                        <ImageIcon size={56} className="text-ink opacity-20" aria-hidden />
+                      </div>
+                    )}
+                  </div>
+                  {section.captions?.[i] && (
+                    <p className="text-[12px] text-muted leading-relaxed">{section.captions[i]}</p>
+                  )}
+                </motion.div>
+              ))}
+              {lightboxIndex !== null && items[lightboxIndex]?.src && (
+                <ImageLightbox
+                  src={items[lightboxIndex].src}
+                  alt={section.captions?.[lightboxIndex] || ''}
+                  onClose={() => setLightboxIndex(null)}
+                />
+              )}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    const imageCount = items.length;
+    // Explicit `columns` wins; otherwise fall back to the historical auto behavior
+    // (2 images → 2 cols, 3 images → 3 cols, everything else → 2 cols).
+    const resolvedColumns = section.columns ?? (imageCount === 3 ? 3 : 2);
+    const gridCols =
+      resolvedColumns === 4 ? 'md:grid-cols-4' : resolvedColumns === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2';
+
     return (
       <section className={`py-20 px-6 ${outerDivider}`} ref={sectionRef}>
         <div className={`max-w-screen-2xl mx-auto ${innerDivider}`}>
           <div className={`grid grid-cols-1 ${gridCols} gap-8`}>
-            {section.images?.map((img, i) => (
+            {items.map((item, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -301,12 +498,50 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 className="flex flex-col gap-3"
               >
-                <div className="bg-surface rounded-xl overflow-hidden shadow-sm">
-                  {img ? (
-                    <img src={img} alt={section.captions?.[i] || ''} className="w-full h-auto block" />
+                <div className="relative bg-surface rounded-xl overflow-hidden shadow-sm group">
+                  {item.aspectRatio ? (
+                    // This tile resolved to a fixed ratio (its own override, or
+                    // the section default) — render through the real DS Image
+                    // component (Figma "Image", node 75026:34010), with this
+                    // tile's own objectFit (falling back to 'contain'). Its own
+                    // placeholder state covers the empty-src case natively.
+                    <>
+                      <DSImage
+                        src={item.src || undefined}
+                        alt={section.captions?.[i] || ''}
+                        aspectRatio={item.aspectRatio}
+                        objectFit={item.objectFit ?? 'contain'}
+                        objectPosition={item.objectPosition}
+                        className={item.src ? 'cursor-zoom-in' : undefined}
+                        onClick={item.src ? () => setLightboxIndex(i) : undefined}
+                      />
+                      {item.src && (
+                        <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                          Click to zoom
+                        </div>
+                      )}
+                    </>
+                  ) : item.src ? (
+                    // No fixed ratio resolved for this tile: keep raw natural-
+                    // aspect-ratio rendering. The DS Image component has no
+                    // "natural/intrinsic" variant (Figma only defines
+                    // 1:1/4:3/5:4/16:9/16:10/Fill), so this tile stays on this path.
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setLightboxIndex(i)}
+                        className="block w-full cursor-zoom-in"
+                        aria-label="View full resolution"
+                      >
+                        <img src={item.src} alt={section.captions?.[i] || ''} className="w-full h-auto block" />
+                      </button>
+                      <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                        Click to zoom
+                      </div>
+                    </>
                   ) : (
                     <div className="aspect-square bg-linear-to-br from-surface to-line flex items-center justify-center">
-                      <span className="text-6xl opacity-20">📱</span>
+                      <ImageIcon size={56} className="text-ink opacity-20" aria-hidden />
                     </div>
                   )}
                 </div>
@@ -315,6 +550,13 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
                 )}
               </motion.div>
             ))}
+            {lightboxIndex !== null && items[lightboxIndex]?.src && (
+              <ImageLightbox
+                src={items[lightboxIndex].src}
+                alt={section.captions?.[lightboxIndex] || ''}
+                onClose={() => setLightboxIndex(null)}
+              />
+            )}
           </div>
         </div>
       </section>
@@ -602,11 +844,13 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
             initial={{ opacity: 0, scale: 0.95 }}
             animate={heroImageInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.6 }}
-            className="relative h-125 md:h-175 bg-surface rounded-xl overflow-hidden shadow-sm"
+            className="relative bg-surface rounded-xl overflow-hidden shadow-sm"
           >
-            <div className="w-full h-full bg-linear-to-br from-surface to-line flex items-center justify-center">
-              <span className="text-8xl opacity-20">🎨</span>
-            </div>
+            {/* Fixed 16:10 ratio, same for every case study — consistent hero
+                sizing regardless of the source image's own dimensions.
+                Renders the DS Image component's own placeholder state when
+                `heroImage` is unset. */}
+            <DSImage src={project.heroImage} alt={project.title} aspectRatio="16:10" objectFit="cover" />
           </motion.div>
         </div>
       </section>
@@ -679,11 +923,19 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
                   className="flex flex-col gap-3"
                 >
                   <div className="bg-surface rounded-xl overflow-hidden shadow-sm">
-                    {img ? (
+                    {project.imageDefaults?.aspectRatio ? (
+                      <DSImage
+                        src={img || undefined}
+                        alt={project.imageLabels?.[i] || ''}
+                        aspectRatio={project.imageDefaults.aspectRatio}
+                        objectFit={project.imageDefaults.objectFit ?? 'contain'}
+                        objectPosition={project.imageDefaults.objectPosition}
+                      />
+                    ) : img ? (
                       <img src={img} alt={project.imageLabels?.[i] || ''} className="w-full h-auto block" />
                     ) : (
                       <div className="h-100 md:h-125 bg-linear-to-br from-surface to-line flex items-center justify-center">
-                        <span className="text-6xl opacity-20">📱</span>
+                        <ImageIcon size={56} className="text-ink opacity-20" aria-hidden />
                       </div>
                     )}
                   </div>

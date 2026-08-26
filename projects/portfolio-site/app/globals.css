@@ -1,11 +1,15 @@
 @import "tailwindcss";
 
-/* Shared DS primitives (--primitive-*) - variables only, no reset/globals,
-   the correct entry point for a project layering the DS on top of its own
-   framework (here: Tailwind). Makes `primitiveColors.warmGray` from
-   packages/design-system/src/tokens/primitives/colors.ts available as
-   --primitive-warm-gray-* below. */
-@import '@jasmine/design-system/tokens';
+/* Full DS stack (tokens + safe-utilities + every component's CSS Modules —
+   Button, Modal, Image, etc.), NOT the risky "reset + fonts + global +
+   typography" stack (that one only lives at src/styles/index.css and is
+   never bundled into this export — verified by inspecting dist/style.css
+   before switching from the tokens-only import). Safe alongside Tailwind
+   Preflight: component styles are hash-scoped CSS Modules, no global
+   selectors. Needed as of the real `Image` component's adoption in
+   app/projects/[slug]/page.tsx — swap back to '@jasmine/design-system/tokens'
+   (variables only) if no DS component is ever rendered here. */
+@import '@jasmine/design-system/styles';
 
 /**
  * Portfolio Semantic Tokens — Tailwind v4 Theme
