@@ -808,9 +808,13 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
               <h2 className="text-[13px] md:text-sm font-medium mt-3 mb-4 text-secondary uppercase tracking-[0.15em] leading-tight">
                 {project.overviewHeadline || 'Overview'}
               </h2>
-              <p className="text-base text-ink leading-relaxed">
-                {project.description}
-              </p>
+              <div className="space-y-3">
+                {(Array.isArray(project.description) ? project.description : [project.description]).map((line, i) => (
+                  <p key={i} className="text-base text-ink leading-relaxed">
+                    {line}
+                  </p>
+                ))}
+              </div>
 
               {/* Live demo CTA — only renders for projects that ship a working URL.
                   In dev this points at localhost (e.g. http://localhost:3001 for meal-prep);
@@ -869,7 +873,7 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
           >
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-10 text-left">
               <div className="min-w-0">
-                <h3 className="text-[11px] uppercase tracking-[0.22em] text-secondary mb-3 font-medium">SERVICES</h3>
+                <h3 className="text-[11px] uppercase tracking-[0.22em] text-secondary mb-3 font-medium">ROLE AND CONTRIBUTION</h3>
                 <div className="text-sm md:text-base text-ink leading-relaxed space-y-1">
                   {project.services.map((service, i) => (
                     <p key={i}>{service}</p>

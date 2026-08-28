@@ -11,7 +11,7 @@ const amiri = Amiri({
 
 export const metadata: Metadata = {
   title: "Jasmine Hoang - Portfolio",
-  description: "UI/UX Designer & Developer based in San Francisco",
+  description: "UI/UX Designer & Developer based in Canada",
 };
 
 export default function RootLayout({

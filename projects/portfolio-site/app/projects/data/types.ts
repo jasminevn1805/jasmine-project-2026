@@ -110,7 +110,8 @@ export interface ProjectData {
   services: string[];
   platforms: string[];
   industry: string;
-  description: string;
+  /** Single string renders as one paragraph; string[] renders one <p> per entry. */
+  description: string | string[];
   sections: ContentSection[];
   /** Top-of-page hero image, rendered through the DS `Image` component at a
    *  fixed 16:10 ratio (same everywhere — not per-project configurable, by
