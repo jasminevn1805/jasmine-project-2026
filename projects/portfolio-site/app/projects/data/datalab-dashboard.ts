@@ -322,7 +322,7 @@ export const datalabDashboard: ProjectData = {
     },
     {
       type: 'text',
-      heading: 'From one broaded dashboard requirement to three focused experiences',
+      heading: 'From one broad dashboard requirement to three focused experiences',
       content:
         'The project evolved from a broad dashboard requirement into three focused experiences, each designed around distinct business questions while maintaining a consistent analytical pattern across the product.',
     },
