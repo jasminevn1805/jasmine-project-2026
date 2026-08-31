@@ -1,0 +1,44 @@
+/* ─── Google Fonts (must be first) ───────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+@import '@jasmine/design-system/styles';
+@import './theme.css';
+@import './theme.dark.css';
+@import './typography.css';
+@import 'tailwindcss';
+
+/* ─── Project-level global tokens ────────────────────────── */
+/* Font/radius/shadow project preferences live in theme.css, */
+/* scoped to [data-theme="cookstash"], referencing --primitive-* vars. */
+/* Dark-mode counterparts live in theme.dark.css, scoped to             */
+/* [data-theme="cookstash"][data-mode="dark"]. Both are wrapped in the  */
+/* DS's reserved `theme` / `theme-mode` cascade layers - see             */
+/* THEMING-CONTRACT.md - so import order here doesn't matter for         */
+/* precedence, only for keeping the file readable in source order.      */
+
+/* ─── Base styles ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background-primary);
+  color: var(--color-text-primary);
+}
+
+/* Smooth scrolling */
+* { scroll-behavior: smooth; }
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-border-brand);
+  outline-offset: 2px;
+}
+
+/* Remove default button styles */
+button { font-family: inherit; }
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }

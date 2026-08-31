@@ -12,12 +12,12 @@
     "dev:storybook": "npm run dev --workspace=@jasmine/storybook",
     "start:storybook": "npm run start --workspace=@jasmine/storybook",
 
-    "dev:meal-prep": "npm run build:ds && npm run dev --workspace=meal-prep",
+    "dev:cookstash": "npm run build:ds && npm run dev --workspace=cookstash",
     "dev:portfolio": "npm run build:ds && npm run dev --workspace=portfolio-site",
 
     "build:ds": "npm run build --workspace=@jasmine/design-system",
     "build:storybook": "npm run build:ds && npm run build --workspace=@jasmine/storybook",
-    "build:meal-prep": "npm run build:ds && npm run build --workspace=meal-prep",
+    "build:cookstash": "npm run build:ds && npm run build --workspace=cookstash",
     "build:portfolio": "npm run build:ds && npm run build --workspace=portfolio-site",
 
     "test": "npm run test --workspaces --if-present",

@@ -15,7 +15,7 @@ await mkdir(OUT, { recursive: true });
 
 const SB = 'http://localhost:6006';
 const PORTFOLIO = 'http://localhost:3000';
-const MEALPREP = 'http://localhost:3001';
+const COOKSTASH = 'http://localhost:3001';
 
 // Storybook iframe URL helper. viewMode=story hides the UI chrome.
 const story = (id) => `${SB}/iframe.html?id=${id}&viewMode=story`;
@@ -33,7 +33,7 @@ const shots = [
 
   // App proof — design system consumed in real products
   { url: `${PORTFOLIO}/`, file: 'ds-adoption-portfolio.png', w: 1440, h: 900, fullPage: false },
-  { url: `${MEALPREP}/`,  file: 'ds-adoption-mealprep.png',  w: 1440, h: 900, fullPage: false },
+  { url: `${COOKSTASH}/`,  file: 'ds-adoption-mealprep.png',  w: 1440, h: 900, fullPage: false },
 ];
 
 // --- Code screenshots (render syntax-highlighted code) ---
@@ -92,7 +92,7 @@ function buildRepoTreeHtml() {
 │       └── stories/
 └── projects/
     ├── portfolio-site/       ← consumes @jasmine/design-system
-    └── meal-prep/            ← consumes @jasmine/design-system`;
+    └── cookstash/            ← consumes @jasmine/design-system`;
   return tree;
 }
 

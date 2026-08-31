@@ -10,7 +10,7 @@ import { applyMode, type Mode } from '../../design-system/src/utils/mode';
 import './docs-mode.css';
 
 // Only a Mode (light/dark) toggle is wired up here, not a Theme toggle.
-// Reason: meal-prep/app/theme.css doesn't yet wrap its rules in `@layer
+// Reason: cookstash/app/theme.css doesn't yet wrap its rules in `@layer
 // theme` (see THEMING-CONTRACT.md §2's correction), so it isn't correctly
 // participating in the cascade layer this toolbar would rely on - adding a
 // Theme picker before that's fixed would demonstrate something that only

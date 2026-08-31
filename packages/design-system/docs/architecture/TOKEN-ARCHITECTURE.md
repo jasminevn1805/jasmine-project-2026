@@ -66,7 +66,7 @@ export const primitiveColors = {
 **Important caveat — local primitive additions.** `figma-export.json` is not
 currently complete: it's missing `warmNeutral`, `forestGreen` (both colors), and
 `plusJakartaSans` (a typography family) — all three of which shipped code already
-depends on (`meal-prep/app/theme.css` references
+depends on (`cookstash/app/theme.css` references
 `--primitive-warm-neutral-*`, `--primitive-forest-green-*`, and
 `--primitive-typography-family-plus-jakarta-sans`). Regenerating purely from
 `figma-export.json` would silently delete them — confirmed by actually running the

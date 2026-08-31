@@ -2,7 +2,7 @@
  * Shared light/dark mode helper.
  *
  * Single, framework-agnostic implementation of the mode-ownership decision in
- * THEMING-CONTRACT.md §4: no consuming project (meal-prep, portfolio-site,
+ * THEMING-CONTRACT.md §4: no consuming project (cookstash, portfolio-site,
  * Storybook, future products) reads `prefers-color-scheme` or persists a
  * user's override on its own - they all call this.
  *

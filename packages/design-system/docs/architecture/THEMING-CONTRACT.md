@@ -6,7 +6,7 @@ implements against this document. If a later phase needs to deviate from
 something decided here, update this file first, then implement — don't let
 code and contract drift apart.
 
-**Not covered here:** which specific Themes exist beyond `meal-prep`
+**Not covered here:** which specific Themes exist beyond `cookstash`
 (portfolio-site's fate is an open, deliberately deferred product decision —
 see the proposal doc, Phase 4). This contract defines the *mechanism*; it
 does not enumerate every product that will ever use it.
@@ -21,15 +21,15 @@ other.
 
 | Attribute | Axis | Values | Meaning | Default when unset |
 |---|---|---|---|---|
-| `data-theme` | **which product's brand** | lowercase-kebab, matches the project's folder name under `projects/` (e.g. `meal-prep`) | selects which primitive palette backs the semantic *brand* tokens (`--color-background-brand`, `--color-text-brand`, etc.) | the DS's own default palette ("Brand") — no override layer applies |
+| `data-theme` | **which product's brand** | lowercase-kebab, matches the project's folder name under `projects/` (e.g. `cookstash`) | selects which primitive palette backs the semantic *brand* tokens (`--color-background-brand`, `--color-text-brand`, etc.) | the DS's own default palette ("Brand") — no override layer applies |
 | `data-mode` | **light or dark** | `"light"` \| `"dark"` | selects which semantic mapping is active for *all* tokens, not just brand ones | `"light"` |
 
 ```html
 <!-- default brand, light mode (no attributes needed) -->
 <html>
 
-<!-- meal-prep, dark mode -->
-<html data-theme="meal-prep" data-mode="dark">
+<!-- cookstash, dark mode -->
+<html data-theme="cookstash" data-mode="dark">
 
 <!-- default brand, dark mode (e.g. Storybook toggled to dark, no theme picked) -->
 <html data-mode="dark">
@@ -44,7 +44,7 @@ attribute selector, so the contract is `[data-mode="light"]` /
 `[data-mode="dark"]`, not the capitalized Figma spelling.
 
 Reasons this is a decision worth writing down, not an accident to fix later:
-- `data-theme="meal-prep"` is already lowercase — a capitalized `data-mode`
+- `data-theme="cookstash"` is already lowercase — a capitalized `data-mode`
   right next to it would be an inconsistent, easy-to-typo contract.
 - `prefers-color-scheme` (the media feature the mode helper reads to set
   the initial value) reports lowercase `light`/`dark` natively — matching
@@ -88,7 +88,7 @@ What a project theme file actually needs to do — and does need one small
 addition for, not zero — is wrap its own rules in `@layer theme { ... }`
 (reusing the name the DS already declared; it does **not** need to repeat the
 whole `@layer primitives, brand-light, ...;` order statement, only opt its own
-rules into the `theme` name). `meal-prep/app/theme.css` predates this contract
+rules into the `theme` name). `cookstash/app/theme.css` predates this contract
 and is not yet wrapped this way — it happens to still resolve correctly
 *today* only because unlayered rules outrank layered ones unconditionally, not
 because it's correctly participating in the layer system. Tracked as a
@@ -124,7 +124,7 @@ owns:
 - applying `data-mode` to `<html>`,
 - persisting an explicit user override (`localStorage`).
 
-No consuming project (`meal-prep`, `portfolio-site`, future products,
+No consuming project (`cookstash`, `portfolio-site`, future products,
 Storybook) implements its own copy of this logic. Each project calls the
 shared helper from its root layout / preview config.
 
@@ -152,7 +152,7 @@ them, so importing this module from server-rendered code doesn't throw - it
 just no-ops until the client mounts).
 
 **Import from `@jasmine/design-system/mode`, not the package root.** Found
-while wiring meal-prep (Phase 3): the package root (`@jasmine/design-system`)
+while wiring cookstash (Phase 3): the package root (`@jasmine/design-system`)
 bundles every component into one chunk, several of which use React hooks.
 Next.js's Server/Client Component boundary analysis taints the *entire*
 import based on the module graph of what you import from - so a Server
@@ -183,7 +183,7 @@ re-implemented slightly differently in every project's `<head>`.
    `@layer theme { [data-theme="<name>"] { ... } }`, referencing only
    `--primitive-*` variables (see Rule 2). The `@layer theme` wrapper is
    required — see the correction in §2; don't copy the unwrapped pattern
-   `meal-prep/app/theme.css` currently uses until that file is fixed too.
+   `cookstash/app/theme.css` currently uses until that file is fixed too.
 3. Set `data-theme="<name>"` on `<html>` in that project's root layout.
 4. Only add `projects/<name>/theme.dark.css` (wrapped in `@layer theme-mode`)
    after a design review identifies specific tokens that need dark-specific
@@ -196,12 +196,12 @@ re-implemented slightly differently in every project's `<head>`.
 
 Decided Option B (register as a Theme, retire its forked primitive values) —
 implemented as a **third valid consumption pattern**, alongside "full" (Theme
-+ DS components, meal-prep) and the mechanism's core assumption ("Theme
++ DS components, cookstash) and the mechanism's core assumption ("Theme
 overrides the DS's own semantic token names"). Worth naming explicitly since
 neither of the other two quite describes it:
 
 - `data-theme="portfolio"` is set, for identification consistency with
-  meal-prep — but the `theme` cascade layer stays **empty** for it. Portfolio
+  cookstash — but the `theme` cascade layer stays **empty** for it. Portfolio
   doesn't use the DS's semantic token names (`--color-text-primary` etc.) at
   all; it has its own vocabulary (`--color-ink`, `--color-canvas`, ...) via
   Tailwind, and no DS component imports.
@@ -211,10 +211,10 @@ neither of the other two quite describes it:
   Tailwind v4 `@theme inline` (`--color-primary: var(--primitive-warm-gray-900)`),
   instead of duplicating hex values that drift.
 - No `data-mode` — explicitly decided to stay light-only, since there's no
-  dark design anywhere in the product to draw from (unlike meal-prep, where
+  dark design anywhere in the product to draw from (unlike cookstash, where
   the DS's own light→dark relationship gave a systematic basis to extend).
 
 **Pattern name for future reference:** *primitives-shared, theme-layer-empty*.
 A future product that wants its own complete semantic/component identity but
 no duplicated raw values should follow this shape, not necessarily the full
-meal-prep shape.
+cookstash shape.

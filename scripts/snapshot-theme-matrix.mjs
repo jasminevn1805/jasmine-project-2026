@@ -12,7 +12,7 @@
 // next step - not done here, to avoid a new dependency for a first pass.
 //
 // Requires the relevant servers already running:
-//   meal-prep      -> http://localhost:3000
+//   cookstash       -> http://localhost:3000
 //   portfolio-site -> http://localhost:3001
 //   storybook      -> http://localhost:6006
 //
@@ -45,23 +45,23 @@ const UPDATE = process.argv.includes('--update');
 // recording a real baseline; dev-server ports are a fine default for a
 // quick manual look, but expect dev-mode overlay noise to occasionally
 // register as a false-positive diff (see header comment).
-const MEAL_PREP = process.env.MEAL_PREP_URL ?? 'http://localhost:3000';
+const COOKSTASH = process.env.COOKSTASH_URL ?? 'http://localhost:3000';
 const PORTFOLIO = process.env.PORTFOLIO_URL ?? 'http://localhost:3001';
 const STORYBOOK = process.env.STORYBOOK_URL ?? 'http://localhost:6006';
 
 // Every combination that actually exists today - not every theoretical
-// combination of every theme x every mode. meal-prep has both modes;
+// combination of every theme x every mode. cookstash has both modes;
 // portfolio is light-only by explicit decision (see THEMING-CONTRACT.md §6);
 // Storybook renders the DS's own Brand default in both modes.
 const COMBOS = [
   {
-    name: 'meal-prep--light',
-    url: `${MEAL_PREP}/login`,
+    name: 'cookstash--light',
+    url: `${COOKSTASH}/login`,
     colorScheme: 'light',
   },
   {
-    name: 'meal-prep--dark',
-    url: `${MEAL_PREP}/login`,
+    name: 'cookstash--dark',
+    url: `${COOKSTASH}/login`,
     colorScheme: 'dark',
   },
   {

@@ -1,0 +1,120 @@
+/**
+ * Cookstash — Project Theme
+ *
+ * Overrides the design system default theme (blue) with the
+ * Warm Minimal palette (forestGreen brand, warmNeutral backgrounds).
+ *
+ * RULES:
+ * - Only override variables that differ from the default theme
+ * - Values reference --primitive-* vars from the DS — never hardcoded values
+ * - Scoped to [data-theme="cookstash"] set on <html> in layout.tsx
+ *
+ * Primitive vars are defined in:
+ *   packages/design-system/src/styles/variables.css  (auto-generated)
+ *
+ * Wrapped in `@layer theme` (not just the bare selector) so it participates
+ * correctly in the DS's cascade layer order - declared once, in
+ * packages/design-system/src/styles/variables.css, as
+ * `@layer primitives, brand-light, brand-dark, theme, theme-mode;`. Without
+ * this wrapper the rules below are unlayered, and unlayered CSS always beats
+ * layered CSS regardless of order - which happened to still produce the
+ * right light-mode result by accident, but would silently break once
+ * dark mode (an actual layered `[data-mode="dark"]` block) was introduced.
+ * See packages/design-system/docs/architecture/THEMING-CONTRACT.md §2.
+ */
+
+@layer theme {
+[data-theme="cookstash"] {
+  /* ── Typography ── */
+  --font-display: var(--primitive-typography-family-plus-jakarta-sans);
+  --font-body:    var(--primitive-typography-family-inter);
+
+  /* ── Radius ── */
+  --radius-sm:   var(--primitive-border-radius-s);
+  --radius-md:   var(--primitive-border-radius-m);
+  --radius-lg:   var(--primitive-border-radius-l);
+  --radius-xl:   var(--primitive-border-radius-x-l);
+  --radius-pill: var(--primitive-border-radius-pill);
+
+  /* ── Shadows (refined: soft, large blur, low opacity) ── */
+  /* Tinted with --primitive-warm-neutral-900 via color-mix so shadows */
+  /* harmonize with the warm palette instead of going cold/black. */
+  --shadow-xs: 0 1px 2px color-mix(in srgb, var(--primitive-warm-neutral-900) 4%, transparent);
+  --shadow-sm:
+    0 1px 2px color-mix(in srgb, var(--primitive-warm-neutral-900) 3%, transparent),
+    0 4px 12px color-mix(in srgb, var(--primitive-warm-neutral-900) 4%, transparent);
+  --shadow-md:
+    0 2px 4px color-mix(in srgb, var(--primitive-warm-neutral-900) 3%, transparent),
+    0 8px 24px color-mix(in srgb, var(--primitive-warm-neutral-900) 6%, transparent);
+  --shadow-lg:
+    0 4px 8px color-mix(in srgb, var(--primitive-warm-neutral-900) 4%, transparent),
+    0 16px 40px color-mix(in srgb, var(--primitive-warm-neutral-900) 8%, transparent);
+  --shadow-xl:
+    0 8px 16px color-mix(in srgb, var(--primitive-warm-neutral-900) 6%, transparent),
+    0 24px 64px color-mix(in srgb, var(--primitive-warm-neutral-900) 14%, transparent);
+
+  /* Legacy aliases — existing components keep working unchanged */
+  --shadow-card:  var(--shadow-sm);
+  --shadow-hover: var(--shadow-md);
+  --shadow-modal: var(--shadow-xl);
+
+  /* ── Motion ── */
+  --motion-duration-fast: 120ms;
+  --motion-duration-base: 200ms;
+  --motion-duration-slow: 320ms;
+  --motion-easing-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-easing-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ── Layout tokens ──
+   * Pinterest-style: fluid up to a comfortable maximum, then gutters
+   * absorb the rest of the viewport. Keeps reading rhythm calm on
+   * ultrawide displays instead of stretching cards into oblivion.
+   *
+   * Gutters scale fluidly via clamp() so they breathe smoothly from
+   * phone to ~1920px without media-query stairstepping.
+   *   320px  → 16px gutter
+   *   768px  → ~30px
+   *   1280px → ~51px
+   *   1680px+→ 64px (capped, matches --layout-max-w side margins)
+   */
+  --layout-page-x:        clamp(16px, 4vw, 64px);
+  --layout-page-y:        clamp(20px, 3vw, 40px);
+  --layout-section-y:     clamp(32px, 4vw, 56px);
+  --layout-stack-tight:   var(--space-s);
+  --layout-stack-default: var(--space-l);
+  --layout-stack-loose:   var(--space-xl);
+  --layout-max-w:         1680px;
+  --layout-hairline:      1px;
+
+  /* ── Backgrounds ── */
+  --color-background-primary:       var(--primitive-warm-neutral-0);
+  --color-background-secondary:     var(--primitive-warm-neutral-50);
+  --color-background-hover:         var(--primitive-warm-neutral-100);
+  --color-background-brand:         var(--primitive-forest-green-500);
+  --color-background-brand-subtle:  var(--primitive-forest-green-100);
+  --color-background-brand-hover:   var(--primitive-forest-green-600);
+  --color-background-brand-pressed: var(--primitive-forest-green-700);
+
+  /* Translucent surface for sticky headers / overlays */
+  --color-background-veil: color-mix(in srgb, var(--color-background-primary) 78%, transparent);
+
+  /* ── Text ── */
+  --color-text-brand:               var(--primitive-forest-green-500);
+  --color-text-secondary:           var(--primitive-warm-neutral-700);
+  --color-text-tertiary:            var(--primitive-warm-neutral-600);
+
+  /* ── Borders ── */
+  --color-border-default:           var(--primitive-warm-neutral-200);
+  --color-border-subtle:            var(--primitive-warm-neutral-100);
+  --color-border-brand:             var(--primitive-forest-green-500);
+  --color-border-focus:             var(--primitive-forest-green-500);
+
+  /* ── Brand gradient stops (login panel) ── */
+  --color-brand-gradient-dark:      var(--primitive-forest-green-900);
+  --color-brand-gradient-mid:       var(--primitive-forest-green-500);
+  --color-brand-gradient-light:     var(--primitive-forest-green-400);
+}
+} /* @layer theme */
+
+/* Mobile overrides — clamp() handles gutter scaling, so this block is
+ * reserved for any *mobile-only* token differences (none currently). */
