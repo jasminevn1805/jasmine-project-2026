@@ -23,13 +23,19 @@ describe('Image Component', () => {
     rerender(<Image src="/a.png" alt="a" aspectRatio="16:9" />);
     expect(container.firstElementChild?.className).toMatch(/ratio16to9/);
 
+    rerender(<Image src="/a.png" alt="a" aspectRatio="9:16" />);
+    expect(container.firstElementChild?.className).toMatch(/ratio9to16/);
+
     rerender(<Image src="/a.png" alt="a" aspectRatio="Fill" />);
     expect(container.firstElementChild?.className).toMatch(/fill/);
   });
 
   it('applies the object-fit class matching the objectFit prop', () => {
-    render(<Image src="/a.png" alt="a" objectFit="contain" />);
+    const { rerender } = render(<Image src="/a.png" alt="a" objectFit="contain" />);
     expect(screen.getByAltText('a').className).toMatch(/contain/);
+
+    rerender(<Image src="/a.png" alt="a" objectFit="stretch" />);
+    expect(screen.getByAltText('a').className).toMatch(/stretch/);
   });
 
   it('resolves named objectPosition presets to their percentage pair', () => {

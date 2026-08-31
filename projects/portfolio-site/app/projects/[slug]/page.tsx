@@ -89,7 +89,7 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
     return (
       <div className="space-y-3">
         {lines.map((line, i) => (
-          <p key={i} className="text-base text-ink leading-relaxed">{line}</p>
+          <p key={i} className="text-base text-ink leading-relaxed">{renderInlineBold(line)}</p>
         ))}
       </div>
     );
@@ -563,6 +563,111 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
     );
   }
 
+  // Card grid section — Pattern 1: an image-on-top card (image + heading +
+  // body). Pattern 2: a grid of 2, 3, or 4 of those cards, sized via
+  // `columns` (same resolution rule as 'image-grid': explicit `columns`
+  // wins, else 3 cards → 3 cols, otherwise 2 cols).
+  if (section.type === 'card-grid') {
+    const cards = section.cards ?? [];
+    const cardCount = cards.length;
+    const resolvedColumns = section.columns ?? (cardCount === 3 ? 3 : 2);
+    const gridCols =
+      resolvedColumns === 4 ? 'md:grid-cols-4' : resolvedColumns === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2';
+
+    return (
+      <section className={`py-20 px-6 ${outerDivider}`} ref={sectionRef}>
+        <div className={`max-w-screen-2xl mx-auto ${innerDivider}`}>
+          {section.heading && (
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              className="text-2xl md:text-3xl lg:text-4xl font-normal text-ink tracking-tight leading-[1.15] mb-8"
+            >
+              {section.heading}
+            </motion.h2>
+          )}
+          <div className={`grid grid-cols-1 ${gridCols} gap-x-8 gap-y-16`}>
+            {cards.map((card, i) => {
+              const aspectRatio = card.aspectRatio ?? section.imageDefaults?.aspectRatio;
+              const objectFit = card.objectFit ?? section.imageDefaults?.objectFit;
+              const objectPosition = card.objectPosition ?? section.imageDefaults?.objectPosition;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="flex flex-col gap-8"
+                >
+                  <div className="relative bg-surface rounded-xl overflow-hidden shadow-sm group">
+                    {aspectRatio ? (
+                      <>
+                        <DSImage
+                          src={card.image}
+                          alt={card.heading}
+                          aspectRatio={aspectRatio}
+                          objectFit={objectFit ?? 'contain'}
+                          objectPosition={objectPosition}
+                          className={card.image ? 'cursor-zoom-in' : undefined}
+                          onClick={card.image ? () => setLightboxIndex(i) : undefined}
+                        />
+                        {card.image && (
+                          <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                            Click to zoom
+                          </div>
+                        )}
+                      </>
+                    ) : card.image ? (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => setLightboxIndex(i)}
+                          className="block w-full cursor-zoom-in"
+                          aria-label="View full resolution"
+                        >
+                          <img src={card.image} alt={card.heading} className="w-full h-auto block" />
+                        </button>
+                        <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                          Click to zoom
+                        </div>
+                      </>
+                    ) : (
+                      <div className="aspect-square bg-linear-to-br from-surface to-line flex items-center justify-center">
+                        <ImageIcon size={56} className="text-ink opacity-20" aria-hidden />
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-lg md:text-xl font-medium text-ink tracking-tight">{card.heading}</h3>
+                    {Array.isArray(card.body) ? (
+                      <div className="space-y-2">
+                        {card.body.map((line, li) => (
+                          <p key={li} className="text-base text-ink leading-relaxed">
+                            {renderInlineBold(line)}
+                          </p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-base text-ink leading-relaxed">{renderInlineBold(card.body)}</p>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+          {lightboxIndex !== null && cards[lightboxIndex]?.image && (
+            <ImageLightbox
+              src={cards[lightboxIndex].image!}
+              alt={cards[lightboxIndex].heading}
+              onClose={() => setLightboxIndex(null)}
+            />
+          )}
+        </div>
+      </section>
+    );
+  }
+
   // Stats / outcomes grid
   if (section.type === 'stats') {
     return (
@@ -720,17 +825,25 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
 
   // Quote section
   if (section.type === 'quote') {
+    const quoteLines = Array.isArray(section.content) ? section.content : [section.content];
     return (
       <section className={`py-32 px-6 ${outerDivider}`} ref={sectionRef}>
         <div className={`max-w-screen-2xl mx-auto ${innerDivider}`}>
           <div className="max-w-7xl mx-auto text-center">
+            {section.heading && (
+              <p className="text-[11px] md:text-xs uppercase tracking-[0.22em] text-secondary font-medium mb-5">
+                {section.heading}
+              </p>
+            )}
             <motion.blockquote
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
-              className="text-xl md:text-2xl lg:text-3xl font-normal text-ink italic leading-relaxed"
+              className="space-y-4 text-xl md:text-2xl lg:text-3xl font-normal text-ink italic leading-relaxed"
             >
-              {Array.isArray(section.content) ? section.content.join(' ') : section.content}
+              {quoteLines.map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
             </motion.blockquote>
           </div>
         </div>
@@ -815,27 +928,6 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
                   </p>
                 ))}
               </div>
-
-              {/* Live demo CTA — only renders for projects that ship a working URL.
-                  In dev this points at localhost (e.g. http://localhost:3001 for meal-prep);
-                  in production it points at the deployed app. */}
-              {project.link && (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 mt-8 px-5 py-3 rounded-full border border-ink/15 text-sm font-medium text-ink hover:bg-ink hover:text-canvas hover:border-ink transition-colors w-fit"
-                >
-                  <span
-                    className="inline-block w-2 h-2 rounded-full bg-emerald-500 group-hover:bg-emerald-300"
-                    aria-hidden
-                  />
-                  Try the live demo
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-                    <path d="M4 10L10 4M10 4H5M10 4V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </a>
-              )}
             </motion.div>
           </div>
         </div>
@@ -869,9 +961,9 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
             initial={{ opacity: 0, y: 30 }}
             animate={descriptionInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="w-fit max-w-full"
+            className="w-full flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-10 text-left">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-10 text-left flex-1">
               <div className="min-w-0">
                 <h3 className="text-[11px] uppercase tracking-[0.22em] text-secondary mb-3 font-medium">ROLE AND CONTRIBUTION</h3>
                 <div className="text-sm md:text-base text-ink leading-relaxed space-y-1">
@@ -899,6 +991,27 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
                 </div>
               </div>
             </div>
+
+            {/* Live demo CTA — only renders for projects that ship a working URL.
+                In dev this points at localhost (e.g. http://localhost:3001 for cookstash);
+                in production it points at the deployed app. */}
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 px-5 py-3 rounded-full border border-ink/15 text-sm font-medium text-ink hover:bg-ink hover:text-canvas hover:border-ink transition-colors w-fit shrink-0"
+              >
+                <span
+                  className="inline-block w-2 h-2 rounded-full bg-emerald-500 group-hover:bg-emerald-300"
+                  aria-hidden
+                />
+                Try the live demo
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+                  <path d="M4 10L10 4M10 4H5M10 4V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+            )}
           </motion.div>
         </div>
       </section>

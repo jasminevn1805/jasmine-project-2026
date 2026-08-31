@@ -1,9 +1,9 @@
 import type { ProjectData } from './types';
 
-export const mealPrepVer1: ProjectData = {
-  slug: 'meal-prep-ver1',
+export const cookstashVer1: ProjectData = {
+  slug: 'cookstash-ver1',
   title: 'Crafting a web app that closes the loop from recipe inspiration to meal prep',
-  overviewHeadline: 'Meal Prep',
+  overviewHeadline: 'Cookstash',
   services: [
     'Product Strategy',
     'Interaction Design',
@@ -34,7 +34,7 @@ export const mealPrepVer1: ProjectData = {
         "I read every product the same way: what job does it own, where does it drop the user, and what does it quietly assume? Deliberately broad, not a deep teardown — going too deep on a near-identical app early just inherits its assumptions.",
         'The pattern was consistent, and it pointed to a clear opening. The concept was worth building — so I moved forward.',
       ],
-      image: '/case-study/meal-prep/mp-market-landscape.svg',
+      image: '/case-study/cookstash/mp-market-landscape.svg',
       layout: 'right',
     },
     {
@@ -66,7 +66,7 @@ export const mealPrepVer1: ProjectData = {
         "Maya, 28, works in tech. Full days, short evenings. She loves food, but by 7 PM she's tired and the fridge is bare. She discovers recipes on TikTok and Instagram, saves the ones she loves, and improvises a weekly plan in her Notes app.",
         "She has already built her own workaround — the strongest sign the need is real and unmet. What she wants is simple to say and hard to find: one home for her recipes, a fast way to plan them, and a grocery list that just appears.",
       ],
-      image: '/case-study/meal-prep/mp-persona-maya.svg',
+      image: '/case-study/cookstash/mp-persona-maya.svg',
       layout: 'left',
     },
     {
@@ -89,7 +89,7 @@ export const mealPrepVer1: ProjectData = {
         'It landed as recognition, not curiosity — "I literally do this in my Notes app." The core loop was solving a felt problem, not a clever one.',
         "The interviews also sharpened the edges: saving has to be effortless, people want to stay in control of their data, and the most-wanted feature was sharing with a partner. Those signals became the constraints I designed around — and gave me a persona I could trust.",
       ],
-      image: '/case-study/meal-prep/mp-validation-signals.svg',
+      image: '/case-study/cookstash/mp-validation-signals.svg',
       layout: 'right',
     },
     {
@@ -109,7 +109,7 @@ export const mealPrepVer1: ProjectData = {
         'Market research, persona, and validation converge on one precise problem: the loop from inspiration to dinner breaks in three places.',
         'Saves scatter across platforms with no shared home. Planning happens by hand, disconnected from those saves. The grocery list is rebuilt from memory every week. Each broken stage compounds the next — inspiration expires, effort repeats, the habit never forms.',
       ],
-      image: '/case-study/meal-prep/mp-broken-loop.svg',
+      image: '/case-study/cookstash/mp-broken-loop.svg',
       layout: 'right',
     },
     {
@@ -156,7 +156,7 @@ export const mealPrepVer1: ProjectData = {
     },
     {
       type: 'image',
-      image: '/case-study/meal-prep/mp-v1-scope.png',
+      image: '/case-study/cookstash/mp-v1-scope.png',
     },
     {
       type: 'text-image',
@@ -166,7 +166,7 @@ export const mealPrepVer1: ProjectData = {
         "State lives in five focused Zustand stores, each localStorage-persisted: recipes, planner, grocery, categories, auth. Splitting by domain keeps every store small and stops a change in grocery logic from rippling into the planner.",
         'The domain types mirror a future database schema — ISO dates, UUID keys, nullable where a column would be. V2 can swap localStorage for a real backend without rewriting the UI.',
       ],
-      image: '/case-study/meal-prep/mp-architecture-stores.svg',
+      image: '/case-study/cookstash/mp-architecture-stores.svg',
       layout: 'right',
     },
     {
@@ -176,7 +176,7 @@ export const mealPrepVer1: ProjectData = {
         "Before building any feature, I mapped Maya's two real behaviors end to end: the spontaneous \"save it to cook later,\" and the deliberate \"plan a week of meals.\"",
         "I grounded every friction point in observable behavior, not stated preference. Watching both flows is where the friction surfaced — not in discovery, but in everything after it — which turned the problem into a build order.",
       ],
-      image: '/case-study/meal-prep/mp-journey-method.svg',
+      image: '/case-study/cookstash/mp-journey-method.svg',
       layout: 'right',
     },
     {
@@ -226,7 +226,7 @@ export const mealPrepVer1: ProjectData = {
         "But a public URL-fetcher is a security surface. The route blocks internal addresses (SSRF protection), times out at five seconds, and runs a three-tier check on unknown domains — Schema.org Recipe data, then cooking keywords, then reject — so it only ingests real recipe pages.",
         'OG data is inconsistent, so an edit drawer is always one tap away: optimise the 90% paste-and-done path, make the 10% fixable.',
       ],
-      image: '/case-study/meal-prep/mp-og-fetch.svg',
+      image: '/case-study/cookstash/mp-og-fetch.svg',
       layout: 'left',
     },
     {
@@ -237,15 +237,15 @@ export const mealPrepVer1: ProjectData = {
         'Rather than build two systems, I modelled both as a discriminated union — CalendarPlan | FreeformPlan — over one store. The mode field narrows the type, so each planner gets exactly the fields it needs and the compiler enforces the difference.',
         'The hardest piece was copy-week: it maps by day-of-week, not by date, and merges non-destructively, so it never silently overwrites an existing plan.',
       ],
-      image: '/case-study/meal-prep/mp-two-planners.svg',
+      image: '/case-study/cookstash/mp-two-planners.svg',
       layout: 'right',
     },
     {
       type: 'image-grid',
       images: [
-        '/case-study/meal-prep/mp-screen-library.svg',
-        '/case-study/meal-prep/mp-screen-planner.svg',
-        '/case-study/meal-prep/mp-screen-grocery.svg',
+        '/case-study/cookstash/mp-screen-library.svg',
+        '/case-study/cookstash/mp-screen-planner.svg',
+        '/case-study/cookstash/mp-screen-grocery.svg',
       ],
       captions: [
         'Library — every save in one searchable home, filterable by ingredient and source.',
@@ -297,8 +297,8 @@ export const mealPrepVer1: ProjectData = {
   ],
 
   images: ['', ''],
-  imageLabels: ['Meal Prep — desktop', 'Meal Prep — mobile'],
-  // In dev, point at the local meal-prep server (port 3001).
+  imageLabels: ['Cookstash — desktop', 'Cookstash — mobile'],
+  // In dev, point at the local cookstash server (port 3001).
   // NODE_ENV is statically inlined by Next.js at build time.
   link:
     process.env.NODE_ENV === 'development'

@@ -94,7 +94,7 @@
   --spacing-6xl: 120px;
 
   /* ── Shadows / Elevation ──────────────────────────── */
-  /* Mirrors meal-prep's elevation language (soft, large */
+  /* Mirrors cookstash's elevation language (soft, large */
   /* blur, low opacity) but tinted with --color-ink via  */
   /* color-mix so shadows harmonize with the cool        */
   /* neutral palette instead of going pure black.        */

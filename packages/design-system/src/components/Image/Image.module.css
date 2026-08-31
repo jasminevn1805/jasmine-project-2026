@@ -34,6 +34,24 @@
   aspect-ratio: 16 / 10;
 }
 
+/* Portrait counterparts — each one the vertical mirror of its landscape
+   sibling above, for portrait sources (screenshots, mobile UI). */
+.ratio3to4 {
+  aspect-ratio: 3 / 4;
+}
+
+.ratio4to5 {
+  aspect-ratio: 4 / 5;
+}
+
+.ratio9to16 {
+  aspect-ratio: 9 / 16;
+}
+
+.ratio10to16 {
+  aspect-ratio: 10 / 16;
+}
+
 /* Fill: no fixed ratio — stretches to whatever box (flex/grid cell) it's placed in */
 .fill {
   height: 100%;
@@ -51,6 +69,10 @@
 
 .contain {
   object-fit: contain;
+}
+
+.stretch {
+  object-fit: fill;
 }
 
 .placeholder {

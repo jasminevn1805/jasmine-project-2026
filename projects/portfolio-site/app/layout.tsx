@@ -25,9 +25,9 @@ export default function RootLayout({
     // is populated for it today, since portfolio uses its own semantic
     // vocabulary (--color-ink etc, not the DS's --color-text-primary etc.),
     // not the DS's semantic tokens directly. This keeps the identification
-    // consistent with meal-prep and leaves the door open if that changes.
+    // consistent with cookstash and leaves the door open if that changes.
     //
-    // No data-mode: unlike meal-prep, there's no dark-mode design for
+    // No data-mode: unlike cookstash, there's no dark-mode design for
     // portfolio anywhere (no dark palette, no toggle, nothing) - an
     // explicit decision to stay light-only for now, not an oversight.
     <html lang="en" data-theme="portfolio" className="scroll-smooth">

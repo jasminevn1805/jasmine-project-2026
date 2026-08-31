@@ -25,16 +25,16 @@ const projects: Project[] = [
     github: 'https://github.com/jasminehoang/design-system',
   },
   {
-    slug: 'meal-prep-ver1',
-    title: 'Meal Prep Planner',
+    slug: 'cookstash-ver1',
+    title: 'Cookstash',
     category: 'Consumer Product · Next.js · Zustand · Tailwind',
     description:
       'A responsive web app that turns scattered social-media recipe saves into organized meal plans and smart grocery lists.',
     image: '/mp-hero.jpg',
   },
   {
-    slug: 'meal-prep-ver2',
-    title: 'Meal Prep Planner',
+    slug: 'cookstash-ver2',
+    title: 'Cookstash',
     category: 'Consumer Product · Next.js · Zustand · Tailwind',
     description:
       'A responsive web app that turns scattered social-media recipe saves into organized meal plans and smart grocery lists.',

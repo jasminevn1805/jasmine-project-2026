@@ -5,12 +5,32 @@ import styles from './Image.module.css';
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 
 /**
- * Aspect ratio variant — matches Figma "Image" component (node 75026:34010).
+ * Aspect ratio variant. The landscape set (`4:3` · `5:4` · `16:9` · `16:10`)
+ * matches Figma "Image" component (node 75026:34010); the portrait set
+ * (`3:4` · `4:5` · `9:16` · `10:16`) is each landscape ratio's vertical
+ * mirror, added for portrait sources (screenshots, mobile UI) that would
+ * otherwise have to force-fit a landscape box. `1:1` covers both orientations.
  * `Fill` applies no fixed ratio; the image fills whatever box it's placed in.
  */
-export type ImageAspectRatio = '1:1' | '4:3' | '5:4' | '16:9' | '16:10' | 'Fill';
+export type ImageAspectRatio =
+  | '1:1'
+  | '4:3'
+  | '5:4'
+  | '16:9'
+  | '16:10'
+  | '3:4'
+  | '4:5'
+  | '9:16'
+  | '10:16'
+  | 'Fill';
 
-export type ImageObjectFit = 'cover' | 'contain';
+/** How the image fills a fixed-ratio box. `cover` crops to fill; `contain`
+ *  letterboxes to stay uncropped; `stretch` fills exactly with no crop and no
+ *  letterbox by distorting the source to match the box (CSS `object-fit: fill`)
+ *  — the right call when a slight distortion reads better than empty space or
+ *  lost content, e.g. UI-mockup screenshots whose ratio is already close to
+ *  the box's. */
+export type ImageObjectFit = 'cover' | 'contain' | 'stretch';
 
 /** Named focal-point presets — the common cases, as plain percentages under
  *  the hood (e.g. 'top-left' → '0% 0%'). Not a closed set: any other string
@@ -62,6 +82,10 @@ const RATIO_CLASS: Record<ImageAspectRatio, string> = {
   '5:4': 'ratio5to4',
   '16:9': 'ratio16to9',
   '16:10': 'ratio16to10',
+  '3:4': 'ratio3to4',
+  '4:5': 'ratio4to5',
+  '9:16': 'ratio9to16',
+  '10:16': 'ratio10to16',
   Fill: 'fill',
 };
 
@@ -81,8 +105,9 @@ const OBJECT_POSITION_PRESETS: Record<ImageObjectPositionPreset, string> = {
  * Image component — Jasmine Design System
  *
  * A fixed-aspect-ratio image frame with a placeholder fill state for when
- * `src` isn't available yet. Matches Figma "Image" component variants:
- * 1:1 · 4:3 · 5:4 · 16:9 · 16:10 · Fill.
+ * `src` isn't available yet. Landscape variants match Figma "Image" component
+ * (node 75026:34010): 1:1 · 4:3 · 5:4 · 16:9 · 16:10 · Fill. Portrait variants
+ * (3:4 · 4:5 · 9:16 · 10:16) mirror those ratios vertically.
  *
  * This component is presentational only — no lightbox/zoom behavior. Pass
  * `onClick` to compose that at the call site.

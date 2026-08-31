@@ -161,7 +161,7 @@ export const designSystemDraft: ProjectData = {
         },
         {
           summary: 'Override via the CSS cascade, not new components.',
-          body: "A project wanting its own brand overrides those same variable names, scoped with a data-theme attribute — meal-prep's theme.css reassigns ~30 variables to its own primitives. Components never know which theme set the value.",
+          body: "A project wanting its own brand overrides those same variable names, scoped with a data-theme attribute — cookstash's theme.css reassigns ~30 variables to its own primitives. Components never know which theme set the value.",
         },
         {
           summary: 'Adoption depth is a choice, by design.',
@@ -274,8 +274,8 @@ export const designSystemDraft: ProjectData = {
         '/case-study/design-system/ds-components-icons.png',
       ],
       captions: [
-        'meal-prep: Button imported directly from @jasmine/design-system — full component adoption, no local copy.',
-        "theme.css — meal-prep's override of the default theme, scoped to [data-theme=\"meal-prep\"], referencing only the DS's own primitive variables.",
+        'cookstash: Button imported directly from @jasmine/design-system — full component adoption, no local copy.',
+        "theme.css — cookstash's override of the default theme, scoped to [data-theme=\"cookstash\"], referencing only the DS's own primitive variables.",
         "This portfolio's own Tailwind theme layer — built on primitive values re-exported from the DS, with its own semantic naming on top.",
         'The portfolio folder tree — a separate component layer by choice, still tracing its raw values back to one source.',
       ],
@@ -289,7 +289,7 @@ export const designSystemDraft: ProjectData = {
         { value: '9', label: 'Components', note: 'Button, Input, Select, Checkbox, Radio, Textarea, Modal, Accordion, ScrollTabBar' },
         { value: '720', label: 'CSS custom properties', note: 'Generated from 9 Figma variable collections — not hand-written' },
         { value: '~30', label: 'Variables per theme override', note: 'Only what differs from the default theme. One file, full brand control.' },
-        { value: '2', label: 'Products consuming it', note: 'Full adoption (Meal Prep) + primitive-layer adoption (this portfolio site)' },
+        { value: '2', label: 'Products consuming it', note: 'Full adoption (Cookstash) + primitive-layer adoption (this portfolio site)' },
         { value: '1/3–1/2', label: 'Less build time on the full-adoption product', note: 'Prototyping with real interactive components replaces static mocks from day one' },
         { value: '0', label: 'Token drift', note: "What's in Figma is what ships. Always." },
       ],

@@ -22,10 +22,12 @@ export interface ListItem {
   body: string | string[];
 }
 
-// Re-exported from the design system rather than redefined here — it's the
-// actual variant set of the Figma "Image" component (node 75026:34010), the
-// single source of truth. Previously this was a locally-invented preset list;
-// that's gone now that a real DS component exists to draw from instead.
+// Re-exported from the design system rather than redefined here — the DS
+// Image component is the single source of truth. Its landscape ratios match
+// the Figma "Image" component (node 75026:34010); its portrait ratios (3:4,
+// 4:5, 9:16, 10:16) mirror those vertically for portrait sources. Previously
+// this was a locally-invented preset list; that's gone now that a real DS
+// component exists to draw from instead.
 export type { ImageAspectRatio, ImageObjectFit, ImageObjectPosition } from '@jasmine/design-system';
 import type { ImageAspectRatio, ImageObjectFit, ImageObjectPosition } from '@jasmine/design-system';
 
@@ -58,8 +60,17 @@ export interface ImageGridItem extends ImageRenderOptions {
   src: string;
 }
 
+/** One card in a 'card-grid' — image on top, heading + body below. `image`
+ *  plus any of `imageDefaults`'s fields overrides the section-wide default
+ *  for just this card, same override convention as `ImageGridItem`. */
+export interface CardGridItem extends ImageRenderOptions {
+  image?: string;
+  heading: string;
+  body: string | string[];
+}
+
 export interface ContentSection {
-  type: 'text' | 'image' | 'text-image' | 'image-grid' | 'quote' | 'stats' | 'journey' | 'list' | 'list-image' | 'section-group';
+  type: 'text' | 'image' | 'text-image' | 'image-grid' | 'card-grid' | 'quote' | 'stats' | 'journey' | 'list' | 'list-image' | 'section-group';
   heading?: string;
   groupNumber?: number;
   content?: string | string[];
@@ -72,24 +83,28 @@ export interface ContentSection {
    *  for "inherit every `imageDefaults` field," an object when a specific
    *  tile needs to override one or more of them. */
   images?: (string | ImageGridItem)[];
+  /** Cards for a 'card-grid' section — Pattern 1 (image on top, heading +
+   *  body below), arranged per Pattern 2 via `columns`. */
+  cards?: CardGridItem[];
   captions?: string[];
   layout?: 'left' | 'right' | 'split';
   /** `aspectRatio` / `objectFit` / `objectPosition` for this section's image(s).
    *  For 'image', 'text-image', 'list-image': applies to the single `image`.
-   *  For 'image-grid': grid-wide default, used by every tile that doesn't
-   *  override that field via its own `ImageGridItem` entry. Whenever a fixed
-   *  ratio resolves (here, or per-tile in a grid), rendering goes through the
-   *  real DS `Image` component. Omit `aspectRatio` (here, and per-tile for a
-   *  grid) to keep raw-<img>, natural-aspect-ratio rendering — required when
-   *  there's no sensible fixed box (e.g. grid tiles that don't share a common
-   *  ratio). Ignored when `arrangement: 'row'` (always natural ratio there). */
+   *  For 'image-grid' / 'card-grid': grid-wide default, used by every tile/card
+   *  that doesn't override that field via its own `ImageGridItem` / `CardGridItem`
+   *  entry. Whenever a fixed ratio resolves (here, or per-tile in a grid),
+   *  rendering goes through the real DS `Image` component. Omit `aspectRatio`
+   *  (here, and per-tile for a grid) to keep raw-<img>, natural-aspect-ratio
+   *  rendering — required when there's no sensible fixed box (e.g. grid tiles
+   *  that don't share a common ratio). Ignored when `arrangement: 'row'`
+   *  (always natural ratio there; 'card-grid' doesn't support 'row'). */
   imageDefaults?: ImageRenderOptions;
-  /** Force an 'image-grid' to a specific number of columns per row (2, 3, or 4),
-   *  independent of how many images are in the grid — e.g. 4 images at columns: 2
-   *  renders as 2 rows of 2; 4 images at columns: 4 renders as one row of 4; 3
-   *  images at columns: 2 renders as a row of 2 + a row of 1. Omit to keep the
-   *  default auto behavior (2 images → 2 cols, 3 images → 3 cols, otherwise 2 cols).
-   *  Ignored when `arrangement: 'row'`. */
+  /** Force an 'image-grid' or 'card-grid' to a specific number of columns per
+   *  row (2, 3, or 4), independent of how many images/cards there are — e.g. 4
+   *  items at columns: 2 renders as 2 rows of 2; 4 items at columns: 4 renders
+   *  as one row of 4; 3 items at columns: 2 renders as a row of 2 + a row of 1.
+   *  Omit to keep the default auto behavior (2 items → 2 cols, 3 items → 3
+   *  cols, otherwise 2 cols). Ignored when `arrangement: 'row'`. */
   columns?: 2 | 3 | 4;
   /** 'grid' (default): equal-WIDTH tiles — every image forced into the same box
    *  (via a resolved `aspectRatio`) or its own natural ratio if none resolves.

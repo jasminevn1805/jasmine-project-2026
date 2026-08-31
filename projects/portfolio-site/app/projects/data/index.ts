@@ -3,8 +3,8 @@ export type { StatItem, JourneyStep, JourneyScenario, ContentSection, ProjectDat
 import type { ProjectData } from './types';
 import { designSystem } from './design-system';
 import { designSystemDraft } from './design-system-draft';
-import { mealPrepVer1 } from './meal-prep-ver1';
-import { mealPrepVer2 } from './meal-prep-ver2';
+import { cookstashVer1 } from './cookstash-ver1';
+import { cookstashVer2 } from './cookstash-ver2';
 import { ecommercePlatform } from './ecommerce-platform';
 import { datalabDashboard } from './datalab-dashboard';
 import { portfolioWebsite } from './portfolio-website';
@@ -14,8 +14,8 @@ import { dermago } from './dermago';
 export const projects: Record<string, ProjectData> = {
   'design-system': designSystem,
   'design-system-draft': designSystemDraft,
-  'meal-prep-ver1': mealPrepVer1,
-  'meal-prep-ver2': mealPrepVer2,
+  'cookstash-ver1': cookstashVer1,
+  'cookstash-ver2': cookstashVer2,
   'ecommerce-platform': ecommercePlatform,
   'datalab-dashboard': datalabDashboard,
   'portfolio-website': portfolioWebsite,

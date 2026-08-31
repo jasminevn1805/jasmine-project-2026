@@ -46,13 +46,13 @@ const meta: Meta<ImageStoryProps> = {
     },
     aspectRatio: {
       control: 'select',
-      options: ['1:1', '4:3', '5:4', '16:9', '16:10', 'Fill'],
-      description: 'Aspect ratio variant — matches Figma "Image" component',
+      options: ['1:1', '4:3', '5:4', '16:9', '16:10', '3:4', '4:5', '9:16', '10:16', 'Fill'],
+      description: 'Aspect ratio variant — landscape set matches Figma "Image" component; portrait set mirrors it vertically',
     },
     objectFit: {
       control: 'select',
-      options: ['cover', 'contain'],
-      description: 'How the image fills its box',
+      options: ['cover', 'contain', 'stretch'],
+      description: 'How the image fills its box — cover crops, contain letterboxes, stretch distorts to fill exactly',
     },
     objectPosition: {
       control: 'text',
@@ -124,6 +124,42 @@ export const Ratio16to10: Story = {
   args: { src: SAMPLE_SRC, alt: 'Sample illustration', aspectRatio: '16:10' },
 };
 
+export const Ratio3to4: Story = {
+  render: (args) => (
+    <div style={{ width: 240 }}>
+      <Image {...args} />
+    </div>
+  ),
+  args: { src: PORTRAIT_SRC, alt: 'Sample illustration', aspectRatio: '3:4' },
+};
+
+export const Ratio4to5: Story = {
+  render: (args) => (
+    <div style={{ width: 240 }}>
+      <Image {...args} />
+    </div>
+  ),
+  args: { src: PORTRAIT_SRC, alt: 'Sample illustration', aspectRatio: '4:5' },
+};
+
+export const Ratio9to16: Story = {
+  render: (args) => (
+    <div style={{ width: 200 }}>
+      <Image {...args} />
+    </div>
+  ),
+  args: { src: PORTRAIT_SRC, alt: 'Sample illustration', aspectRatio: '9:16' },
+};
+
+export const Ratio10to16: Story = {
+  render: (args) => (
+    <div style={{ width: 200 }}>
+      <Image {...args} />
+    </div>
+  ),
+  args: { src: PORTRAIT_SRC, alt: 'Sample illustration', aspectRatio: '10:16' },
+};
+
 export const Fill: Story = {
   render: (args) => (
     <div style={{ width: 320, height: 200 }}>
@@ -142,6 +178,19 @@ export const ObjectFitContain: Story = {
   args: { src: SAMPLE_SRC, alt: 'Sample illustration', aspectRatio: '1:1', objectFit: 'contain' },
 };
 
+// stretch: fills the box exactly with no crop and no letterbox, by distorting
+// the source to match — a deliberate trade when the source ratio is already
+// close to the box's, so the distortion is barely visible but the empty
+// space (contain) or lost edges (cover) would be more noticeable.
+export const ObjectFitStretch: Story = {
+  render: (args) => (
+    <div style={{ width: 320, height: 200 }}>
+      <Image {...args} />
+    </div>
+  ),
+  args: { src: PORTRAIT_SRC, alt: 'Sample illustration', aspectRatio: 'Fill', objectFit: 'stretch' },
+};
+
 // All Aspect Ratios Comparison
 export const AllAspectRatios: Story = {
   render: () => (
@@ -152,6 +201,20 @@ export const AllAspectRatios: Story = {
           <div style={{ height: ratio === 'Fill' ? 160 : undefined }}>
             <Image src={SAMPLE_SRC} alt={`${ratio} example`} aspectRatio={ratio} />
           </div>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+// Portrait ratios — each one the vertical mirror of a landscape ratio above.
+export const AllPortraitRatios: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', maxWidth: 900 }}>
+      {(['3:4', '4:5', '9:16', '10:16'] as const).map((ratio) => (
+        <div key={ratio}>
+          <div style={{ marginBottom: 8, fontSize: 12, color: '#666' }}>{ratio}</div>
+          <Image src={PORTRAIT_SRC} alt={`${ratio} example`} aspectRatio={ratio} />
         </div>
       ))}
     </div>
