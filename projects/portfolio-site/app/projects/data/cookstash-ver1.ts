@@ -303,5 +303,5 @@ export const cookstashVer1: ProjectData = {
   link:
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:3001'
-      : 'https://meal-prep.jasminehoang.com',
+      : 'https://cookstash.phuonghoang.ca',
 };
