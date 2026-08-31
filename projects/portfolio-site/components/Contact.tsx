@@ -9,11 +9,8 @@ export default function Contact() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   const socials = [
-    { name: 'GitHub', url: 'https://github.com/yourusername', icon: '→' },
-    { name: 'LinkedIn', url: 'https://linkedin.com/in/yourusername', icon: '→' },
-    { name: 'Twitter', url: 'https://twitter.com/yourusername', icon: '→' },
-    { name: 'Instagram', url: 'https://instagram.com/yourusername', icon: '→' },
-    { name: 'Dribbble', url: 'https://dribbble.com/yourusername', icon: '→' },
+    { name: 'GitHub', url: 'https://github.com/jasminevn1805/jasmine-project-2026', icon: '→' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/phuondhtt', icon: '→' },
   ];
 
   return (
@@ -34,7 +31,7 @@ export default function Contact() {
             Have a project in mind? Let&apos;s create something amazing together.
           </p>
           <a
-            href="mailto:hello@jasminehoang.com"
+            href="mailto:jasminevn1805@gmail.com"
             className="inline-block px-12 py-6 bg-ink text-white text-base md:text-lg font-semibold hover:bg-secondary transition-all duration-300 transform hover:scale-105 tracking-wide"
           >
             GET IN TOUCH
@@ -85,12 +82,12 @@ export default function Contact() {
               </h3>
               <div className="space-y-3 text-lg md:text-xl">
                 <a
-                  href="mailto:hello@jasminehoang.com"
+                  href="mailto:jasminevn1805@gmail.com"
                   className="block hover:text-secondary transition-colors"
                 >
-                  hello@jasminehoang.com
+                  jasminevn1805@gmail.com
                 </a>
-                <p className="text-ink">San Francisco, CA</p>
+                <p className="text-ink">Calgary, Canada</p>
               </div>
             </motion.div>
           </div>

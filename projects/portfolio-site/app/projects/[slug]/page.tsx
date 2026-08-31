@@ -1089,9 +1089,7 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
         <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-secondary">
           <p>© 2026 All Rights Reserved.</p>
           <div className="flex gap-6">
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors">Twitter</a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors">LinkedIn</a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors">Instagram</a>
+            <a href="https://www.linkedin.com/in/phuondhtt" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors">LinkedIn</a>
           </div>
         </div>
       </footer>

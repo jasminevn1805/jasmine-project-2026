@@ -8,37 +8,66 @@ interface Project {
   slug: string;
   title: string;
   category: string;
+  subtitle?: string;
   description: string;
   image: string;
   link?: string;
   github?: string;
+  /** When true, the card shows "Coming Soon" on hover instead of "View
+   *  case study" and isn't clickable — for projects whose case-study page
+   *  isn't finished yet. Remove this flag once the page is ready. */
+  comingSoon?: boolean;
 }
 
 const projects: Project[] = [
   {
-    slug: 'design-system',
-    title: 'React Design System',
-    category: 'Design Systems · Figma API · React · Storybook',
+    slug: 'datalab-dashboard',
+    title: 'Datalab Dashboard',
+    category: 'B2B SaaS · UX Research · Problem Framing · Information Architecture',
+    subtitle: 'Turning fragmented business data into confident decisions',
     description:
-      'A token-driven component library — 1,000+ design tokens auto-generated from Figma, five production-ready components, and a one-command sync pipeline.',
-    image: '/ds-hero.jpg',
-    github: 'https://github.com/jasminehoang/design-system',
+      "A request for broad dashboard design revealed three distinct decision-making needs. I restructured the experience around the questions each business area needed to answer.",
+    image: '/site/dd-thumbnail.png',
+    link: 'https://www.biggeo.com/products/datalab',
   },
   {
+    slug: 'cookstash-ver2',
+    title: 'Cookstash',
+    category: 'Consumer Product · Product Strategy · Interactive Prototype · Claude Code',
+    subtitle: 'Turning fragmented business data into confident decisions',
+    description:
+    'Cookstash transforms scattered recipe saves into an organized library, meal plans, and grocery lists — connecting the entire journey from inspiration to execution.',
+    image: '/site/cs-thumbnail.png',
+  },
+  {
+    slug: 'design-system',
+    title: 'React Design System',
+    category: 'Design Systems · Foundation Structure · React · Storybook',
+    subtitle: 'Connecting design intent to production code',
+    description:
+      'A token-driven design system that creates a shared foundation between Figma and React — reducing the gap between design and implementation.',
+    image: '/site/ds-thumbnail.png',
+    github: 'https://github.com/jasminevn1805/jasmine-project-2026',
+    comingSoon: true,
+  },
+  {
+    slug: 'dermago',
+    title: 'Dermago',
+    category: 'Digital Health · UX Research · Design Systems',
+    subtitle: 'Simplying asynchronous dermatology',
+    description:
+      'An asynchronous, chat-based telemedicine app that replaces the three-week wait for a five-minute appointment with a photo, a symptom, and a diagnosis — no waiting room required.',
+    image: '/site/dm-thumbnail.png',
+    link: 'https://orohealth.me',
+    comingSoon: true,
+  },
+  /*{
     slug: 'cookstash-ver1',
     title: 'Cookstash',
     category: 'Consumer Product · Next.js · Zustand · Tailwind',
     description:
       'A responsive web app that turns scattered social-media recipe saves into organized meal plans and smart grocery lists.',
-    image: '/mp-hero.jpg',
-  },
-  {
-    slug: 'cookstash-ver2',
-    title: 'Cookstash',
-    category: 'Consumer Product · Next.js · Zustand · Tailwind',
-    description:
-      'A responsive web app that turns scattered social-media recipe saves into organized meal plans and smart grocery lists.',
-    image: '/mp-hero.jpg',
+    image: '/site/mp-hero.jpg',
   },
   {
     slug: 'ecommerce-platform',
@@ -46,26 +75,8 @@ const projects: Project[] = [
     category: 'UX Redesign · React · Performance',
     description:
       'A complete redesign of a luxury fashion e-commerce platform that reduced cart abandonment by 35% and doubled page load speed.',
-    image: '/ecommerce-hero.jpg',
+    image: '/site/ecommerce-hero.jpg',
     link: 'https://luxeandco.com',
-  },
-  {
-    slug: 'datalab-dashboard',
-    title: 'Datalab Dashboard: Turning Fragmented Data into Confident Decisions',
-    category: 'B2B SaaS · UX Research · Information Architecture',
-    description:
-      "A single, information-dense dashboard request turned into three focused experiences — Credit Consumption, Sales Performance, and Channel Performance — each built around the question that business area actually needs answered.",
-    image: '/case-study/datalab-dashboard/dd-design-secision-01-current-credit.png',
-    link: 'https://www.biggeo.com/products/datalab',
-  },
-  {
-    slug: 'dermago',
-    title: 'Dermago',
-    category: 'Digital Health · UX Research · Design Systems',
-    description:
-      'An asynchronous, chat-based telemedicine app that replaces the three-week wait for a five-minute appointment with a photo, a symptom, and a diagnosis — no waiting room required.',
-    image: '/dermago-hero.jpg',
-    link: 'https://orohealth.me',
   },
   {
     slug: 'portfolio-website',
@@ -73,10 +84,40 @@ const projects: Project[] = [
     category: 'Brand · Next.js · Framer Motion',
     description:
       "A minimalist, performance-first personal site — the portfolio you're looking at right now.",
-    image: '/portfolio-hero.jpg',
+    image: '/site/portfolio-hero.jpg',
     github: 'https://github.com/jasminehoang/portfolio',
-  },
+  },*/
 ];
+
+// Renders `project.image` when it loads; falls back to the gradient/emoji
+// placeholder on a missing file (most `image` paths above aren't in
+// public/ yet) instead of showing a broken image icon.
+function ProjectCardImage({ src, alt }: { src: string; alt: string }) {
+  const [errored, setErrored] = useState(false);
+
+  if (errored) {
+    return (
+      <div className="w-full h-full bg-linear-to-br from-surface to-line flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+        <span className="text-6xl opacity-20">🎨</span>
+      </div>
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setErrored(true)}
+      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+  );
+}
+
+// With 3 or fewer projects, a full row already shows everything, so the
+// infinite-loop slide has nothing to loop through — self-disables here and
+// comes back on its own once more projects are uncommented above.
+const CAROUSEL_ENABLED = projects.length > 3;
 
 export default function Projects() {
   const ref = useRef(null);
@@ -87,7 +128,7 @@ export default function Projects() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Triple the cards for seamless infinite loop
-  const infiniteProjects = [...projects, ...projects, ...projects];
+  const infiniteProjects = CAROUSEL_ENABLED ? [...projects, ...projects, ...projects] : projects;
 
   // Refs to mutable state used inside the slide function
   const translateRef = useRef(0);
@@ -135,6 +176,8 @@ export default function Projects() {
   };
 
   useEffect(() => {
+    if (!CAROUSEL_ENABLED) return;
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -164,7 +207,7 @@ export default function Projects() {
   const intro =
     total <= 3
       ? 'A focused selection — each one chosen to show a different facet of how I work: from research and systems thinking to shipping production-ready code.'
-      : 'A cross-section of recent work across B2B and B2C — design systems, consumer products, and end-to-end shipped experiences. Each card tells a small story; click in for the full case study.';
+      : 'A selection of product work spanning complex B2B systems, consumer experiences, design systems, and data-heavy products.';
 
   return (
     <section
@@ -194,40 +237,44 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        {/* Counter + arrows */}
-        <div className="flex items-center justify-between mb-6">
-          <p
-            className="text-[11px] uppercase tracking-[0.22em] text-secondary font-medium tabular-nums"
-            aria-live="polite"
-          >
-            <span className="text-ink">
-              {String(activeIndex + 1).padStart(2, '0')}
-            </span>
-            <span className="mx-2 text-muted">/</span>
-            <span>{String(total).padStart(2, '0')}</span>
-          </p>
+        {/* Counter + arrows — meaningless without the loop, so only shown
+            while the carousel is actually enabled. */}
+        {CAROUSEL_ENABLED && (
+          <div className="flex items-center justify-between mb-6">
+            <p
+              className="text-[11px] uppercase tracking-[0.22em] text-secondary font-medium tabular-nums"
+              aria-live="polite"
+            >
+              <span className="text-ink">
+                {String(activeIndex + 1).padStart(2, '0')}
+              </span>
+              <span className="mx-2 text-muted">/</span>
+              <span>{String(total).padStart(2, '0')}</span>
+            </p>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => slide(-1)}
-              aria-label="Previous project"
-              className="w-10 h-10 rounded-full border border-line text-ink hover:border-ink transition-colors flex items-center justify-center"
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              onClick={() => slide(1)}
-              aria-label="Next project"
-              className="w-10 h-10 rounded-full border border-line text-ink hover:border-ink transition-colors flex items-center justify-center"
-            >
-              →
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => slide(-1)}
+                aria-label="Previous project"
+                className="w-10 h-10 rounded-full border border-line text-ink hover:border-ink transition-colors flex items-center justify-center"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                onClick={() => slide(1)}
+                aria-label="Next project"
+                className="w-10 h-10 rounded-full border border-line text-ink hover:border-ink transition-colors flex items-center justify-center"
+              >
+                →
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Carousel — transform-based smooth auto-scroll */}
+        {/* Carousel — transform-based smooth auto-scroll when enabled;
+            static row when disabled (see CAROUSEL_ENABLED above). */}
         <div className="relative -mx-6 px-6 overflow-hidden">
           <div
             ref={containerRef}
@@ -236,60 +283,80 @@ export default function Projects() {
           >
             {infiniteProjects.map((project, index) => {
               const displayIndex = index % total;
+              const cardBody = (
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: (index % total) * 0.08 }}
+                  className="group"
+                >
+                  <div
+                    className="
+                      relative h-96 md:h-120 bg-surface mb-5 overflow-hidden
+                      rounded-xl
+                      shadow-sm group-hover:shadow-lg
+                      transition-[box-shadow,transform] duration-500 ease-out
+                      group-hover:-translate-y-1
+                    "
+                  >
+                    <ProjectCardImage src={project.image} alt={project.title} />
+                    <div className="absolute inset-0 bg-canvas/85 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="px-5 py-2.5 bg-ink text-inverse rounded-pill text-sm font-medium tracking-wide shadow-md">
+                        {project.comingSoon ? 'Coming Soon' : 'View case study →'}
+                      </span>
+                    </div>
+                    <span className="absolute top-4 left-4 text-[11px] uppercase tracking-[0.22em] text-secondary font-medium bg-canvas/85 backdrop-blur-sm px-2.5 py-1 rounded-pill shadow-xs">
+                      {String(displayIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-xl md:text-2xl font-normal text-ink tracking-tight group-hover:text-secondary transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-secondary font-medium">
+                      {project.category}
+                    </p>
+                    {project.subtitle && (
+                      <p className="text-base md:text-xl font-semi-bold text-ink tracking-tight leading-snug">
+                        {project.subtitle}
+                      </p>
+                    )}
+                    <p className="text-base text-ink leading-relaxed">
+                      {project.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+
+              if (project.comingSoon) {
+                return (
+                  <div
+                    key={`project-${index}`}
+                    className="shrink-0 w-[85vw] md:w-[calc((100%-6rem)/3)] block cursor-default"
+                  >
+                    {cardBody}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={`project-${index}`}
                   href={`/projects/${project.slug}`}
                   className="shrink-0 w-[85vw] md:w-[calc((100%-6rem)/3)] block"
                 >
-                  <motion.div
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: (index % total) * 0.08 }}
-                    className="group"
-                  >
-                    <div
-                      className="
-                        relative h-96 md:h-120 bg-surface mb-5 overflow-hidden
-                        rounded-xl
-                        shadow-sm group-hover:shadow-lg
-                        transition-[box-shadow,transform] duration-500 ease-out
-                        group-hover:-translate-y-1
-                      "
-                    >
-                      <div className="w-full h-full bg-linear-to-br from-surface to-line flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
-                        <span className="text-6xl opacity-20">🎨</span>
-                      </div>
-                      <div className="absolute inset-0 bg-canvas/85 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span className="px-5 py-2.5 bg-ink text-inverse rounded-pill text-sm font-medium tracking-wide shadow-md">
-                          View case study →
-                        </span>
-                      </div>
-                      <span className="absolute top-4 left-4 text-[11px] uppercase tracking-[0.22em] text-secondary font-medium bg-canvas/85 backdrop-blur-sm px-2.5 py-1 rounded-pill shadow-xs">
-                        {String(displayIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-                      </span>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-[11px] uppercase tracking-[0.22em] text-secondary font-medium">
-                        {project.category}
-                      </p>
-                      <h3 className="text-xl md:text-2xl font-normal text-ink tracking-tight group-hover:text-secondary transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-base text-ink leading-relaxed">
-                        {project.description}
-                      </p>
-                    </div>
-                  </motion.div>
+                  {cardBody}
                 </Link>
               );
             })}
           </div>
         </div>
 
-        <p className="mt-6 text-xs text-muted tracking-wide text-center md:text-right">
-          Use ← → to step through, or hover to pause
-        </p>
+        {CAROUSEL_ENABLED && (
+          <p className="mt-6 text-xs text-muted tracking-wide text-center md:text-right">
+            Use ← → to step through, or hover to pause
+          </p>
+        )}
       </div>
     </section>
   );

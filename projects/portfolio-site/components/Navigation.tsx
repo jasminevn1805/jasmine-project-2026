@@ -41,7 +41,7 @@ export default function Navigation() {
             PROJECTS
           </a>
           <a
-            href="mailto:hello@jasminehoang.com"
+            href="mailto:jasminevn1805@gmail.com"
             className="px-6 py-2 border border-ink hover:bg-ink hover:text-white transition-all"
           >
             CONTACT

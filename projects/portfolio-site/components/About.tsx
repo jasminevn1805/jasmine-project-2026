@@ -10,35 +10,43 @@ export default function About() {
 
   const experience = [
     {
-      label: 'EXPERIENCE',
-      value: '6+ years',
+      label: '01',
+      value: 'Frame',
       detail:
-        'Designing B2B and B2C products across in-house product teams and agencies.',
+        'Product strategy · Problem definition · User research.',
     },
     {
-      label: 'SCOPE',
-      value: 'End-to-end',
+      label: '02',
+      value: 'Structure',
       detail:
-        'Discovery, research, IA, interaction, visual design, and engineering handoff.',
+        'Information architecture · User flows · Content structure · Systems thinking.',
     },
     {
-      label: 'CRAFT',
-      value: 'Systems & AI',
+      label: '03',
+      value: 'Design',
       detail:
-        'Atomic design systems, design thinking, and AI-assisted interactive prototypes.',
+        'Interaction design · Visual design · Design systems.',
+    },
+    {
+      label: '04',
+      value: 'Validate',
+      detail:
+        'Prototyping · Usability testing · Design validation.',
+    },
+    {
+      label: '05',
+      value: 'Build',
+      detail:
+        'Prototyping · Usability testing · Design validation.',
     },
   ];
 
-  const expertise = [
-    'Product Strategy',
-    'User Research',
-    'Interaction Design',
-    'Design Systems',
-    'Prototyping',
-    'Design Thinking',
-    'Atomic Design',
-    'AI-Powered Prototyping',
-    'Frontend (React)',
+  const domains = [
+    'Spatial Data',
+    'Healthcare',
+    'Oil & Gas',
+    'Consumer Products',
+    'B2B SaaS',
   ];
 
   const eyebrowClass =
@@ -51,7 +59,7 @@ export default function About() {
           ref={ref}
           className="grid grid-cols-1 md:grid-cols-[4fr_5fr_3fr] gap-12 lg:gap-20 items-center"
         >
-          {/* Left Column — Bio, Contact, Expertise */}
+          {/* Left Column — Bio, Contact, Domains */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -61,22 +69,17 @@ export default function About() {
             <div className="space-y-5">
               <h3 className={eyebrowClass}>About</h3>
               <p className="text-2xl md:text-3xl font-normal text-ink leading-tight tracking-tight">
-                Hi, I&apos;m Jasmine.
+                Hi, I&apos;m Phuong.
               </p>
               <p className="text-base text-ink leading-relaxed">
-                <span className="font-medium">Senior product designer</span>{' '}
-                with 6+ years shipping B2B and B2C products — in-house at
-                product companies and embedded with clients through
-                outsourcing teams.
+                <span className="font-medium">Product Designer building clear experiences for complex products.</span>{' '}
               </p>
               <p className="text-base text-ink leading-relaxed">
-                I work end-to-end and like getting my hands into code, using
-                AI to push prototypes past static screens into something you
-                can click and feel.
+                I work across product strategy, UX, systems, and interaction design — turning ambiguous problems into structured experiences and working prototypes.
+
               </p>
               <p className="text-base text-ink leading-relaxed">
-                Off-screen: curious by default, a slow thinker and fast doer.
-                I believe great products start with really listening.
+                I’m particularly interested in complex B2B products, data-heavy experiences, and systems that need to scale.
               </p>
             </div>
 
@@ -88,26 +91,34 @@ export default function About() {
               <div className="space-y-2">
                 <h3 className={eyebrowClass}>Contact</h3>
                 <a
-                  href="mailto:hello@jasminehoang.com"
+                  href="mailto:jasminevn1805@gmail.com"
                   className="block text-sm text-ink hover:text-secondary transition-colors"
                 >
-                  hello@jasminehoang.com
+                  Email
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/jasminehoang/"
+                  href="https://www.linkedin.com/in/phuondhtt"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block text-sm text-ink hover:text-secondary transition-colors"
                 >
                   LinkedIn ↗
                 </a>
+                <a
+                  href="https://github.com/jasminevn1805/jasmine-project-2026"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-sm text-ink hover:text-secondary transition-colors"
+                >
+                  GitHub ↗
+                </a>
               </div>
             </div>
 
             <div className="space-y-4">
-              <h3 className={eyebrowClass}>Expertise</h3>
+              <h3 className={eyebrowClass}>Domains I've Worked</h3>
               <div className="flex flex-wrap gap-2">
-                {expertise.map((item) => (
+                {domains.map((item) => (
                   <span
                     key={item}
                     className="text-sm text-ink border border-line rounded-full px-3 py-1.5 hover:border-ink transition-colors"
@@ -128,15 +139,14 @@ export default function About() {
           >
             <div className="relative w-full aspect-6/9 bg-canvas rounded-[400px] border border-line p-6 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.18)]">
               <div className="relative w-full h-full bg-linear-to-br from-surface to-line rounded-[400px] overflow-hidden flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-8xl mb-4 opacity-90">👩‍💻</div>
-                  <p className="text-muted text-sm tracking-wide">
-                    Add your photo
-                  </p>
-                </div>
-                {/* Replace with:
-                <img src="/your-photo.jpg" alt="Jasmine Hoang" className="absolute inset-0 w-full h-full object-cover" />
-                */}
+                {/* Drop the real portrait at public/site/your-photo.jpg —
+                    this path picks it up automatically, nothing else to change. */}
+                <img
+                  src="/site/homepage-photo.png"
+                  /*src="https://unsplash.com/photos/a-foggy-landscape-with-trees-in-the-distance-6YmzwamGzCg"*/
+                  alt="Phuong Hoang"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </div>
             </div>
           </motion.div>
@@ -148,10 +158,11 @@ export default function About() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="space-y-10"
           >
+            <h3 className={eyebrowClass}>How I Work</h3>
             {experience.map((item) => (
               <div key={item.label} className="space-y-2">
                 <h3 className={eyebrowClass}>{item.label}</h3>
-                <div className="text-4xl md:text-5xl font-normal text-ink leading-tight tracking-tight">
+                <div className="text-2xl md:text-3xl font-normal text-ink leading-tight tracking-tight">
                   {item.value}
                 </div>
                 <p className="text-sm text-secondary leading-relaxed">

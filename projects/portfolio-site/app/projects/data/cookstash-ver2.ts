@@ -3,6 +3,7 @@ import type { ProjectData } from './types';
 export const cookstashVer2: ProjectData = {
   slug: 'cookstash-ver2',
   title: 'Cookstash — Bring all those cooking ideas into one place',
+  heroImage: '/case-study/cookstash/cs-hero.png',
   overviewHeadline: 'Case study focus',
   services: [
     'Product Designer',
@@ -105,20 +106,17 @@ export const cookstashVer2: ProjectData = {
     },
     {
       type: 'section-group',
-      heading: 'Model the experience',
+      heading: 'Define the product',
     },
     {
       type: 'text-image',
-      heading: 'Core User Outcome',
+      heading: 'Information model',
       content: [
-        'I focused the MVP on Capture, Library, Plan, and Shop because together they form the minimum end-to-end journey from discovering a recipe to turning it into an actionable meal plan and shopping list.',
+        'Recipe is the core object. Collections help users organize recipes, while Plans turn them into actionable meals and Grocery Lists support preparation.',
       ],
-      image: '/case-study/cookstash/ct-experience-modeling.png',
+      image: '/case-study/cookstash/cs-information-model.png',
+      //imageDefaults: { aspectRatio: '16:9', objectFit: 'stretch' },
       layout: 'right',
-    },
-    {
-      type: 'section-group',
-      heading: 'Define the product',
     },
     {
       type: 'list-image',
@@ -145,7 +143,7 @@ export const cookstashVer2: ProjectData = {
     },
     {
       type: 'journey',
-      heading: "Where painpoints come from",
+      heading: "Where does the painpoints come from?",
       content:
         'Mapping the journey from "sees a recipe" to "shops ingredients" surfaced two moments where existing tools typically lose people: the save itself, and the transition from inspiration to a usable plan. Those two moments became the critical decisions the design had to get right.',
       scenarios: [
@@ -264,13 +262,6 @@ export const cookstashVer2: ProjectData = {
       layout: 'right',
     },
     {
-      type: 'text',
-      heading: 'Turning the design concept into a working prototype — From foundation to working features',
-      content: [
-        'I used Claude Code to translate the defined design patterns, information architecture, and interaction flows into a reusable React foundation. I built the product progressively—from shared components and domain models to feature experiences—then iterated as the flows came together.',
-      ],
-    },
-    {
       type: 'text-image',
       heading: 'Turning the design concept into a working prototype — From foundation to working features',
       content: [
@@ -327,10 +318,10 @@ export const cookstashVer2: ProjectData = {
     },
     {
       type: 'stats',
-      heading: 'The MVP shipped in three weeks',
+      heading: 'The MVP highlights',
       stats: [
         { value: '4', label: 'Product pillars', note: 'Library, Planner, Grocery, Sharing — the full loop, end to end' },
-        { value: '38', label: 'Feature components', note: 'Composed on top of @jasmine/design-system primitives' },
+        { value: '38', label: 'Feature components', note: 'Composed on top of @jasmine/design-system' },
         { value: '5', label: 'Zustand stores', note: 'Domain-split, localStorage-persisted: recipes, planner, grocery, categories, auth' },
         { value: '19', label: 'Typed domain models', note: 'Written to mirror a future DB schema for zero-rewrite V2 wiring' },
         { value: '2', label: 'Planner modes, 1 store', note: 'Calendar + Freeform via a discriminated union' },
@@ -360,26 +351,73 @@ export const cookstashVer2: ProjectData = {
       ],
     },
     {
-      type: 'image-grid',
-      images: [
-        '/case-study/cookstash/mp-screen-library.svg',
-        '/case-study/cookstash/mp-screen-planner.svg',
-        '/case-study/cookstash/mp-screen-grocery.svg',
-      ],
-      captions: [
-        'Library — every save in one searchable home, filterable by ingredient and source.',
-        'Planner — pre-structured day slots remove the blank-page decision; copy-week carries a plan forward.',
-        'Grocery — auto-generated, grouped by aisle, duplicates deduped, shareable by one link.',
+      type: 'card-grid',
+      columns: 3,
+      //imageDefaults: { aspectRatio: '3:4', objectFit: 'stretch' },
+      cards: [
+        {
+          image: '/case-study/cookstash/cs-save-recipe.png',
+          heading: 'Save a recipe',
+          body: 'simple and quick save with a link, auto fetching recipe metadata.',
+        },
+        {
+          image: '/case-study/cookstash/cs-library.png',
+          heading: 'Library',
+          body: 'Every save in one searchable home, filterable by ingredient and source.',
+        },
+        {
+          image: '/case-study/cookstash/cs-manage-category.png',
+          heading: 'Category',
+          body: ' Mangage collections according to your interests.',
+        },
+        {
+          image: '/case-study/cookstash/cs-plan-calendar-mode.png',
+          heading: 'Planner',
+          body: ' Pre-structured day slots remove the blank-page decision; copy-week carries a plan forward.',
+        },
+        {
+          image: '/case-study/cookstash/cs-create-shop-list.png',
+          heading: 'Grocery',
+          body: [
+            'Auto-generated, grouped by aisle, duplicates deduped, shareable by one link.',
+          ],
+        },
+        {
+          image: '/case-study/cookstash/cs-add-ingredients.png',
+          heading: 'Add Ingredients',
+          body: 'Categorized ingredients, easy select and add.',
+        },
       ],
     },
+    /*{
+      type: 'image-grid',
+      //imageDefaults: { aspectRatio: '4:3', objectFit: 'cover' },
+      columns: 3,
+      images: [
+        '/case-study/cookstash/cs-save-recipe.png',
+        '/case-study/cookstash/cs-library.png',
+        '/case-study/cookstash/cs-manage-category.png',
+        '/case-study/cookstash/cs-plan-calendar-mode.png',
+        '/case-study/cookstash/cs-create-shop-list.png',
+        '/case-study/cookstash/cs-add-ingredients.png',
+      ],
+      captions: [
+        'Save a recipe — simple and quick save with a link, auto fetching recipe metadata.',
+        'Library — every save in one searchable home, filterable by ingredient and source.',
+        'Category — mangage collections according to your interests.',
+        'Planner — pre-structured day slots remove the blank-page decision; copy-week carries a plan forward.',
+        'Grocery — auto-generated, grouped by aisle, duplicates deduped, shareable by one link.',
+        'Add Ingredient — categorized ingredients, easy select and add.',
+      ],
+    },*/
     {
       type: 'text',
       heading: 'Try the live demo',
       content: [
-        'The full loop is live and interactive — save a recipe, plan a week, generate a grocery list, and share it in one link. Open the running app from the "Try the live demo" button at the top of this page.',
+        'The full loop is live and interactive — save a recipe, plan a week, create a grocery list, and share it in one link. Open the running app from the "Try the live demo" button at the top of this page.',
       ],
     },
-    {
+    /*{
       type: 'quote',
       content:
         "Busy home cooks who discover recipes on social media have no single, connected way to collect, plan, and shop from what they save — so saved content is forgotten, planning stays manual, and cooking never quite closes the loop.",
@@ -413,20 +451,7 @@ export const cookstashVer2: ProjectData = {
           body: 'A good planning tool should make the next step obvious. This product needed to turn saved recipes into structured plans, then into grocery lists, without adding friction at the handoff.',
         },
       ],
-    },
-    {
-      type: 'image-grid',
-      images: [
-        '/case-study/cookstash/mp-screen-library.svg',
-        '/case-study/cookstash/mp-screen-planner.svg',
-        '/case-study/cookstash/mp-screen-grocery.svg',
-      ],
-      captions: [
-        'Library — every save in one searchable home, filterable by ingredient and source.',
-        'Planner — pre-structured day slots remove the blank-page decision; copy-week carries a plan forward.',
-        'Grocery — auto-generated, grouped by aisle, duplicates deduped, shareable by one link.',
-      ],
-    },
+    },*/
   ],
 
   images: [],

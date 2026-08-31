@@ -3,57 +3,100 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
+// Renders `**text**` as bold within an otherwise plain string.
+function renderInlineBold(text: string) {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) =>
+    part.startsWith('**') && part.endsWith('**') ? (
+      <strong key={i} className="font-semibold text-ink">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
 interface TimelineItem {
   period: string;
   role: string;
   org: string;
   location?: string;
-  summary?: string;
+  summary?: string | string[];
   highlights?: string[];
   tags?: string[];
 }
 
 const experience: TimelineItem[] = [
   {
-    period: '2024 — Present',
-    role: 'Senior Product Designer',
-    org: 'Company Name',
-    location: 'Remote · Calgary, CA',
-    summary:
-      'Lead end-to-end design for a B2B SaaS platform — from discovery and research through interaction, visual design, and engineering handoff.',
+    period: '2011 — 2014',
+    role: 'Technical Foundation',
+    org: 'Tanner Asia',
+    //location: 'B2B SaaS · Calgary, CA',
+    summary:[
+      '**Built a foundation in precision, technical communication, and complex information.**',
+      'Worked across aerospace, industrial automation, and manufacturing, developing a disciplined approach to accuracy and structured information.',],
     highlights: [
-      'Own the design system, growing it from 12 to 60+ production components',
-      'Partner with PM and engineering to ship 3 major releases per quarter',
-      'Introduced AI-assisted prototyping, cutting validation cycles by ~40%',
+      'Learned to work with complex information where accuracy, consistency, and clarity directly affected the quality of the final product.',
+      'Developed a disciplined approach to understanding technical systems, documenting them clearly, and working within demanding standards.',
     ],
-    tags: ['B2B SaaS', 'Design Systems', 'Prototyping'],
+    tags: ['Precision', 'Technical Documentation', 'Information Structure'],
   },
   {
-    period: '2021 — 2024',
-    role: 'Product Designer',
-    org: 'Outsourcing Studio · Client-embedded',
-    location: 'Vietnam',
-    summary:
-      'Embedded with multiple client teams across fintech, e-commerce, and healthcare. Took products from problem framing to launch.',
+    period: '2014 — 2021',
+    role: 'From UX to Product Design',
+    org: 'Onix · Digital Masons · iVedha',
+    //location: 'B2B SaaS · Montreal, Canada',
+    summary:[
+      '**Moved from interface design into complex product workflows and systems.**',
+      'Designed industrial and cloud products where information architecture, operational workflows, and consistency were critical to getting the job done.',],
     highlights: [
-      'Shipped 6 client products spanning web and mobile (B2B + B2C)',
-      'Ran research, journey mapping, IA, and high-fidelity UI',
-      'Built and handed off reusable component libraries to dev teams',
+      'Learned to move beyond individual screens and understand the workflows, information structures, and operational context that shape how people use complex products.',
+      'Developed an early systems-thinking practice through industrial, IoT, cloud, and telehealth products, including reusable patterns and design systems that could scale across experiences.',
     ],
-    tags: ['B2B', 'B2C', 'Mobile', 'Web', 'Research'],
+    tags: ['Workflow Thinking', 'Information Architecture', 'Design System'],
   },
   {
-    period: '2019 — 2021',
-    role: 'Product Designer',
-    org: 'In-house Product Company',
-    location: 'Vietnam',
-    summary:
-      'Designed core experiences for a consumer-facing product. Worked closely with PM, engineering, and marketing.',
+    period: '2021 — 2022',
+    role: 'End-to-End Product Design',
+    org: 'ORO Health',
+    //location: 'Product & Cloud Services · Toronto, Canada',
+    summary:[
+      '**Expanded into end-to-end product ownership.**',
+      'Led the design of Dermago from research and information architecture through interaction design, validation, documentation, and launch.',],
     highlights: [
-      'Redesigned the onboarding flow, improving activation by 22%',
-      'Established the team’s first atomic design system',
+      'Learned to take ownership of the broader product problem—from understanding user and business needs to defining, validating, and delivering the experience.',
+      'Became more comfortable making design decisions across competing constraints, working closely with engineering, clinical, business, and client stakeholders.',
     ],
-    tags: ['B2C', 'Atomic Design', 'Onboarding'],
+    tags: ['Product Thinking', 'UX Research', 'Decision Making', 'Collaboration'],
+  },
+  {
+    period: '2023 — 2025',
+    role: 'Independent Design Practice',
+    org: 'Independent',
+    //location: 'Industrial SaaS · Stavanger, Norway',
+    summary:[
+      '**Used independent work to broaden my practice and explore new ways of designing and building.**',
+      'Worked across technical documentation and brand projects while developing interactive prototypes and AI-assisted design-to-development workflows',],
+    highlights: [
+      'Used independent work to broaden my practice, taking greater ownership of ambiguous problems from defining the opportunity through delivery.',
+      'Expanded beyond traditional design workflows into interactive prototyping and AI-assisted design-to-development, strengthening my ability to move from idea to working experience.',
+    ],
+    tags: ['Project Management', 'Experimentation', 'Interaction Design'],
+  },
+  {
+    period: '2025 — 2026',
+    role: 'Complex Data Products',
+    org: 'BigGeo',
+    //location: 'Industrial SaaS · Stavanger, Norway',
+    summary:[
+      '**Applied systems thinking to spatial data and B2B SaaS.**',
+      'Designed data-management, marketplace, and business-management experiences that help users work with complex spatial data and make informed decisions.',],
+    highlights: [
+      'Applied years of experience designing complex workflows to spatial-data products, where information architecture, data relationships, and business decisions are deeply connected.',
+      'Strengthened my ability to think across an entire product ecosystem—from data management and marketplace experiences to business dashboards and the systems connecting them.',
+    ],
+    tags: ['Data', 'Product Ecosystem', 'Business Context', 'System Thinking'],
   },
 ];
 
@@ -61,17 +104,25 @@ const education: TimelineItem[] = [
   {
     period: '2015 — 2019',
     role: 'Bachelor of Information Technology',
-    org: 'University Name',
+    org: 'University of Science Ho Chi Minh city',
     location: 'Vietnam',
     summary:
-      'Focused on human–computer interaction, software engineering, and visual design.',
+      'Built a technical foundation across computing, information technology, and problem-solving—learning to understand how digital systems work beneath the interface.',
+  },
+  {
+    period: '2019 — 2021',
+    role: 'Bachelor of Management Information Systems ',
+    org: 'University of Economics Ho Chi Minh city',
+    location: 'Vietnam',
+    summary:
+      'Developed an understanding of how information systems support business operations, decision-making, and organizational needs.',
   },
   {
     period: 'Ongoing',
     role: 'Continuous Learning',
     org: 'Self-directed',
     summary:
-      'Design systems, accessibility (WCAG), AI tooling for design, and modern frontend (React, Tailwind, Next.js).',
+      'Self-directed practice across product design, systems thinking, and emerging technology.',
   },
 ];
 
@@ -119,7 +170,13 @@ function TimelineEntry({
       {/* Details */}
       <div className="md:col-span-8 space-y-4">
         {item.summary && (
-          <p className="text-base text-ink leading-relaxed">{item.summary}</p>
+          <div className="space-y-3">
+            {(Array.isArray(item.summary) ? item.summary : [item.summary]).map((line, i) => (
+              <p key={i} className="text-base text-ink leading-relaxed">
+                {renderInlineBold(line)}
+              </p>
+            ))}
+          </div>
         )}
 
         {item.highlights && item.highlights.length > 0 && (
@@ -217,17 +274,16 @@ export default function Experience() {
               Career
             </p>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal text-ink tracking-tight leading-[1.05]">
-              A path through product,
-              <br className="hidden md:block" /> systems, and code.
+              From technical precision
+              <br className="hidden md:block" /> to product systems.
             </h2>
           </div>
           <div className="lg:col-span-4 lg:col-start-9 space-y-3">
             <p className="text-base text-ink leading-relaxed">
-              Six years of shipping real products — from B2C consumer apps to
-              B2B SaaS — across in-house teams and client engagements.
+              I started in technical documentation, moved into industrial software, and grew into end-to-end product design across healthcare, cloud services, and spatial-data platforms.
             </p>
             <a
-              href="/resume.pdf"
+              href="/site/PhuongHoang-ProductDesigner-Resume.pdf"
               className="inline-block text-sm text-ink underline underline-offset-4 decoration-line hover:decoration-ink transition-colors"
             >
               Download résumé ↓
@@ -238,8 +294,8 @@ export default function Experience() {
         <div className="space-y-24 lg:space-y-32">
           <TimelineGroup
             eyebrow="01 — Experience"
-            title="Where I've worked"
-            kicker="Senior IC roles across product companies and client-embedded teams."
+            title="How I grew"
+            kicker="Progressive experience across increasingly complex products, systems, and problems."
             items={experience}
           />
           <TimelineGroup
