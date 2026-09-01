@@ -35,9 +35,9 @@ export default function About() {
     },
     {
       label: '05',
-      value: 'Build',
+      value: 'Deliver',
       detail:
-        'Design–development collaboration · Design systems · Design validation.',
+        'Design–development collaboration · Design specifications · UX Audit · Design handoff.',
     },
   ];
 
