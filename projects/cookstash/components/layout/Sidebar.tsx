@@ -26,6 +26,7 @@ export function Sidebar() {
     <aside
       className="fixed left-0 top-0 hidden h-full w-16 flex-col md:flex"
       style={{
+        zIndex: 30,
         background: 'var(--color-background-primary)',
         borderRight: '1px solid var(--color-border-default)',
       }}

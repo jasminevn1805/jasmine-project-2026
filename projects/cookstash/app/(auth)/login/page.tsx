@@ -84,7 +84,7 @@ export default function LoginPage() {
 
         {/* Bottom credit */}
         <p className="relative z-10 text-white/40 text-xs">
-          A portfolio project by Jasmine Hoang
+          A portfolio project by Phuong Hoang
         </p>
       </div>
 

@@ -17,9 +17,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  /* Self-contained sizing: outline variants add a border on top of the
+     same padding as solid variants. border-box keeps the border inside
+     the declared size instead of adding to it, so every type stays the
+     same rendered width/height at a given size — without depending on
+     the consuming app to have its own box-sizing reset. */
+  box-sizing: border-box;
   font-family: var(--typography-desktop-family-main);
   font-weight: var(--typography-desktop-label-m-semi-bold-weight);
-  border: none;
+  border: var(--border-width-l) solid transparent;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   user-select: none;

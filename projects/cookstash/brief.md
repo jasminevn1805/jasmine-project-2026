@@ -3,7 +3,7 @@ stepsCompleted: [1, 2, 3, 4, 5]
 inputDocuments:
   - "Product Context" FigJam board (Context / Users / User Goals / Decisions / Problems / Interventions)
 date: 2026-08-29
-author: Jasmine Hoang
+author: Phuong Hoang
 project: cooktash
 ---
 
@@ -133,6 +133,14 @@ Cookstash should feel:
 - Prioritize the user's next meaningful action over secondary functionality.
 
 ---
+
+## Pick images for [recipe/section] from Unsplash. Criteria:
+
+- Subject match: [exact dish only, e.g. must show chimichurri specifically] or [close enough — same food category/ingredients is fine if an exact match isn't findable]
+- Style: [describe the vibe — e.g. "bright, overhead flat-lay" or "warm, moody, minimal props" — or say "match the existing photos in the app" and I'll look at what's already there]
+- Composition: cards crop to 4:5 portrait with object-cover, so prefer photos with the subject roughly centered, not spread wide across a landscape frame
+- No [visible text/logos, people's faces, watermarks — whichever you actually care about]
+Effort: [stop after ~1-2 searches per image and use a reasonable pick] or [keep searching until it's a strong match, even if slower]"
 
 ## Notes
 

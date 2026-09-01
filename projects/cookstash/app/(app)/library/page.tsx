@@ -113,7 +113,7 @@ export default function LibraryPage() {
               type="Outline"
               size={isMobile ? 'S' : 'M'}
             >
-              Categories
+              Manage category
             </Button>
             <Button
               onClick={() => setShowSaveModal(true)}
@@ -271,9 +271,10 @@ export default function LibraryPage() {
       {showSaveModal && (
         <SaveRecipeModal onClose={() => setShowSaveModal(false)} />
       )}
-      {showManageCategories && (
-        <ManageCategoriesModal onClose={() => setShowManageCategories(false)} />
-      )}
+      <ManageCategoriesModal
+        open={showManageCategories}
+        onClose={() => setShowManageCategories(false)}
+      />
     </PageShell>
   )
 }

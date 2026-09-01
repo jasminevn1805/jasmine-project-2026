@@ -68,6 +68,7 @@ export function EditRecipeModal({ recipe, onClose, onDelete }: EditRecipeModalPr
       open
       onClose={onClose}
       title="Edit details"
+      variant="form"
       size="M"
       footer={
         <Button
@@ -75,7 +76,6 @@ export function EditRecipeModal({ recipe, onClose, onDelete }: EditRecipeModalPr
           type="Primary"
           size="M"
           disabled={!title.trim()}
-          className="flex-1"
         >
           Done
         </Button>

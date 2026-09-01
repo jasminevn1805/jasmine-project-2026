@@ -27,6 +27,7 @@ export function DeleteConfirmModal({ recipeId, recipeTitle, onClose, onCancel }:
       open
       onClose={handleCancel}
       title="Delete recipe"
+      variant="form"
       size="S"
       footer={
         <>
@@ -34,27 +35,16 @@ export function DeleteConfirmModal({ recipeId, recipeTitle, onClose, onCancel }:
             onClick={handleCancel}
             type="Outline"
             size="M"
-            className="flex-1"
           >
             Cancel
           </Button>
-          <button
+          <Button
             onClick={handleDelete}
-            className="flex-1"
-            style={{
-              padding: 'var(--space-m)',
-              borderRadius: 'var(--radius-md)',
-              border: 'none',
-              background: 'var(--color-background-negative)',
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--typography-desktop-text-m-semi-bold-size)',
-              fontWeight: 'var(--typography-desktop-text-m-semi-bold-weight)',
-              color: '#fff',
-              cursor: 'pointer',
-            }}
+            type="Negative Primary"
+            size="M"
           >
             Delete
-          </button>
+          </Button>
         </>
       }
     >

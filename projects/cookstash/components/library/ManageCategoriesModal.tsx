@@ -1,10 +1,12 @@
 'use client'
 
 import React, { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback } from 'react'
-import { Edit2, Check, X, ChevronUp, ChevronDown, HelpCircle, Plus, Folder } from 'react-feather'
+import { Edit2, Check, X, ChevronUp, ChevronDown, Plus, Folder } from 'react-feather'
 import { useCategoryStore, UNSORTED_CATEGORY_ID, type CategoryMeta } from '@/store/useCategoryStore'
 import { useRecipeStore } from '@/store/useRecipeStore'
 import { Button } from '@jasmine/design-system'
+import { SlideDrawer } from '@/components/shared/SlideDrawer'
+import { useToast } from '@/components/shared/Toast'
 
 /* ── FLIP animation for reorder ── */
 const FLIP_DURATION = 550 // ms – leisurely enough to follow with your eyes
@@ -17,6 +19,11 @@ const EMOJI_PRESETS = [
 function toSlug(label: string): string {
   return label.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 }
+
+// Shared column template — identical string on the header row and every
+// data row is what makes them line up like real table columns, even
+// though each row is its own grid container.
+const TABLE_COLS = '32px 1fr 56px 1px 140px'
 
 /* ── Styles ── */
 const inputStyle: React.CSSProperties = {
@@ -35,10 +42,11 @@ const inputStyle: React.CSSProperties = {
 }
 
 interface Props {
+  open: boolean
   onClose: () => void
 }
 
-export function ManageCategoriesModal({ onClose }: Props) {
+export function ManageCategoriesModal({ open, onClose }: Props) {
   const categories = useCategoryStore((s) => s.categories)
   const addCategory = useCategoryStore((s) => s.addCategory)
   const updateCategory = useCategoryStore((s) => s.updateCategory)
@@ -47,6 +55,17 @@ export function ManageCategoriesModal({ onClose }: Props) {
 
   const recipes = useRecipeStore((s) => s.recipes)
   const reassignCategory = useRecipeStore((s) => s.reassignCategory)
+
+  const toast = useToast()
+
+  // Unsorted is a system bucket, not a category the user creates or
+  // manages — it can't be renamed, reordered, or deleted, so it doesn't
+  // belong in this list at all. Everything below — the count, the row
+  // list, reorder indices — operates on this filtered list.
+  const manageableCategories = useMemo(
+    () => categories.filter((c) => c.id !== UNSORTED_CATEGORY_ID),
+    [categories],
+  )
 
   // Count recipes per category
   const recipeCounts = useMemo(() => {
@@ -179,6 +198,8 @@ export function ManageCategoriesModal({ onClose }: Props) {
 
   function confirmDelete(id: string) {
     if (id === UNSORTED_CATEGORY_ID) return   // protected
+    const label = categories.find((c) => c.id === id)?.label ?? 'Category'
+    const unsortedLabel = categories.find((c) => c.id === UNSORTED_CATEGORY_ID)?.label ?? 'Unsorted'
     const count = recipeCounts[id] || 0
     if (count > 0) {
       // Always reassign orphaned recipes to the Unsorted category
@@ -187,117 +208,79 @@ export function ManageCategoriesModal({ onClose }: Props) {
     removeCategory(id)
     setDeleteConfirm(null)
     if (editId === id) cancel()
+    toast.show(
+      count > 0
+        ? `"${label}" deleted — ${count} recipe${count === 1 ? '' : 's'} moved to ${unsortedLabel}.`
+        : `"${label}" deleted.`
+    )
   }
 
+  // `idx` here is 0-based over manageableCategories (Unsorted excluded).
+  // The underlying store's `categories` array still carries Unsorted at
+  // index 0, so the real index there is always idx + 1.
   function moveUp(idx: number) {
-    if (idx <= 1) return   // 0 = unsorted (pinned), 1 = already first movable
+    if (idx <= 0) return   // already the first movable category
     capturePositions()
     const ids = categories.map((c) => c.id)
-    movedIdRef.current = ids[idx]
-    ;[ids[idx - 1], ids[idx]] = [ids[idx], ids[idx - 1]]
+    const realIdx = idx + 1
+    movedIdRef.current = ids[realIdx]
+    ;[ids[realIdx - 1], ids[realIdx]] = [ids[realIdx], ids[realIdx - 1]]
     reorderCategories(ids)
   }
 
   function moveDown(idx: number) {
-    if (idx >= categories.length - 1) return
+    if (idx >= manageableCategories.length - 1) return
     capturePositions()
     const ids = categories.map((c) => c.id)
-    movedIdRef.current = ids[idx]
-    ;[ids[idx], ids[idx + 1]] = [ids[idx + 1], ids[idx]]
+    const realIdx = idx + 1
+    movedIdRef.current = ids[realIdx]
+    ;[ids[realIdx], ids[realIdx + 1]] = [ids[realIdx + 1], ids[realIdx]]
     reorderCategories(ids)
   }
 
   return (
-    <div
-      className="fixed inset-0 z-60 flex items-center justify-center"
-      style={{ background: 'var(--color-overlay-30-inverse)', padding: 'var(--space-l)' }}
-      onClick={onClose}
+    <SlideDrawer
+      open={open}
+      onClose={onClose}
+      title="Manage category"
+      footer={
+        <Button onClick={onClose} type="Primary" size="M">
+          Done
+        </Button>
+      }
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          width: '100%',
-          maxWidth: '440px',
-          maxHeight: 'calc(100vh - var(--space-3xl) * 2)',
-          display: 'flex',
-          flexDirection: 'column',
-          borderRadius: 'var(--border-radius-xl)',
-          background: 'var(--color-background-primary)',
-          boxShadow: 'var(--shadow-modal)',
-          overflow: 'hidden',
-        }}
-      >
-        {/* ── Header ── */}
-        <div style={{
-          padding: 'var(--space-xl) var(--space-xl) var(--space-l)',
-        }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            gap: 'var(--space-m)',
-          }}>
-            <div>
-              <h2 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'var(--typography-desktop-heading-s-semi-bold-size)',
-                fontWeight: 'var(--typography-desktop-heading-s-semi-bold-weight)',
-                lineHeight: 'var(--typography-desktop-heading-s-semi-bold-line-height)',
-                letterSpacing: 'var(--typography-desktop-heading-s-semi-bold-letter-spacing)',
-                color: 'var(--color-text-primary)',
-                margin: 0,
-              }}>
-                Manage categories
-              </h2>
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 'var(--typography-desktop-text-s-regular-size)',
-                lineHeight: 'var(--typography-desktop-text-s-regular-line-height)',
-                color: 'var(--color-text-secondary)',
-                margin: 'var(--space-xs) 0 0 0',
-              }}>
-                Organize how recipes are grouped in your library.
-              </p>
-            </div>
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '28px',
-                height: '28px',
-                borderRadius: 'var(--border-radius-pill)',
-                border: 'none',
-                background: 'transparent',
-                color: 'var(--color-text-tertiary)',
-                cursor: 'pointer',
-                flexShrink: 0,
-                padding: 0,
-              }}
-            >
-              <X size={16} />
-            </button>
-          </div>
-        </div>
+      <p style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: 'var(--typography-desktop-text-s-regular-size)',
+        lineHeight: 'var(--typography-desktop-text-s-regular-line-height)',
+        color: 'var(--color-text-secondary)',
+        margin: '0 0 var(--space-l) 0',
+      }}>
+        Organize how recipes are grouped in your library.
+      </p>
 
-        {/* ── Scrollable body ── */}
-        <div style={{
-          flex: 1,
-          overflowY: 'auto',
-          padding: 'var(--space-l) var(--space-xl)',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-        } as React.CSSProperties}>
-
-          {/* Section label */}
+      {/* Table header */}
           <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            display: 'grid',
+            gridTemplateColumns: TABLE_COLS,
+            alignItems: 'end',
+            columnGap: 'var(--space-m)',
+            padding: '0 var(--space-l) var(--space-s) var(--space-l)',
             marginBottom: 'var(--space-s)',
+            borderBottom: 'var(--border-width-m) solid var(--color-border-default)',
           }}>
+            <span />
+            <span style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 'var(--typography-desktop-text-s-semi-bold-size)',
+              fontWeight: 'var(--typography-desktop-text-s-semi-bold-weight)',
+              lineHeight: 'var(--typography-desktop-text-s-semi-bold-line-height)',
+              color: 'var(--color-text-primary)',
+            }}>
+              {manageableCategories.length > 0
+                ? `Category (${manageableCategories.length})`
+                : 'Category'}
+            </span>
             <span style={{
               fontFamily: 'var(--font-body)',
               fontSize: 'var(--typography-desktop-text-xs-semi-bold-size)',
@@ -306,12 +289,12 @@ export function ManageCategoriesModal({ onClose }: Props) {
               color: 'var(--color-text-tertiary)',
               textTransform: 'uppercase',
               letterSpacing: '0.06em',
+              textAlign: 'right',
             }}>
-              {categories.length > 0
-                ? `${categories.length} ${categories.length === 1 ? 'category' : 'categories'}`
-                : 'Categories'}
+              Recipes
             </span>
-            {categories.length > 1 && (
+            <span />
+            {manageableCategories.length > 1 ? (
               <span style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: 'var(--typography-desktop-text-xs-regular-size)',
@@ -319,20 +302,21 @@ export function ManageCategoriesModal({ onClose }: Props) {
                 color: 'var(--color-text-disabled)',
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'flex-end',
                 gap: 'var(--space-xs)',
               }}>
                 <ChevronUp size={10} />
                 <ChevronDown size={10} />
                 Reorder
               </span>
-            )}
+            ) : <span />}
           </div>
 
           {/* Category list */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-s)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-m)' }}>
 
             {/* Empty state */}
-            {categories.length === 0 && (
+            {manageableCategories.length === 0 && (
               <div style={{
                 textAlign: 'center',
                 padding: 'var(--space-2xl) var(--space-xl)',
@@ -364,98 +348,33 @@ export function ManageCategoriesModal({ onClose }: Props) {
             )}
 
             {/* Category rows */}
-            {categories.map((cat, idx) => {
-              const isUnsorted = cat.id === UNSORTED_CATEGORY_ID
+            {manageableCategories.map((cat, idx) => {
               const isEditing = mode === 'edit' && editId === cat.id
               const isDeleting = deleteConfirm === cat.id
               const count = recipeCounts[cat.id] || 0
 
-              /* ── Unsorted (pinned default) ── */
-              if (isUnsorted) {
-                return (
-                  <div
-                    key={cat.id}
-                    ref={(el) => { if (el) rowRefs.current.set(cat.id, el); else rowRefs.current.delete(cat.id) }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 'var(--space-s)',
-                      padding: 'var(--space-s) var(--space-m)',
-                      borderRadius: 'var(--border-radius-s)',
-                      background: 'var(--color-background-secondary)',
-                      borderLeft: '3px solid var(--color-border-brand)',
-                    }}
-                  >
-                    {/* Emoji */}
-                    <span style={{ fontSize: '16px', lineHeight: 1, flexShrink: 0 }}>{cat.emoji}</span>
-
-                    {/* Label */}
-                    <span style={{
-                      flex: 1,
-                      fontFamily: 'var(--font-body)',
-                      fontSize: 'var(--typography-desktop-text-s-regular-size)',
-                      fontWeight: 'var(--typography-desktop-label-s-semi-bold-weight)',
-                      lineHeight: 'var(--typography-desktop-text-s-regular-line-height)',
-                      color: 'var(--color-text-primary)',
-                      minWidth: 0,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}>
-                      {cat.label}
-                    </span>
-
-                    {/* Badge */}
-                    <span style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: 'var(--typography-desktop-text-xs-regular-size)',
-                      lineHeight: 'var(--typography-desktop-text-xs-regular-line-height)',
-                      color: 'var(--color-text-brand)',
-                      background: 'var(--color-background-brand-subtle)',
-                      padding: '1px var(--space-s)',
-                      borderRadius: 'var(--border-radius-pill)',
-                      flexShrink: 0,
-                    }}>
-                      Default
-                    </span>
-
-                    {/* Recipe count */}
-                    <span style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: 'var(--typography-desktop-text-xs-regular-size)',
-                      fontWeight: 'var(--typography-desktop-text-xs-regular-weight)',
-                      lineHeight: 'var(--typography-desktop-text-xs-regular-line-height)',
-                      color: count > 0 ? 'var(--color-text-tertiary)' : 'var(--color-text-disabled)',
-                      flexShrink: 0,
-                    }}>
-                      {count > 0 ? `${count}` : '—'}
-                    </span>
-                  </div>
-                )
-              }
-
-              /* Editing row */
+              /* Editing row — same neutral card shell as the delete
+                 confirmation below, so the two inline states read as one
+                 consistent "focused row" pattern rather than two designs. */
               if (isEditing) {
                 return (
                   <div key={cat.id} ref={(el) => { if (el) rowRefs.current.set(cat.id, el); else rowRefs.current.delete(cat.id) }} style={{
                     borderRadius: 'var(--border-radius-s)',
-                    border: 'var(--border-width-s) solid var(--color-border-brand)',
-                    background: 'var(--color-background-brand-subtle)',
+                    border: 'var(--border-width-s) solid var(--color-border-default)',
+                    background: 'var(--color-background-secondary)',
                     padding: 'var(--space-m)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 'var(--space-s)',
+                    gap: 'var(--space-m)',
                   }}>
                     <span style={{
                       fontFamily: 'var(--font-body)',
-                      fontSize: 'var(--typography-desktop-text-xs-semi-bold-size)',
-                      fontWeight: 'var(--typography-desktop-text-xs-semi-bold-weight)',
-                      lineHeight: 'var(--typography-desktop-text-xs-semi-bold-line-height)',
-                      color: 'var(--color-text-brand)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
+                      fontSize: 'var(--typography-desktop-text-m-semi-bold-size)',
+                      fontWeight: 'var(--typography-desktop-text-m-semi-bold-weight)',
+                      lineHeight: 'var(--typography-desktop-text-m-semi-bold-line-height)',
+                      color: 'var(--color-text-primary)',
                     }}>
-                      Editing
+                      Edit category
                     </span>
                     <InlineForm
                       inputRef={inputRef}
@@ -472,31 +391,81 @@ export function ManageCategoriesModal({ onClose }: Props) {
                 )
               }
 
-              /* Normal row */
+              /* Delete confirmation — replaces the row in place (no popover
+                 stacked on top of the drawer). Same neutral card shell as
+                 the Editing row above — a subtle gray border, not a red
+                 accent, since the red Delete button already carries that
+                 signal on its own. */
+              if (isDeleting) {
+                const unsortedCat = categories.find((c) => c.id === UNSORTED_CATEGORY_ID)
+                return (
+                  <div key={cat.id} ref={(el) => { if (el) rowRefs.current.set(cat.id, el); else rowRefs.current.delete(cat.id) }} style={{
+                    borderRadius: 'var(--border-radius-s)',
+                    border: 'var(--border-width-s) solid var(--color-border-default)',
+                    background: 'var(--color-background-secondary)',
+                    padding: 'var(--space-m)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 'var(--space-m)',
+                  }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+                      <span style={{
+                        fontFamily: 'var(--font-body)',
+                        fontSize: 'var(--typography-desktop-text-m-semi-bold-size)',
+                        fontWeight: 'var(--typography-desktop-text-m-semi-bold-weight)',
+                        lineHeight: 'var(--typography-desktop-text-m-semi-bold-line-height)',
+                        color: 'var(--color-text-primary)',
+                      }}>
+                        Delete &ldquo;{cat.label}&rdquo;?
+                      </span>
+                      <span style={{
+                        fontFamily: 'var(--font-body)',
+                        fontSize: 'var(--typography-desktop-text-s-regular-size)',
+                        lineHeight: 'var(--typography-desktop-text-s-regular-line-height)',
+                        color: 'var(--color-text-secondary)',
+                      }}>
+                        {count > 0 && unsortedCat
+                          ? `Recipes won't be deleted — ${count} recipe${count === 1 ? '' : 's'} will move to "${unsortedCat.label}" instead.`
+                          : 'No recipes are using this category, so nothing else will be affected.'}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', gap: 'var(--space-s)' }}>
+                      <Button onClick={() => confirmDelete(cat.id)} type="Negative Primary" size="S">
+                        Delete
+                      </Button>
+                      <Button onClick={() => setDeleteConfirm(null)} type="Outline" size="S">
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                )
+              }
+
+              /* Normal row — same TABLE_COLS grid as the header, so every
+                 column lines up exactly like a real table. */
               return (
                 <div
                   key={cat.id}
                   ref={(el) => { if (el) rowRefs.current.set(cat.id, el); else rowRefs.current.delete(cat.id) }}
                   style={{
-                    display: 'flex',
+                    display: 'grid',
+                    gridTemplateColumns: TABLE_COLS,
                     alignItems: 'center',
-                    gap: 'var(--space-s)',
-                    padding: 'var(--space-s) var(--space-m)',
+                    columnGap: 'var(--space-m)',
+                    padding: 'var(--space-m) var(--space-l)',
                     borderRadius: 'var(--border-radius-s)',
                     background: 'var(--color-background-secondary)',
-                    position: 'relative',
                   }}
                 >
                   {/* Emoji */}
-                  <span style={{ fontSize: '16px', lineHeight: 1, flexShrink: 0 }}>{cat.emoji}</span>
+                  <span style={{ fontSize: '20px', lineHeight: 1, justifySelf: 'center' }}>{cat.emoji}</span>
 
                   {/* Label */}
                   <span style={{
-                    flex: 1,
                     fontFamily: 'var(--font-body)',
-                    fontSize: 'var(--typography-desktop-text-s-regular-size)',
-                    fontWeight: 'var(--typography-desktop-label-s-semi-bold-weight)',
-                    lineHeight: 'var(--typography-desktop-text-s-regular-line-height)',
+                    fontSize: 'var(--typography-desktop-text-m-semi-bold-size)',
+                    fontWeight: 'var(--typography-desktop-text-m-semi-bold-weight)',
+                    lineHeight: 'var(--typography-desktop-text-m-semi-bold-line-height)',
                     color: 'var(--color-text-primary)',
                     minWidth: 0,
                     overflow: 'hidden',
@@ -509,11 +478,11 @@ export function ManageCategoriesModal({ onClose }: Props) {
                   {/* Recipe count */}
                   <span style={{
                     fontFamily: 'var(--font-body)',
-                    fontSize: 'var(--typography-desktop-text-xs-regular-size)',
-                    fontWeight: 'var(--typography-desktop-text-xs-regular-weight)',
-                    lineHeight: 'var(--typography-desktop-text-xs-regular-line-height)',
+                    fontSize: 'var(--typography-desktop-text-s-regular-size)',
+                    fontWeight: 'var(--typography-desktop-text-s-regular-weight)',
+                    lineHeight: 'var(--typography-desktop-text-s-regular-line-height)',
                     color: count > 0 ? 'var(--color-text-tertiary)' : 'var(--color-text-disabled)',
-                    flexShrink: 0,
+                    textAlign: 'right',
                   }}>
                     {count > 0 ? `${count}` : '—'}
                   </span>
@@ -521,102 +490,30 @@ export function ManageCategoriesModal({ onClose }: Props) {
                   {/* Divider */}
                   <div style={{
                     width: 'var(--border-width-s)',
-                    height: '16px',
+                    height: '24px',
                     background: 'var(--color-border-default)',
-                    flexShrink: 0,
+                    justifySelf: 'center',
                   }} />
 
                   {/* Actions */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexShrink: 0 }}>
-                    <IconBtn title="Move up" disabled={idx <= 1} onClick={() => moveUp(idx)}>
-                      <ChevronUp size={14} />
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 'var(--space-xs)' }}>
+                    <IconBtn title="Move up" disabled={idx <= 0} onClick={() => moveUp(idx)}>
+                      <ChevronUp size={18} />
                     </IconBtn>
-                    <IconBtn title="Move down" disabled={idx >= categories.length - 1} onClick={() => moveDown(idx)}>
-                      <ChevronDown size={14} />
+                    <IconBtn title="Move down" disabled={idx >= manageableCategories.length - 1} onClick={() => moveDown(idx)}>
+                      <ChevronDown size={18} />
                     </IconBtn>
                     <IconBtn title="Edit" onClick={() => startEdit(cat)}>
-                      <Edit2 size={12} />
+                      <Edit2 size={16} />
                     </IconBtn>
                     <IconBtn
                       title="Delete"
                       onClick={() => setDeleteConfirm(cat.id)}
                       danger
                     >
-                      <X size={12} />
+                      <X size={16} />
                     </IconBtn>
                   </div>
-
-                  {/* Delete confirmation popover */}
-                  {isDeleting && (() => {
-                    const unsortedCat = categories.find((c) => c.id === UNSORTED_CATEGORY_ID)
-
-                    return (
-                      <div style={{
-                        position: 'absolute',
-                        top: 'calc(100% + var(--space-xs))',
-                        right: 0,
-                        zIndex: 10,
-                        background: 'var(--color-background-primary)',
-                        border: 'var(--border-width-s) solid var(--color-border-default)',
-                        borderRadius: 'var(--border-radius-m)',
-                        boxShadow: 'var(--shadow-card)',
-                        padding: 'var(--space-m)',
-                        minWidth: '220px',
-                      }}>
-                        <p style={{
-                          fontFamily: 'var(--font-body)',
-                          fontSize: 'var(--typography-desktop-text-s-semi-bold-size)',
-                          fontWeight: 'var(--typography-desktop-text-s-semi-bold-weight)',
-                          lineHeight: 'var(--typography-desktop-text-s-semi-bold-line-height)',
-                          color: 'var(--color-text-primary)',
-                          margin: '0 0 var(--space-xs) 0',
-                        }}>
-                          Delete &ldquo;{cat.label}&rdquo;?
-                        </p>
-                        <p style={{
-                          fontFamily: 'var(--font-body)',
-                          fontSize: 'var(--typography-desktop-text-xs-regular-size)',
-                          lineHeight: 'var(--typography-desktop-text-xs-regular-line-height)',
-                          color: 'var(--color-text-secondary)',
-                          margin: '0 0 var(--space-m) 0',
-                        }}>
-                          {count > 0 && unsortedCat
-                            ? `${count} recipe${count === 1 ? '' : 's'} will be moved to "${unsortedCat.label}".`
-                            : 'No recipes are using this category.'}
-                        </p>
-                        <div style={{ display: 'flex', gap: 'var(--space-s)' }}>
-                          <button onClick={() => confirmDelete(cat.id)} style={{
-                            flex: 1,
-                            height: '32px',
-                            borderRadius: 'var(--border-radius-s)',
-                            border: 'none',
-                            background: 'var(--color-background-negative)',
-                            color: 'var(--color-text-primary-inverse)',
-                            fontFamily: 'var(--font-body)',
-                            fontSize: 'var(--typography-desktop-text-xs-semi-bold-size)',
-                            fontWeight: 'var(--typography-desktop-text-xs-semi-bold-weight)',
-                            cursor: 'pointer',
-                          }}>
-                            Delete
-                          </button>
-                          <button onClick={() => setDeleteConfirm(null)} style={{
-                            flex: 1,
-                            height: '32px',
-                            borderRadius: 'var(--border-radius-s)',
-                            border: 'var(--border-width-s) solid var(--color-border-default)',
-                            background: 'var(--color-background-primary)',
-                            color: 'var(--color-text-secondary)',
-                            fontFamily: 'var(--font-body)',
-                            fontSize: 'var(--typography-desktop-text-xs-semi-bold-size)',
-                            fontWeight: 'var(--typography-desktop-text-xs-regular-weight)',
-                            cursor: 'pointer',
-                          }}>
-                            Cancel
-                          </button>
-                        </div>
-                      </div>
-                    )
-                  })()}
                 </div>
               )
             })}
@@ -627,13 +524,32 @@ export function ManageCategoriesModal({ onClose }: Props) {
             {mode === 'add' ? (
               <div style={{
                 borderRadius: 'var(--border-radius-s)',
-                border: 'var(--border-width-s) solid var(--color-border-brand)',
-                background: 'var(--color-background-brand-subtle)',
+                border: 'var(--border-width-s) solid var(--color-border-default)',
+                background: 'var(--color-background-secondary)',
                 padding: 'var(--space-m)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 'var(--space-s)',
+                gap: 'var(--space-m)',
               }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+                  <span style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--typography-desktop-text-m-semi-bold-size)',
+                    fontWeight: 'var(--typography-desktop-text-m-semi-bold-weight)',
+                    lineHeight: 'var(--typography-desktop-text-m-semi-bold-line-height)',
+                    color: 'var(--color-text-primary)',
+                  }}>
+                    New category
+                  </span>
+                  <span style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--typography-desktop-text-s-regular-size)',
+                    lineHeight: 'var(--typography-desktop-text-s-regular-line-height)',
+                    color: 'var(--color-text-secondary)',
+                  }}>
+                    Group recipes your own way — pick an icon and give it a name.
+                  </span>
+                </div>
                 <InlineForm
                   inputRef={inputRef}
                   label={label}
@@ -645,16 +561,14 @@ export function ManageCategoriesModal({ onClose }: Props) {
                   onSave={save}
                   onCancel={cancel}
                 />
-                <p style={{
+                <span style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: 'var(--typography-desktop-text-xs-regular-size)',
                   lineHeight: 'var(--typography-desktop-text-xs-regular-line-height)',
                   color: 'var(--color-text-tertiary)',
-                  margin: 0,
-                  paddingLeft: 'var(--space-xs)',
                 }}>
-                  Tap the emoji to pick an icon · Press <b>Enter</b> to save
-                </p>
+                  Tap the emoji to change the icon · Press <b>Enter</b> to save
+                </span>
               </div>
             ) : (
               <button
@@ -679,45 +593,11 @@ export function ManageCategoriesModal({ onClose }: Props) {
                 }}
               >
                 <Plus size={14} />
-                Add category
+                New category
               </button>
             )}
           </div>
-
-          {/* ── Hint ── */}
-          <div style={{
-            marginTop: 'var(--space-l)',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: 'var(--space-s)',
-          }}>
-            <HelpCircle
-              size={12}
-              style={{ color: 'var(--color-text-disabled)', flexShrink: 0, marginTop: '1px' }}
-            />
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--typography-desktop-text-xs-regular-size)',
-              lineHeight: 'var(--typography-desktop-text-xs-regular-line-height)',
-              color: 'var(--color-text-disabled)',
-              margin: 0,
-            }}>
-              Categories appear as sections in your Library and as filters in the meal planner. Recipes without a category are placed in <b>Unsorted</b>.
-            </p>
-          </div>
-        </div>
-
-        {/* ── Footer ── */}
-        <div style={{
-          padding: 'var(--space-m) var(--space-xl)',
-          borderTop: 'var(--border-width-s) solid var(--color-border-default)',
-        }}>
-          <Button onClick={onClose} type="Primary" size="M" className="w-full">
-            Done
-          </Button>
-        </div>
-      </div>
-    </div>
+    </SlideDrawer>
   )
 }
 
@@ -895,9 +775,9 @@ function IconBtn({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '24px',
-        height: '24px',
-        borderRadius: 'var(--border-radius-xs)',
+        width: '32px',
+        height: '32px',
+        borderRadius: 'var(--border-radius-s)',
         border: 'none',
         background: 'transparent',
         color: disabled

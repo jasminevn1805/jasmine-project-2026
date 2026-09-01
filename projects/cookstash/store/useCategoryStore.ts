@@ -17,7 +17,7 @@ export const UNSORTED_CATEGORY_ID = 'unsorted'
 
 // ── Defaults (built-in categories) ──────────────────────────
 const DEFAULT_CATEGORIES: CategoryMeta[] = [
-  { id: UNSORTED_CATEGORY_ID, label: 'Inbox', emoji: '📥' },
+  { id: UNSORTED_CATEGORY_ID, label: 'Unsorted', emoji: '📥' },
   { id: 'main-course', label: 'Main Course', emoji: '🍽️' },
   { id: 'breakfast',   label: 'Breakfast',   emoji: '🥞' },
   { id: 'salad',       label: 'Salads',      emoji: '🥗' },
@@ -83,7 +83,7 @@ export const useCategoryStore = create<CategoryStore>()(
     }),
     {
       name: 'cookstash-categories',
-      version: 3,
+      version: 4,
       migrate: (persisted: unknown, version: number) => {
         const state = persisted as CategoryStore
         let cats = state.categories ?? []
@@ -106,10 +106,21 @@ export const useCategoryStore = create<CategoryStore>()(
           )
         }
 
+        if (version < 4) {
+          // Rename "Inbox" label → "Unsorted" (id stays the same) — "Inbox"
+          // read as an email-style feature; "Unsorted" says plainly what
+          // it is: recipes with no category yet.
+          cats = cats.map((c) =>
+            c.id === UNSORTED_CATEGORY_ID
+              ? { ...c, label: 'Unsorted', emoji: '📥' }
+              : c
+          )
+        }
+
         const rest = cats.filter((c) => c.id !== UNSORTED_CATEGORY_ID)
         const unsorted =
           cats.find((c) => c.id === UNSORTED_CATEGORY_ID) ??
-          { id: UNSORTED_CATEGORY_ID, label: 'Inbox', emoji: '📥' }
+          { id: UNSORTED_CATEGORY_ID, label: 'Unsorted', emoji: '📥' }
         return { ...state, categories: [unsorted, ...rest] }
       },
     }
