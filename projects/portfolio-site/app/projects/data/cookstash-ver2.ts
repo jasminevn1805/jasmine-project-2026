@@ -1,5 +1,13 @@
 import type { ProjectData } from './types';
 
+// Shared by the top "Try the live demo" button and the inline link below —
+// one place to keep the dev/prod split in sync. NODE_ENV is statically
+// inlined by Next.js at build time.
+const demoUrl =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3001'
+    : 'https://cookstash.phuonghoang.ca';
+
 export const cookstashVer2: ProjectData = {
   slug: 'cookstash-ver2',
   title: 'Cookstash — Bring all those cooking ideas into one place',
@@ -414,7 +422,7 @@ export const cookstashVer2: ProjectData = {
       type: 'text',
       heading: 'Try the live demo',
       content: [
-        'The full loop is live and interactive — save a recipe, plan a week, create a grocery list, and share it in one link. Open the running app from the "Try the live demo" button at the top of this page.',
+        `The full loop is live and interactive — save a recipe, plan a week, create a grocery list, and share it in one link. Click [here](${demoUrl}) to try the demo.`,
       ],
     },
     /*{
@@ -456,10 +464,5 @@ export const cookstashVer2: ProjectData = {
 
   images: [],
 
-  // In dev, point at the local cookstash server (port 3001).
-  // NODE_ENV is statically inlined by Next.js at build time.
-  link:
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3001'
-      : 'https://cookstash.phuonghoang.ca',
+  link: demoUrl,
 };

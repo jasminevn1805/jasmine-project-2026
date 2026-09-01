@@ -69,19 +69,36 @@ function SectionRenderer({ section, fullWidthDivider }: { section: ContentSectio
   const outerDivider = fullWidthDivider ? 'border-b border-line' : '';
   const innerDivider = fullWidthDivider ? '' : 'border-b border-line pb-14';
 
-  // Renders `**text**` as bold within an otherwise plain string — used for
-  // inline sub-header emphasis (e.g. "**Credit:** ...") inside list item bodies.
+  // Renders `**text**` as bold and `[text](url)` as a link within an
+  // otherwise plain string — used for inline sub-header emphasis (e.g.
+  // "**Credit:** ...") and inline links (e.g. "...share it in one link.
+  // [Try the demo](url).") inside list item bodies and text content.
   const renderInlineBold = (text: string) => {
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, i) =>
-      part.startsWith('**') && part.endsWith('**') ? (
-        <strong key={i} className="font-semibold text-ink">
-          {part.slice(2, -2)}
-        </strong>
-      ) : (
-        <span key={i}>{part}</span>
-      )
-    );
+    const parts = text.split(/(\*\*.*?\*\*|\[[^\]]*\]\([^)]*\))/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return (
+          <strong key={i} className="font-semibold text-ink">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      const linkMatch = part.match(/^\[([^\]]*)\]\(([^)]*)\)$/);
+      if (linkMatch) {
+        return (
+          <a
+            key={i}
+            href={linkMatch[2]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-4 decoration-line hover:decoration-ink transition-colors"
+          >
+            {linkMatch[1]}
+          </a>
+        );
+      }
+      return <span key={i}>{part}</span>;
+    });
   };
 
   const ContentLines = ({ content }: { content: string | string[] }) => {

@@ -100,7 +100,7 @@ export default function Contact() {
             className="pt-8 border-t border-line text-center text-secondary"
           >
             <p className="text-sm">© {new Date().getFullYear()} Phuong Hoang. All Rights Reserved.</p>
-            <p className="text-xs mt-2 text-muted">Built with Next.js, TypeScript & Framer Motion</p>
+            <p className="text-xs mt-2 text-muted">Designed and built by Phuong Hoang, with Claude Code</p>
           </motion.div>
         </div>
       </div>
