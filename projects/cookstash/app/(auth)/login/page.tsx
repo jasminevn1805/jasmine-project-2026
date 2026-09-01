@@ -28,15 +28,6 @@ export default function LoginPage() {
     router.push('/library')
   }
 
-  /**
-   * Portfolio demo shortcut — skips the name step so reviewers can land
-   * inside a fully populated app in one click.
-   */
-  function handleDemo() {
-    login('Maya')
-    router.push('/library')
-  }
-
   return (
     <main className="min-h-screen flex">
 
@@ -103,45 +94,14 @@ export default function LoginPage() {
 
         <div className="w-full max-w-sm">
           {/* Heading */}
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold mb-1.5"
+          <div className="mb-12 text-center">
+            <h1 className="text-3xl font-bold mb-1.5"
               style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}>
-              Welcome back 👋
+              Welcome
             </h1>
             <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-              Enter your name to pick up where you left off.
+              Enter your name to get started.
             </p>
-          </div>
-
-          {/* Demo shortcut — primary CTA for portfolio reviewers */}
-          <div
-            className="mb-6 p-4 rounded-xl border"
-            style={{
-              borderColor: 'var(--color-border-default, rgba(0,0,0,0.08))',
-              background: 'var(--color-background-secondary, rgba(0,0,0,0.02))',
-            }}
-          >
-            <p className="text-xs font-medium mb-1" style={{ color: 'var(--color-text-secondary)' }}>
-              👀 Reviewing this as a portfolio piece?
-            </p>
-            <p className="text-xs mb-3 leading-relaxed" style={{ color: 'var(--color-text-tertiary)' }}>
-              Skip the sign-in — explore a fully populated demo with sample recipes and a pre-built week.
-            </p>
-            <Button
-              type="Secondary"
-              size="M"
-              className="w-full"
-              onClick={handleDemo}
-            >
-              Try the demo as Maya →
-            </Button>
-          </div>
-
-          {/* Divider */}
-          <div className="flex items-center gap-3 mb-6">
-            <div className="flex-1 h-px" style={{ background: 'var(--color-border-default, rgba(0,0,0,0.08))' }} />
-            <span className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>or use your own name</span>
-            <div className="flex-1 h-px" style={{ background: 'var(--color-border-default, rgba(0,0,0,0.08))' }} />
           </div>
 
           {/* Form */}
@@ -150,7 +110,7 @@ export default function LoginPage() {
               id="username"
               label="Your name"
               type="text"
-              placeholder="e.g. Maya"
+              placeholder="Phuong"
               value={username}
               autoFocus
               onChange={(e) => { setUsername(e.target.value); setError('') }}
