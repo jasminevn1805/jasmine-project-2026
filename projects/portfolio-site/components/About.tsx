@@ -13,31 +13,31 @@ export default function About() {
       label: '01',
       value: 'Frame',
       detail:
-        'Product strategy · Problem definition · User research.',
+        'Product discovery · Problem framing · UX research · Product strategy.',
     },
     {
       label: '02',
       value: 'Structure',
       detail:
-        'Information architecture · User flows · Content structure · Systems thinking.',
+        'Information modelling · IA · User flows · Systems thinking.',
     },
     {
       label: '03',
       value: 'Design',
       detail:
-        'Interaction design · Visual design · Design systems.',
+        'Design systems · Interaction design · Visual design.',
     },
     {
       label: '04',
       value: 'Validate',
       detail:
-        'Prototyping · Usability testing · Working prototypes.',
+        'Interactive Prototyping · Usability testing · UX Audit.',
     },
     {
       label: '05',
       value: 'Deliver',
       detail:
-        'Design–development collaboration · Design specifications · UX Audit · Design handoff.',
+        'Design–development collaboration · Design specifications · Design handoff.',
     },
   ];
 
