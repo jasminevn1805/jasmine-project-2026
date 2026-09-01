@@ -313,9 +313,16 @@ export default function Projects() {
                     <h3 className="text-xl md:text-2xl font-normal text-ink tracking-tight group-hover:text-secondary transition-colors">
                       {project.title}
                     </h3>
-                    <p className="text-[11px] uppercase tracking-[0.22em] text-secondary font-medium">
-                      {project.category}
-                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.category.split('·').map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs text-secondary border border-line rounded-full px-2.5 py-1"
+                        >
+                          {tag.trim()}
+                        </span>
+                      ))}
+                    </div>
                     {project.subtitle && (
                       <p className="text-base md:text-xl font-semi-bold text-ink tracking-tight leading-snug">
                         {project.subtitle}

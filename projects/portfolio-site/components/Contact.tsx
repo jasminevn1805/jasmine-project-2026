@@ -10,7 +10,7 @@ export default function Contact() {
 
   const socials = [
     { name: 'GitHub', url: 'https://github.com/jasminevn1805/jasmine-project-2026', icon: '→' },
-    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/phuondhtt', icon: '→' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/phuonghoangux/', icon: '→' },
   ];
 
   return (

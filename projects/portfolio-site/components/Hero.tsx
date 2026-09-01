@@ -23,7 +23,7 @@ export default function Hero() {
               Phuong Hoang
             </h1>
             <p className="text-xl md:text-2xl text-secondary leading-snug">
-              Senior Product Designer — Calgary, Canada
+              Product Designer — Calgary, Canada
             </p>
           </div>
 

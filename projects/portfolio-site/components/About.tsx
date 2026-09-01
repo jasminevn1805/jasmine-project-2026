@@ -83,36 +83,30 @@ export default function About() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <h3 className={eyebrowClass}>Based in</h3>
-                <p className="text-sm text-ink">Calgary, Canada</p>
-              </div>
-              <div className="space-y-2">
-                <h3 className={eyebrowClass}>Contact</h3>
-                <a
-                  href="mailto:jasminevn1805@gmail.com"
-                  className="block text-sm text-ink hover:text-secondary transition-colors"
-                >
-                  Email
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/phuondhtt"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-sm text-ink hover:text-secondary transition-colors"
-                >
-                  LinkedIn ↗
-                </a>
-                <a
-                  href="https://github.com/jasminevn1805/jasmine-project-2026"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-sm text-ink hover:text-secondary transition-colors"
-                >
-                  GitHub ↗
-                </a>
-              </div>
+            <div className="space-y-2">
+              <h3 className={eyebrowClass}>Contact</h3>
+              <a
+                href="mailto:jasminevn1805@gmail.com"
+                className="block text-sm text-ink hover:text-secondary transition-colors"
+              >
+                Email
+              </a>
+              <a
+                href="https://www.linkedin.com/in/phuonghoangux/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-ink hover:text-secondary transition-colors"
+              >
+                LinkedIn ↗
+              </a>
+              <a
+                href="https://github.com/jasminevn1805/jasmine-project-2026"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-ink hover:text-secondary transition-colors"
+              >
+                GitHub ↗
+              </a>
             </div>
 
             <div className="space-y-4">
