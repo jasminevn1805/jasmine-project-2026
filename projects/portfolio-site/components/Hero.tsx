@@ -20,7 +20,7 @@ export default function Hero() {
               Portfolio · 2026
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.05] tracking-tight text-ink">
-              Jasmine Hoang
+              Phuong Hoang
             </h1>
             <p className="text-xl md:text-2xl text-secondary leading-snug">
               Senior Product Designer — Calgary, Canada

@@ -31,13 +31,13 @@ export default function About() {
       label: '04',
       value: 'Validate',
       detail:
-        'Prototyping · Usability testing · Design validation.',
+        'Prototyping · Usability testing · Working prototypes.',
     },
     {
       label: '05',
       value: 'Build',
       detail:
-        'Prototyping · Usability testing · Design validation.',
+        'Design–development collaboration · Design systems · Design validation.',
     },
   ];
 

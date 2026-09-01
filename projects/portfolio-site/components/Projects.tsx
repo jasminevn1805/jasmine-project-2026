@@ -54,7 +54,7 @@ const projects: Project[] = [
     slug: 'dermago',
     title: 'Dermago',
     category: 'Digital Health · UX Research · Design Systems',
-    subtitle: 'Simplying asynchronous dermatology',
+    subtitle: 'Simplifying asynchronous dermatology consultation',
     description:
       'An asynchronous, chat-based telemedicine app that replaces the three-week wait for a five-minute appointment with a photo, a symptom, and a diagnosis — no waiting room required.',
     image: '/site/dm-thumbnail.png',

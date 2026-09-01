@@ -99,7 +99,7 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="pt-8 border-t border-line text-center text-secondary"
           >
-            <p className="text-sm">© {new Date().getFullYear()} Jasmine Hoang. All Rights Reserved.</p>
+            <p className="text-sm">© {new Date().getFullYear()} Phuong Hoang. All Rights Reserved.</p>
             <p className="text-xs mt-2 text-muted">Built with Next.js, TypeScript & Framer Motion</p>
           </motion.div>
         </div>

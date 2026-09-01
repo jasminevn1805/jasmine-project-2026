@@ -23,12 +23,13 @@ export default function Navigation() {
       }`}
     >
       <div className="max-w-screen-2xl mx-auto px-6 py-6 flex justify-between items-center">
-        <motion.div
+        <motion.a
+          href="#home"
           whileHover={{ scale: 1.05 }}
           className="text-xl font-bold cursor-pointer"
         >
           PH
-        </motion.div>
+        </motion.a>
         
         <div className="hidden md:flex gap-8 items-center text-sm tracking-widest">
           <a href="#home" className="text-ink hover:text-secondary transition-colors">

@@ -10,7 +10,7 @@ const amiri = Amiri({
 });
 
 export const metadata: Metadata = {
-  title: "Jasmine Hoang - Portfolio",
+  title: "Phuong Hoang - Portfolio",
   description: "UI/UX Designer & Developer based in Canada",
 };
 
