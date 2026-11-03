@@ -283,7 +283,7 @@ export default function Experience() {
               I started in technical documentation, moved into industrial software, and grew into end-to-end product design across healthcare, cloud services, and spatial-data platforms.
             </p>
             <a
-              href="https://docs.google.com/document/d/13Xc1GuhFoESHy8PB-59tbM8-UCd8WTmA/edit?usp=sharing&ouid=101496477002952260286&rtpof=true&sd=true"
+              href="https://drive.google.com/file/d/1zCiU0ABjjCx2xRPEP9z5qajVYktC16qW/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block text-sm text-ink underline underline-offset-4 decoration-line hover:decoration-ink transition-colors"
