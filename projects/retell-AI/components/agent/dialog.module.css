@@ -1,0 +1,213 @@
+/* D1 · Connect calendar. Tokens only. */
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding: var(--space-32) var(--space-24) 0 var(--space-32);
+}
+.step { margin: 0 0 var(--space-4); font: var(--type-small); color: var(--color-text-tertiary); }
+.title { margin: 0; font: var(--type-title); }
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: calc(var(--space-8) * -1) calc(var(--space-8) * -1) 0 0;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-icon-subtle);
+  cursor: pointer;
+}
+.close:hover { background: var(--color-background-hover); color: var(--color-icon-primary); }
+
+.body { display: flex; flex-direction: column; gap: var(--space-20); padding: var(--space-16) var(--space-32) var(--space-24); }
+.desc { margin: 0; font: var(--type-body); color: var(--color-text-secondary); max-width: 60ch; }
+
+/* Radio cards */
+.fieldset { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-8); }
+.legend { padding: 0; margin-bottom: var(--space-12); font: var(--type-heading); }
+.option {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-12);
+  min-height: 44px;
+  padding: var(--space-12) var(--space-16);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-m);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+/* Hover = neutral grey fill + darker outline (it's a card); violet only once selected */
+.option:hover { border-color: var(--color-border-primary); background: var(--color-background-hover); }
+/* Neutral progression: rest (light outline) → hover (grey fill, darker outline) →
+   selected (white, 2px near-black outline + near-black radio dot). All mono. */
+.option:has(input:checked) {
+  border-color: var(--color-border-mono);
+  box-shadow: inset 0 0 0 1px var(--color-border-mono); /* 2px total, no layout shift */
+  background: var(--color-background-primary);
+}
+.option:has(input:focus-visible) { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+.option input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--color-border-mono); /* same near-black as the selected outline */
+  cursor: pointer;
+}
+.option input:focus-visible { outline: none; } /* ring is drawn on the card */
+.option > span { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); min-width: 0; text-align: left; }
+.optionTitle { display: flex; align-items: center; gap: var(--space-8); margin: 0; font: var(--type-strong); color: var(--color-text-primary); }
+.optionDetail { margin: 0; font: var(--type-body); color: var(--color-text-tertiary); }
+.error { margin: var(--space-4) 0 0; font: var(--type-body); color: var(--color-text-negative); }
+
+/* "Not ready to connect?" — the sample calendar shortcut */
+/* Divider separates the real options from the "not ready" escape hatch */
+.sample {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding-top: var(--space-20);
+  border-top: 1px solid var(--color-border-subtle);
+}
+.sampleLead { margin: 0; font: var(--type-small); color: var(--color-text-tertiary); }
+.sampleCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-16);
+  border-radius: var(--radius-m);
+  background: var(--color-background-subtle);
+}
+.sampleText { flex: 1; display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+/* Same as "Connect calendar" in the Actions rows: DS Text S, calendar icon, underlined,
+   8px icon gap, invisible 44px hit area. */
+.sampleCard .sampleBtn {
+  position: relative;
+  flex: none;
+  gap: var(--space-8);
+  padding: 0 var(--space-4);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.sampleCard .sampleBtn::after { content: ''; position: absolute; inset: -6px -4px; }
+
+.keepBuilding {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-16);
+  border-radius: var(--radius-m);
+  background: var(--color-background-subtle);
+}
+
+/* Provider path */
+.signIn { display: flex; }
+.signIn button { gap: var(--space-8); }
+.signedIn { display: flex; align-items: center; gap: var(--space-8); margin: 0; font: var(--type-body); color: var(--color-text-secondary); }
+.signedIn svg { color: var(--color-text-positive); }
+
+/* D2 / D2.1 · key-value lists: data-grid rows (12/16, 16px icons) held in one outlined
+   panel, the same radius and border as the Version name field, so each part reads as
+   label + its own box instead of loose lines. */
+.checks, .changes {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-m);
+  background: var(--color-background-primary);
+}
+.checks li, .changes li {
+  display: grid;
+  align-items: center;
+  min-height: 40px;
+  padding: var(--space-10) 0;
+  border-top: 1px solid var(--color-border-subtle);
+  font: var(--type-grid);
+  color: var(--color-text-secondary);
+}
+.checks li:first-child, .changes li:first-child { border-top: 0; }
+/* icon 8 → label, label 16 → value */
+.checks li { grid-template-columns: 16px 112px minmax(0, 1fr); column-gap: var(--space-8); }
+.checks li .checkValue { padding-left: var(--space-8); }
+.changes li { grid-template-columns: 120px minmax(0, 1fr); column-gap: var(--space-16); align-items: baseline; }
+.checkOk svg { color: var(--color-icon-positive, var(--color-text-positive)); }
+.checkWarn svg { color: var(--color-icon-warning); }
+.checkLabel, .changeArea { color: var(--color-text-primary); }
+.checkValue { color: var(--color-text-secondary); }
+.checkWarn .checkValue { color: var(--color-text-warning); }
+/* Part label row: label left, a one-line summary right */
+.groupHead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-12); }
+.groupMeta { font: var(--type-small); font-weight: var(--typography-desktop-text-s-regular-weight); color: var(--color-text-tertiary); }
+.groupMetaOk { color: var(--color-text-positive); }
+.groupMetaWarn { color: var(--color-text-warning); }
+.footnote { margin: 0; font: var(--type-body); color: var(--color-text-tertiary); }
+
+/* D2 · Publish: parts 24px apart, label → content 8px */
+.parts { gap: var(--space-24); }
+.group { display: flex; flex-direction: column; gap: var(--space-8); margin: 0; padding: 0; border: 0; min-width: 0; }
+.groupTitle { padding: 0; margin: 0; font: var(--type-strong); color: var(--color-text-primary); }
+.nameField { width: 100%; }
+.nameField .nameInput { height: 44px; border-color: var(--color-border-primary); font: var(--type-body); color: var(--color-text-primary); }
+/* Checkbox: body text, like every other label on the page (DS default is 12px) */
+.thenCheck { margin-top: var(--space-8); } /* 16px under the note */
+.thenCheck label { gap: var(--space-8); }
+.thenCheck label > span:last-child { font: var(--type-body); color: var(--color-text-primary); }
+.group .buy { position: relative; align-self: flex-start; padding: 0; min-height: 0; text-decoration: underline; text-underline-offset: 3px; }
+.group .buy::after { content: ''; position: absolute; inset: -12px -4px; } /* 44px hit area */
+
+/* Footer */
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding: var(--space-16) var(--space-24) var(--space-24) var(--space-32);
+  border-top: 1px solid var(--color-border-subtle);
+}
+.footActions { display: flex; gap: var(--space-12); }
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 44px;
+  margin-left: calc(var(--space-8) * -1);
+  padding: 0 var(--space-8);
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-secondary);
+  font: var(--type-strong);
+  cursor: pointer;
+}
+.back:hover { background: var(--color-background-hover); color: var(--color-text-primary); }
+
+@media (max-width: 1023px) {
+  .head { padding: var(--space-20) var(--space-16) 0; }
+  .body { padding: var(--space-12) var(--space-16) var(--space-20); }
+  .checks li, .changes li { min-height: 44px; }
+  /* Narrow: the area sits above its detail instead of squeezing a column */
+  .changes li { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-2); }
+  .checks li { grid-template-columns: 16px minmax(0, 1fr); }
+  .checks li .checkValue { grid-column: 2; padding-left: 0; }
+  .sampleCard { flex-direction: column; align-items: flex-start; gap: var(--space-8); }
+  /* Mobile: full-width actions (primary on top, in the thumb zone), Back below */
+  .foot {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: var(--space-8);
+    padding: var(--space-12) var(--space-16) calc(var(--space-16) + env(safe-area-inset-bottom));
+  }
+  .foot > span:empty { display: none; }
+  .back { align-self: flex-start; margin-left: calc(var(--space-8) * -1); }
+  .footActions { flex-direction: column-reverse; }
+  .footActions > * { width: 100%; }
+}
+.noteLine { display: block; }
+.noteLine + .noteLine { margin-top: var(--space-4); }
+.fieldset > .groupTitle { margin-bottom: var(--space-8); }

@@ -159,6 +159,17 @@
     --primitive-warm-gray-800: #2d2d2d;
     --primitive-warm-gray-900: #1a1a1a;
     --primitive-warm-gray-canvas: #fafafa;
+    --primitive-cool-gray-0: #ffffff;
+    --primitive-cool-gray-50: #f5f6f8;
+    --primitive-cool-gray-100: #eef0f3;
+    --primitive-cool-gray-200: #e2e5e9;
+    --primitive-cool-gray-300: #c9cdd3;
+    --primitive-cool-gray-400: #a3a9b1;
+    --primitive-cool-gray-500: #7d848f;
+    --primitive-cool-gray-600: #5c636d;
+    --primitive-cool-gray-700: #464d57;
+    --primitive-cool-gray-800: #2c3138;
+    --primitive-cool-gray-900: #13161b;
 
     /* ===== PRIMITIVE TYPOGRAPHY (Font Families) ===== */
     /* Reference in project theme.css: --font-display: var(--primitive-typography-family-plus-jakarta-sans); */
@@ -168,6 +179,7 @@
     --primitive-typography-family-plus-jakarta-sans: 'Plus Jakarta Sans', sans-serif;
     --primitive-typography-family-amiri: 'Amiri', sans-serif;
     --primitive-typography-family-mono: 'ui-monospace', sans-serif;
+    --primitive-typography-family-instrument-sans: 'Instrument Sans', sans-serif;
 
     /* ===== PRIMITIVE SPACING (Raw Scale) ===== */
     /* Reference in project theme.css: --space-section: var(--primitive-spacing-48); */

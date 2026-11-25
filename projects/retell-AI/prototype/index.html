@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent builder · Changes pending</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- One icon family: 24px grid, 1.75 stroke, round caps. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+      <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+      <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 2.4 17.6A2 2 0 0 0 4.1 20.6h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4M12 17h.01"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+      <symbol id="i-tick" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.5 13.9 9l5.6 1.9-5.6 1.9L12 18.5l-1.9-5.7-5.6-1.9L10.1 9z"/><path d="M19 3v3M17.5 4.5h3"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5M9 13h6M9 17h4"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+      <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="app" data-state="pending">
+    <!-- Global navigation (L0 · Workspace) -->
+    <nav class="rail" aria-label="Workspace">
+      <a class="rail__item is-current" href="#" aria-current="page"><svg class="ic"><use href="#i-bot"/></svg><span>Agents</span></a>
+      <a class="rail__item" href="#"><svg class="ic"><use href="#i-book"/></svg><span>Knowledge bases</span></a>
+      <a class="rail__item" href="#"><svg class="ic"><use href="#i-phone"/></svg><span>Phone numbers</span></a>
+      <a class="rail__item" href="#"><svg class="ic"><use href="#i-clock"/></svg><span>Call history</span></a>
+    </nav>
+
+    <!-- L2 · State zone: top bar -->
+    <header class="topbar">
+      <a class="back mobile-only" href="#"><svg class="ic"><use href="#i-left"/></svg>Agents</a>
+      <div class="topbar__title">
+        <a class="crumb desk-only" href="#">Agents</a><span class="crumb-sep desk-only" aria-hidden="true">/</span>
+        <h1 class="t-title">Maple Grove Dental · Booking</h1>
+        <span class="status-chip" id="statusChip" role="status">
+          <span class="status-chip__dot" aria-hidden="true"></span><span id="statusText">Changes pending</span>
+        </span>
+      </div>
+      <div class="topbar__actions">
+        <div class="pop-anchor desk-only">
+          <button class="btn btn--quiet" id="versionsBtn" aria-expanded="false" aria-controls="versionsPop">Versions <svg class="ic ic--s"><use href="#i-down"/></svg></button>
+          <div class="popover popover--right" id="versionsPop" hidden>
+            <p class="t-strong">No versions yet</p>
+            <p class="t-body muted">Apply turns the 4 pending changes into v1. Tests and calls always run on a version.</p>
+          </div>
+        </div>
+        <div class="pop-anchor desk-only">
+          <button class="btn btn--secondary" id="publishBtn" aria-expanded="false" aria-controls="publishPop">Publish</button>
+          <div class="popover popover--right" id="publishPop" hidden>
+            <p class="t-strong">Not ready to publish yet</p>
+            <ul class="checklist" id="publishList">
+              <li data-todo="apply"><svg class="ic ic--s"><use href="#i-alert"/></svg>Apply 4 pending changes</li>
+              <li data-todo="cal"><svg class="ic ic--s"><use href="#i-alert"/></svg>Connect a calendar for booking</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pop-anchor mobile-only">
+          <button class="btn btn--icon" id="moreBtn" aria-label="More: versions and publish" aria-expanded="false" aria-controls="morePop"><svg class="ic"><use href="#i-more"/></svg></button>
+          <div class="popover popover--right" id="morePop" hidden>
+            <p class="t-strong">Versions</p>
+            <p class="t-body muted">No versions yet. Apply creates v1.</p>
+            <hr class="divider" />
+            <p class="t-strong">Publish</p>
+            <p class="t-body muted">Apply your changes and connect a calendar first.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- L2 · Definition zone: the agent spec -->
+    <main class="spec" id="spec" aria-label="Agent spec">
+      <div class="spec__inner">
+
+        <section class="card is-changed" data-section="summary" aria-labelledby="h-summary">
+          <header class="card__head">
+            <h2 class="t-heading" id="h-summary">Summary</h2>
+            <span class="badge-changed">Changed</span>
+            <div class="pop-anchor card__head-end desk-only">
+              <button class="usage-chip" id="usageBtn" aria-expanded="false" aria-controls="usagePop">
+                <span class="usage-chip__label">Usage</span>
+                <span>Est. $0.13/min · 800–1,000 ms · 1.3k tokens</span>
+                <span class="muted" id="usageWhen">starts with v1, after Apply</span>
+                <svg class="ic ic--s"><use href="#i-down"/></svg>
+              </button>
+              <div class="popover popover--right popover--usage" id="usagePop" hidden>
+                <p class="t-strong">Usage estimate · per minute of call</p>
+                <dl class="kv">
+                  <dt>Voice · Cimo</dt><dd>$0.07</dd>
+                  <dt>LLM · 1.3k tokens per turn</dt><dd>$0.05</dd>
+                  <dt>Telephony · Retell number</dt><dd>$0.01</dd>
+                  <dt class="kv__total">Total</dt><dd class="kv__total">$0.13/min</dd>
+                  <dt>Starts with</dt><dd id="usageStarts">v1, after Apply</dd>
+                  <dt>Latency · first reply</dt><dd>800–1,000 ms</dd>
+                </dl>
+                <p class="t-small muted">Voice in Summary · Model in <a href="#" class="link" data-jump="advanced">Advanced</a>. Estimates: each test result shows what that call actually cost.</p>
+              </div>
+            </div>
+          </header>
+          <dl class="rows desk-only">
+            <dt>Name</dt><dd>Maple Grove Dental · Booking</dd>
+            <dt>Voice</dt>
+            <dd class="row-inline">
+              <span>Cimo</span>
+              <button class="btn btn--tertiary btn--compact" id="sampleBtn" aria-pressed="false"><svg class="ic ic--s"><use href="#i-play"/></svg><span>Sample</span></button>
+              <span class="row-inline__pair"><span class="muted">Language</span><span>English (US)</span></span>
+            </dd>
+            <dt>Welcome</dt><dd>“Hi, this is Maple Grove Dental. Can I have your name first?”</dd>
+            <dt>Model</dt><dd class="row-inline"><span>GPT-4.1 · picked by Conductor</span><a href="#" class="link" data-jump="advanced">Change in Advanced<svg class="ic ic--s"><use href="#i-right"/></svg></a></dd>
+          </dl>
+          <div class="mobile-only compact-summary">
+            <p class="t-body">Cimo · English (US)</p>
+            <p class="t-body muted clamp-1">“Hi, this is Maple Grove Dental. Can I have your name first?”</p>
+          </div>
+        </section>
+
+        <section class="card is-changed" data-section="behavior" aria-labelledby="h-behavior">
+          <header class="card__head">
+            <h2 class="t-heading" id="h-behavior">Behavior</h2>
+            <span class="badge-changed">Changed</span>
+          </header>
+          <p class="t-small muted label">Prompt</p>
+          <div class="prompt" id="prompt">
+            <p>You are the booking assistant for Maple Grove Dental in Calgary. Greet the caller, then ask for their full name and phone number. Offer a cleaning, a check-up or an emergency visit. Cleanings take 60 minutes. Offer times from 7:30 am to 5 pm. Check availability first, and offer at most 3 slots. Never give medical advice. If the caller is in pain, transfer to the front desk.</p>
+            <h3>Who you are talking to</h3>
+            <p>Most callers are existing patients booking their six-month cleaning. Some are new patients who found the clinic online. A few are calling about pain, a broken tooth or swelling. Speak warmly and simply. Many callers are busy parents calling between other tasks, so keep each reply short and get to the booking quickly.</p>
+            <h3>Booking a cleaning or check-up</h3>
+            <p>Ask whether they are a new or existing patient. For existing patients, confirm their date of birth to find their file. For new patients, also ask for an email address so the front desk can send the intake form. Ask which days suit them, then use Check availability for those days. Offer no more than 3 slots, earliest first. When the caller picks one, use Book appointment, then read the date, time and dentist back to them and confirm.</p>
+            <p>If no slot suits them in the next two weeks, offer to add them to the cancellation list and tell them the front desk will call if a slot opens up. Do not promise a specific dentist unless the caller asks and that dentist has availability.</p>
+            <h3>Emergencies and pain</h3>
+            <p>If the caller mentions pain, swelling, bleeding that will not stop, or a knocked-out tooth, do not try to book a regular slot. Tell them you are connecting them to the front desk now, and use Transfer to front desk. Outside opening hours, tell them to go to the nearest emergency room if the pain is severe or they have trouble breathing or swallowing.</p>
+            <h3>Questions about the clinic</h3>
+            <p>Answer questions about services, prices, insurance and directions only from the clinic FAQ and the website. If the answer is not there, say you are not sure and offer to have the front desk call back. Never guess prices or what insurance will cover.</p>
+            <h3>Rules</h3>
+            <p>Never give medical advice or a diagnosis. Never share another patient's details. Say times and phone numbers the way people say them out loud. If the caller wants to cancel or move an appointment, collect their name and date of birth, then transfer to the front desk. End the call politely once the booking is confirmed and the caller has no other questions.</p>
+          </div>
+          <button class="link link--button" id="promptToggle" aria-expanded="false" aria-controls="prompt">Show full prompt · <span id="wordCount">—</span> words</button>
+          <hr class="divider" />
+          <button class="row-btn" id="handbookBtn" aria-expanded="false" aria-controls="handbookList">
+            <span class="row-btn__label muted">Handbook</span>
+            <span class="row-btn__value">4 rules on · Confirm details back, Say numbers naturally, Stay on topic, +1</span>
+            <svg class="ic row-btn__chev"><use href="#i-right"/></svg>
+          </button>
+          <ul class="sublist" id="handbookList" hidden>
+            <li><svg class="ic ic--s ok"><use href="#i-tick"/></svg>Confirm details back</li>
+            <li><svg class="ic ic--s ok"><use href="#i-tick"/></svg>Say numbers naturally</li>
+            <li><svg class="ic ic--s ok"><use href="#i-tick"/></svg>Stay on topic</li>
+            <li><svg class="ic ic--s ok"><use href="#i-tick"/></svg>Keep replies short</li>
+          </ul>
+        </section>
+
+        <section class="card is-changed" data-section="knowledge" aria-labelledby="h-knowledge">
+          <header class="card__head">
+            <h2 class="t-heading" id="h-knowledge">Knowledge</h2>
+            <span class="badge-changed">Changed</span>
+            <button class="card__head-end mobile-only knowledge-toggle" id="knowledgeToggle" aria-expanded="false" aria-controls="sourcesList">2 sources<svg class="ic ic--s"><use href="#i-right"/></svg></button>
+          </header>
+          <ul class="sources" id="sourcesList">
+            <li><svg class="ic muted"><use href="#i-file"/></svg><span>clinic-faq.pdf</span><span class="muted">6 pages</span></li>
+            <li><svg class="ic muted"><use href="#i-globe"/></svg><span>maplegrovedental.com</span><span class="muted">14 pages</span></li>
+          </ul>
+        </section>
+
+        <section class="card is-changed" data-section="actions" id="actionsCard" aria-labelledby="h-actions">
+          <header class="card__head">
+            <h2 class="t-heading" id="h-actions">Actions</h2>
+            <span class="badge-changed">Changed</span>
+            <span class="card__head-end warn-text t-small" id="actionsSummary">2 need a connection</span>
+          </header>
+          <ul class="actions">
+            <li class="is-warn">
+              <svg class="ic warn"><use href="#i-alert"/></svg>
+              <span class="actions__name">Check availability</span>
+              <span class="actions__status warn-text">Not connected</span>
+              <button class="btn btn--secondary actions__cta" id="connectBtn"><svg class="ic ic--s"><use href="#i-cal"/></svg>Connect calendar</button>
+            </li>
+            <li class="is-warn">
+              <svg class="ic warn"><use href="#i-alert"/></svg>
+              <span class="actions__name">Book appointment</span>
+              <span class="actions__status warn-text">Not connected</span>
+            </li>
+            <li>
+              <svg class="ic ok"><use href="#i-check"/></svg>
+              <span class="actions__name">Transfer to front desk</span>
+              <span class="actions__status muted">Ready</span>
+            </li>
+            <li>
+              <svg class="ic ok"><use href="#i-check"/></svg>
+              <span class="actions__name">End call</span>
+              <span class="actions__status muted">Ready</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="card" data-section="advanced" id="advancedCard" aria-labelledby="h-advanced">
+          <header class="card__head">
+            <h2 class="t-heading" id="h-advanced">Advanced</h2>
+            <span class="card__head-end muted t-small">Defaults on</span>
+          </header>
+          <button class="row-btn" id="advancedBtn" aria-expanded="false" aria-controls="advancedList">
+            <span class="row-btn__value muted">Voice &amp; speech, Call handling, After the call, Integrations, Model</span>
+            <svg class="ic row-btn__chev"><use href="#i-right"/></svg>
+          </button>
+          <ul class="sublist sublist--advanced" id="advancedList" hidden>
+            <li><span>Voice &amp; speech</span><span class="muted">Defaults on</span></li>
+            <li><span>Call handling</span><span class="muted">Defaults on</span></li>
+            <li><span>After the call</span><span class="muted">Defaults on</span></li>
+            <li><span>Integrations · MCPs, calendar connections</span><span class="muted">None yet</span></li>
+            <li><span>Model</span><span class="muted">GPT-4.1</span></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <!-- L2 · Workbench zone: Build | Test. Desktop: right pane. Mobile: bottom sheet. -->
+    <aside class="bench" id="bench" aria-label="Workbench" data-sheet="peek">
+      <div class="bench__resize desk-only" id="benchResize" role="separator" tabindex="0"
+           aria-orientation="vertical" aria-controls="bench" aria-label="Resize Conductor panel"
+           title="Drag to resize · double-click to reset"></div>
+      <button class="sheet-handle mobile-only" id="sheetHandle" aria-expanded="false" aria-controls="benchBody" aria-label="Expand Conductor"><span></span></button>
+
+      <div class="bench__head">
+        <p class="t-heading mobile-only sheet-title" id="sheetTitle">4 pending changes</p>
+        <div class="segmented" role="tablist" aria-label="Workbench mode">
+          <button role="tab" class="segmented__btn" id="tab-build" aria-selected="true" aria-controls="panel-build">Build</button>
+          <button role="tab" class="segmented__btn" id="tab-test" aria-selected="false" aria-controls="panel-test" tabindex="-1">Test</button>
+        </div>
+      </div>
+
+      <div class="bench__body" id="benchBody">
+        <div class="bench__scroll" id="panel-build" role="tabpanel" aria-labelledby="tab-build">
+          <div class="msg msg--you">
+            <p>A booking assistant for Maple Grove Dental in Calgary. It books cleanings and check-ups, and transfers emergencies to the front desk.</p>
+          </div>
+
+          <div class="msg msg--ai">
+            <p class="msg__meta"><svg class="ic ic--s accent"><use href="#i-spark"/></svg>Conductor · built your agent in 38 s</p>
+            <ul class="built">
+              <li><svg class="ic ic--s ok"><use href="#i-tick"/></svg><span><b>Summary</b> · name, voice Cimo, English (US), welcome</span></li>
+              <li><svg class="ic ic--s ok"><use href="#i-tick"/></svg><span><b>Behavior</b> · prompt, <span class="wc">—</span> words · 4 handbook rules on</span></li>
+              <li><svg class="ic ic--s ok"><use href="#i-tick"/></svg><span><b>Knowledge</b> · clinic-faq.pdf, maplegrovedental.com</span></li>
+              <li><svg class="ic ic--s ok"><use href="#i-tick"/></svg><span><b>Actions</b> · 4 added: check, book, transfer, end call</span></li>
+              <li><svg class="ic ic--s ok"><use href="#i-tick"/></svg><span><b>Model</b> · GPT-4.1</span></li>
+            </ul>
+          </div>
+
+          <div class="note note--warn" id="needsYou">
+            <svg class="ic warn"><use href="#i-alert"/></svg>
+            <p><b>Needs you:</b> Check availability and Book appointment need a calendar. <span id="needsYouStep">Apply first, then</span> <a href="#" class="link" data-jump="actions">Connect calendar in Actions</a>.</p>
+          </div>
+
+          <div id="chatExtra"></div>
+
+          <section class="pending" id="pendingCard" aria-labelledby="pendingTitle">
+            <h2 class="t-heading" id="pendingTitle"><span id="pendingCount">4</span> pending changes</h2>
+            <ul class="pending__list" id="pendingList">
+              <li><button class="trail-link" data-target="summary"><b>Summary</b> · new</button></li>
+              <li><button class="trail-link" data-target="behavior"><b>Behavior</b> · new prompt and handbook</button></li>
+              <li><button class="trail-link" data-target="knowledge"><b>Knowledge</b> · 2 sources added</button></li>
+              <li><button class="trail-link" data-target="actions"><b>Actions</b> · 4 added, 2 need a connection</button></li>
+            </ul>
+            <div class="pending__actions">
+              <button class="btn btn--secondary" id="discardBtn">Discard</button>
+              <button class="btn btn--primary btn--grow" id="applyBtn">Apply</button>
+            </div>
+            <div class="confirm" id="discardConfirm" hidden>
+              <p class="t-body">Discard all 4 changes? This removes everything Conductor built. There is no earlier version to go back to.</p>
+              <div class="pending__actions">
+                <button class="btn btn--secondary" id="keepBtn">Keep changes</button>
+                <button class="btn btn--danger btn--grow" id="confirmDiscardBtn">Discard 4 changes</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="bench__scroll" id="panel-test" role="tabpanel" aria-labelledby="tab-test" hidden>
+          <div class="test-modes" role="radiogroup" aria-label="Test with">
+            <button class="mode is-on" role="radio" aria-checked="true"><svg class="ic ic--s"><use href="#i-mic"/></svg>Audio</button>
+            <button class="mode" role="radio" aria-checked="false">Text</button>
+          </div>
+          <div class="note note--info" id="testNote">
+            <p><b>Nothing to test yet.</b> Tests run on a version, and your 4 changes aren't applied. Apply them to create v1, then run a test.</p>
+          </div>
+          <div class="test-cta">
+            <button class="btn btn--primary btn--block" id="testApplyBtn">Apply 4 changes</button>
+          </div>
+        </div>
+
+        <form class="ask" id="askForm" autocomplete="off">
+          <label class="sr-only" for="askInput">Ask Conductor</label>
+          <input class="ask__input" id="askInput" placeholder="Ask Conductor…" />
+          <button class="btn btn--icon ask__send" aria-label="Send to Conductor"><svg class="ic"><use href="#i-send"/></svg></button>
+        </form>
+      </div>
+
+      <!-- Mobile peek: Apply pinned in the thumb zone -->
+      <div class="sheet-cta mobile-only" id="sheetCta">
+        <button class="btn btn--primary btn--block" id="mApplyBtn">Apply 4 changes</button>
+      </div>
+    </aside>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+      <span id="toastText"></span>
+      <button class="link link--inverse" id="toastAction" hidden>Undo</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

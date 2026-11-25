@@ -14,11 +14,13 @@
 
     "dev:cookstash": "npm run build:ds && npm run dev --workspace=cookstash",
     "dev:portfolio": "npm run build:ds && npm run dev --workspace=portfolio-site",
+    "dev:retell": "npm run build:ds && npm run dev --workspace=retell-ai",
 
     "build:ds": "npm run build --workspace=@jasmine/design-system",
     "build:storybook": "npm run build:ds && npm run build --workspace=@jasmine/storybook",
     "build:cookstash": "npm run build:ds && npm run build --workspace=cookstash",
     "build:portfolio": "npm run build:ds && npm run build --workspace=portfolio-site",
+    "build:retell": "npm run build:ds && npm run build --workspace=retell-ai",
 
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",

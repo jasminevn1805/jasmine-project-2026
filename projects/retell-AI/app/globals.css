@@ -1,0 +1,51 @@
+/* ─── Google Fonts (must be first) ─────────────────────────────
+   Loaded by family name (not next/font) so the font matches the
+   --primitive-typography-family-instrument-sans value exactly —
+   same approach as cookstash. */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap');
+
+@import '@jasmine/design-system/styles';
+@import './theme.css';
+
+/* ─── Base ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-background-subtle);
+  color: var(--color-text-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+button { font-family: inherit; }
+
+/* Visually hidden, still read by screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Trailing chevron/caret sits 4px from its text inside 8px-gap rows (see components/ui/Icon.tsx) */
+.icon-caret { margin-inline-start: calc(var(--space-4) * -1); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,312 @@
+/* Walkthrough panel. Deliberately outside the product's look (inverse surface),
+   so it never reads as part of the agent builder. Tokens only. */
+
+.pill,
+.panel {
+  position: fixed;
+  left: var(--space-16);
+  bottom: var(--space-16);
+  z-index: 60;
+  background: var(--color-background-inverse);
+  color: var(--color-text-primary-inverse);
+  border-radius: var(--radius-l);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.24);
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: 44px;
+  padding: 0 var(--space-16);
+  border: 0;
+  font: var(--type-strong);
+  cursor: pointer;
+}
+.pillMeta {
+  font: var(--type-small);
+  color: var(--color-text-secondary-inverse);
+}
+
+.panel {
+  width: 380px;
+  max-height: calc(100dvh - 2 * var(--space-16));
+  overflow: auto;
+  padding: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.panel p,
+.panel ol,
+.panel ul,
+.panel dl,
+.panel dd {
+  margin: 0;
+  padding: 0;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+.title {
+  font: var(--type-strong);
+  margin-right: auto;
+}
+
+.modes {
+  display: flex;
+  border: 1px solid var(--color-border-inverse);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+}
+.mode {
+  min-height: 28px;
+  padding: 0 var(--space-10);
+  border: 0;
+  background: none;
+  color: var(--color-text-secondary-inverse);
+  font: var(--type-small);
+  cursor: pointer;
+}
+.mode[aria-pressed='true'] {
+  background: var(--color-text-primary-inverse);
+  color: var(--color-background-inverse);
+}
+
+.iconBtn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-secondary-inverse);
+  cursor: pointer;
+}
+.iconBtn:hover,
+.textBtn:hover,
+.chip:hover,
+.branch:hover {
+  background: rgb(255 255 255 / 0.08);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.introText {
+  font: var(--type-small);
+  color: var(--color-text-secondary-inverse);
+}
+.intro .muted {
+  font: var(--type-caption);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.groupTitle {
+  font: var(--type-small);
+  font-weight: 600;
+  color: var(--color-text-secondary-inverse);
+}
+.muted {
+  font-weight: 400;
+  color: var(--color-text-tertiary-inverse);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  list-style: none;
+}
+.chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 28px;
+  padding: 0 var(--space-8);
+  border: 1px solid var(--color-border-inverse);
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-primary-inverse);
+  font: var(--type-small);
+  cursor: pointer;
+}
+.chip span {
+  color: var(--color-text-tertiary-inverse);
+}
+.chip[aria-current='step'] {
+  background: var(--color-text-primary-inverse);
+  color: var(--color-background-inverse);
+}
+.chip[aria-current='step'] span {
+  color: inherit;
+}
+.chip[data-done] {
+  color: var(--color-text-secondary-inverse);
+}
+
+.branches {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+.branch {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: baseline;
+  gap: var(--space-8);
+  width: 100%;
+  min-height: 32px;
+  padding: var(--space-4) var(--space-8);
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-primary-inverse);
+  font: var(--type-small);
+  text-align: left;
+  cursor: pointer;
+}
+.branch[aria-current='true'] {
+  outline: 1px solid var(--color-text-primary-inverse);
+}
+.branchId {
+  font-weight: 600;
+  color: var(--color-text-secondary-inverse);
+}
+
+.current {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-12);
+  border-radius: var(--radius-m);
+  background: rgb(255 255 255 / 0.06);
+}
+.where {
+  font: var(--type-small);
+  color: var(--color-text-secondary-inverse);
+  margin-bottom: var(--space-4);
+}
+.label {
+  font: var(--type-caption);
+  font-weight: 600;
+  color: var(--color-text-tertiary-inverse);
+  margin-top: var(--space-4);
+}
+.action {
+  font: var(--type-body);
+  color: var(--color-text-primary-inverse);
+}
+.expect {
+  display: flex;
+  gap: var(--space-8);
+  align-items: flex-start;
+  font: var(--type-small);
+  color: var(--color-text-secondary-inverse);
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: var(--space-4) var(--space-8);
+  font: var(--type-small);
+}
+.details dt {
+  color: var(--color-text-tertiary-inverse);
+}
+.details dd {
+  color: var(--color-text-secondary-inverse);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+/* Back / Next stay together on the right, even when the row wraps. */
+.nav {
+  display: flex;
+  gap: var(--space-4);
+  margin-left: auto;
+}
+.textBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 32px;
+  padding: 0 var(--space-8);
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-secondary-inverse);
+  font: var(--type-small);
+  cursor: pointer;
+}
+.navBtn {
+  min-height: 32px;
+  padding: 0 var(--space-12);
+  border: 1px solid var(--color-border-inverse);
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-primary-inverse);
+  font: var(--type-small);
+  font-weight: 600;
+  cursor: pointer;
+}
+.navBtn[data-primary] {
+  background: var(--color-text-primary-inverse);
+  color: var(--color-background-inverse);
+  border-color: transparent;
+}
+.navBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pill:focus-visible,
+.panel button:focus-visible {
+  outline: 2px solid var(--color-text-primary-inverse);
+  outline-offset: 2px;
+}
+
+/* Under 1024 the product's bottom sheet and Run button own the bottom edge. */
+@media (max-width: 1023px) {
+  .pill,
+  .panel {
+    left: var(--space-8);
+    right: var(--space-8);
+    bottom: auto;
+    top: var(--space-8);
+  }
+  .pill {
+    left: auto;
+  }
+  .panel {
+    width: auto;
+    max-height: 70dvh;
+  }
+  .pill,
+  .chip,
+  .branch,
+  .textBtn,
+  .navBtn,
+  .mode,
+  .iconBtn {
+    min-height: 44px;
+  }
+  .iconBtn {
+    width: 44px;
+  }
+}

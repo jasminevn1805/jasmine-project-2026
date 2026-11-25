@@ -1,0 +1,102 @@
+/**
+ * Retell AI — Project Theme
+ *
+ * Keeps the agent-builder prototype's look on top of the design system:
+ * cool-grey neutrals, one violet accent (primary actions and key states
+ * only), neutral underlined links, Instrument Sans.
+ *
+ * RULES (THEMING-CONTRACT.md §3):
+ * - Only override tokens that differ from the DS default.
+ * - Values reference --primitive-* vars — never raw hex.
+ * - Scoped to [data-theme="retell-ai"] (matches the folder name, lowercased).
+ * - Wrapped in @layer theme so it participates in the DS cascade order.
+ *
+ * Light mode only for now: layout.tsx pins data-mode="light". Dark mode
+ * needs a theme.dark.css pass (cool-grey dark steps) — logged in
+ * ../ds-migration.md.
+ *
+ * Contrast notes (WCAG 2.2, on white unless noted) are in ../ds-migration.md.
+ */
+
+@layer theme {
+  [data-theme="retell-ai"] {
+    /* ── Typography ─────────────────────────────────────────────── */
+    /* DS components still hard-code --font-family-inter; until that
+       [DS-UPDATE] lands, only project-level text uses these. */
+    --font-body: var(--primitive-typography-family-instrument-sans);
+    --font-display: var(--primitive-typography-family-instrument-sans);
+
+    /* ── Type styles: five, composed from DS typography tokens ──── */
+    /* Use as `font: var(--type-body)`. */
+    --type-title: var(--typography-desktop-heading-s-semi-bold-weight) var(--typography-desktop-heading-s-semi-bold-size) / var(--typography-desktop-heading-s-semi-bold-line-height) var(--font-body);
+    --type-heading: var(--typography-desktop-heading-xs-semi-bold-weight) var(--typography-desktop-heading-xs-semi-bold-size) / var(--typography-desktop-heading-xs-semi-bold-line-height) var(--font-body);
+    --type-body: var(--typography-desktop-text-m-regular-weight) var(--typography-desktop-text-m-regular-size) / var(--typography-desktop-text-m-regular-line-height) var(--font-body);
+    --type-strong: var(--typography-desktop-text-m-semi-bold-weight) var(--typography-desktop-text-m-semi-bold-size) / var(--typography-desktop-text-m-semi-bold-line-height) var(--font-body);
+    /* Data-grid styles (Test history): DS text-xs 10/14 — cells regular, header semibold */
+    --type-grid: var(--typography-desktop-text-s-regular-weight) var(--typography-desktop-text-s-regular-size) / var(--typography-desktop-text-s-regular-line-height) var(--font-body);
+    --type-grid-head: var(--typography-desktop-text-s-semi-bold-weight) var(--typography-desktop-text-s-semi-bold-size) / var(--typography-desktop-text-s-semi-bold-line-height) var(--font-body);
+    /* 6th style, navigation labels only: lighter than --type-small */
+    --type-caption: var(--typography-desktop-text-s-regular-weight) var(--typography-desktop-text-s-regular-size) / var(--typography-desktop-text-s-regular-line-height) var(--font-body);
+    --type-small: var(--typography-desktop-text-s-regular-weight) var(--typography-desktop-text-s-regular-size) / var(--typography-desktop-text-s-semi-bold-line-height) var(--font-body);
+
+    /* ── Text ───────────────────────────────────────────────────── */
+    --color-text-primary: var(--primitive-cool-gray-900);
+    --color-text-secondary: var(--primitive-cool-gray-700);
+    --color-text-tertiary: var(--primitive-cool-gray-600);
+    --color-text-brand: var(--primitive-purple-700);
+    --color-text-selected: var(--primitive-purple-700);
+    /* Links are mono (black) + underlined, easing to grey on hover — like DS
+       "Text Mono". The accent stays reserved for primary actions and key states. */
+    --color-text-link: var(--primitive-cool-gray-900);
+    --color-text-link-hover: var(--primitive-cool-gray-700);
+    --color-text-link-pressed: var(--primitive-cool-gray-700);
+    /* DS default green-600 is 4.01:1 on its subtle fill; green-700 is 5.99:1. */
+    --color-text-positive: var(--primitive-green-700);
+    /* DS default red-600 is 4.47:1 on its subtle fill (fails AA); red-700 passes. */
+    --color-text-negative: var(--primitive-red-700);
+
+    /* ── Backgrounds ────────────────────────────────────────────── */
+    --color-background-subtle: var(--primitive-cool-gray-50);
+    --color-background-hover: var(--primitive-cool-gray-100);
+    --color-background-pressed: var(--primitive-cool-gray-200);
+    --color-background-neutral: var(--primitive-cool-gray-100);
+    --color-background-neutral-hover: var(--primitive-cool-gray-200);
+    --color-background-neutral-pressed: var(--primitive-cool-gray-300);
+    --color-background-selected: var(--primitive-purple-100);
+    --color-background-inverse: var(--primitive-cool-gray-900);
+    --color-background-brand: var(--primitive-purple-600);
+    --color-background-brand-hover: var(--primitive-purple-700);
+    --color-background-brand-pressed: var(--primitive-purple-800);
+    --color-background-brand-subtle: var(--primitive-purple-100);
+    --color-background-mono: var(--primitive-cool-gray-900);
+    --color-background-mono-hover: var(--primitive-cool-gray-800);
+    --color-background-mono-pressed: var(--primitive-cool-gray-700);
+
+    /* ── Icons ──────────────────────────────────────────────────── */
+    --color-icon-primary: var(--primitive-cool-gray-900);
+    --color-icon-subtle: var(--primitive-cool-gray-600);
+    --color-icon-brand: var(--primitive-purple-600);
+    --color-icon-selected: var(--primitive-purple-600);
+    /* DS default orange-500 is 2.69:1 (fails 1.4.11); orange-600 is 3.97:1. */
+    --color-icon-warning: var(--primitive-orange-600);
+
+    /* ── Borders ────────────────────────────────────────────────── */
+    --color-border-primary: var(--primitive-cool-gray-500);
+    --color-border-subtle: var(--primitive-cool-gray-200);
+    --color-border-focus: var(--primitive-purple-600);
+    --color-border-brand: var(--primitive-purple-600);
+    --color-border-selected: var(--primitive-purple-600);
+    --color-border-mono: var(--primitive-cool-gray-900);
+
+    /* ── Radius: DS scale (prototype used 6/10/14) ──────────────── */
+    --radius-s: var(--primitive-border-radius-s);   /* chips, badges */
+    --radius-m: var(--primitive-border-radius-m);   /* controls */
+    --radius-l: var(--primitive-border-radius-l);   /* cards, popovers, sheet */
+
+    /* ── Elevation: one level, overlays only ────────────────────── */
+    /* No DS shadow token exists yet ([DS-NEW] candidate) — same
+       project-level pattern as cookstash/app/theme.css. */
+    --shadow-overlay: 0 var(--space-8) var(--space-24)
+      color-mix(in srgb, var(--primitive-cool-gray-900) 12%, transparent);
+  }
+}

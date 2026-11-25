@@ -1,0 +1,253 @@
+/* Definition zone: the agent spec. One card shell for all five sections. */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: var(--space-20) var(--space-24);
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-l);
+  scroll-margin-top: var(--space-24);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+/* Signature: the change trail — pointing at a pending change lights its section */
+/* Same look as the hovered pending row (grey fill) + near-black outline, so the pair reads together */
+.lit {
+  border-color: var(--color-border-mono);
+  box-shadow: inset 0 0 0 1px var(--color-border-mono);
+  background: var(--color-background-hover);
+}
+.pulse { animation: pulse 1.2s ease; }
+@keyframes pulse {
+  0%, 100% { border-color: var(--color-border-subtle); }
+  25%, 60% { border-color: var(--color-border-mono); }
+}
+
+/* Cards are size containers: their contents respond to the card's width, which
+   changes with the window *and* with the resizable Conductor panel. */
+.card { container-type: inline-size; container-name: spec-card; }
+
+.head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8) var(--space-12); min-height: 32px; }
+.head h2 { margin: 0; font: var(--type-heading); }
+.headEnd { margin-left: auto; display: flex; align-items: center; min-width: 0; }
+
+/* Usage chip: shed detail as the card narrows */
+.usageMore, .usageWhen { white-space: nowrap; }
+@container spec-card (max-width: 760px) { .usageWhen { display: none; } }
+@container spec-card (max-width: 600px) { .usageMore { display: none; } }
+@container spec-card (max-width: 440px) { .usage { flex-basis: 100%; } .headEnd:has(.usage) { margin-left: 0; flex-basis: 100%; } }
+.meta { font: var(--type-small); color: var(--color-text-tertiary); }
+.metaWarning { font: var(--type-small); color: var(--color-text-warning); }
+.headerTools { display: inline-flex; align-items: center; gap: var(--space-12); }
+.headerTools .actionCta { justify-self: auto; }
+.headerTools .textAction { position: relative; text-decoration: underline; text-underline-offset: 3px; padding: 0 var(--space-4); }
+.headerTools .textAction::after { content: ''; position: absolute; inset: -6px -4px; }
+
+/* label / value rows */
+.rows { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: var(--space-4) 0; align-items: center; margin: 0; }
+.rows dt { color: var(--color-text-tertiary); font: var(--type-body); }
+.rows dd { margin: 0; min-height: 36px; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-12); font: var(--type-body); max-width: 68ch; }
+.pair { display: inline-flex; gap: var(--space-12); margin-left: var(--space-24); }
+.muted { color: var(--color-text-tertiary); }
+
+/* link-style button: neutral, underlined (accent is for primary actions only) */
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4); /* trailing chevron → 4px */
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-link);
+  font: var(--type-strong);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.link:hover { color: var(--color-text-link-hover); }
+.link::after { content: ''; position: absolute; inset: -12px -4px; }
+
+/* DS Button S uses a 4px icon gap — too tight for a 16px icon ([DS-UPDATE]). */
+/* `.rows dd` (0,2,1) out-ranks the DS's `.button.s` (0,2,0) regardless of stylesheet order. */
+.rows dd .iconButtonS { gap: var(--space-8); }
+
+/* Usage popover */
+.usageLabel { color: var(--color-text-primary); }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: var(--space-8) var(--space-16); margin: var(--space-4) 0; }
+.kv dt { color: var(--color-text-secondary); }
+.kv dd { margin: 0; text-align: right; font: var(--type-strong); }
+.total { padding-top: var(--space-8); border-top: 1px solid var(--color-border-subtle); font: var(--type-strong); color: var(--color-text-primary) !important; }
+.small { font: var(--type-small); color: var(--color-text-tertiary); margin: 0; }
+.strong { font: var(--type-strong); margin: 0; }
+
+/* Behavior */
+/* Field label — matches the Summary row labels (Name, Voice…) at every size */
+.label { margin: var(--space-4) 0 0; font: var(--type-body); color: var(--color-text-tertiary); }
+/* Prompt: fills the card, body size (14/20) */
+.prompt { display: flex; flex-direction: column; gap: var(--space-12); font: var(--type-body); }
+.prompt p { margin: 0; }
+.prompt h3 { margin: var(--space-8) 0 0; font: var(--type-strong); }
+/* In-content links ("Show full prompt", "Change in Advanced ›"): body size (14px), regular weight */
+/* Colour comes from the theme's mono link tokens; this only sets body size + regular weight */
+.link.linkPrompt { font: var(--type-body); }
+.clamped > :first-child { display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+.divider { border: 0; border-top: 1px solid var(--color-border-subtle); margin: var(--space-4) 0; }
+.sublist { list-style: none; margin: 0; padding: 0 0 0 116px; display: flex; flex-direction: column; }
+.sublist li { display: flex; align-items: center; gap: var(--space-8); min-height: 36px; font: var(--type-body); }
+.ok { color: var(--color-text-positive); }
+
+/* Knowledge */
+.sources { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-8); }
+.sources li { display: flex; align-items: center; gap: var(--space-12); min-height: 28px; font: var(--type-body); }
+.sources svg { color: var(--color-icon-subtle); }
+.knowledgeToggle {
+  display: none;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 44px;
+  margin: calc(var(--space-12) * -1) calc(var(--space-8) * -1);
+  padding: 0 var(--space-8);
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-secondary);
+  font: var(--type-small);
+  cursor: pointer;
+}
+.knowledgeToggle svg { transition: transform 0.2s ease; }
+.knowledgeToggle[aria-expanded='true'] svg { transform: rotate(90deg); }
+
+/* Actions */
+.actions { list-style: none; margin: 0; padding: 0; }
+.actions li {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) 140px 184px;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: 44px; /* compact for mouse; touch keeps 44px targets (see bottom) */
+  border-top: 1px solid var(--color-border-subtle);
+}
+.actions li:first-child { border-top: 0; }
+/* Connected: no CTA column, and the status ("Cal.com · Cleaning · 60 min") gets room for one line */
+.actionsConnected li { grid-template-columns: 16px minmax(0, 1fr) minmax(0, 260px); }
+.actionName { font: var(--type-body); } /* same style as Advanced list items */
+.statusWarn { font: var(--type-body); color: var(--color-text-warning); }
+.statusOk { font: var(--type-body); color: var(--color-text-tertiary); }
+.iconWarn { color: var(--color-icon-warning); }
+.iconOk { color: var(--color-text-positive); }
+.actionCta { justify-self: end; }
+/* DS Text button: neutral link colour; underline keeps the flat-style affordance */
+/* Connect calendar: DS Button S (32px) in every state. 8px icon gap (DS S uses 4px —
+   [DS-UPDATE]); an invisible extension keeps a 44px hit area without enlarging it. */
+.actions li .actionCta { position: relative; gap: var(--space-8); }
+.actions li .actionCta::after { content: ''; position: absolute; inset: -6px -4px; }
+.actions li .textAction { text-decoration: underline; text-underline-offset: 3px; padding: 0 var(--space-4); }
+
+/* Advanced */
+/* Same row rhythm as the Actions list: 44px rows (48px on mobile), hairline dividers */
+.advancedList { list-style: none; margin: 0; padding: 0; }
+.advancedList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: 44px;
+  border-top: 1px solid var(--color-border-subtle);
+  font: var(--type-body);
+}
+
+/* Narrow card: label above value, so every row stays visible at every size */
+@container spec-card (max-width: 520px) {
+  .rows { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .rows dt { padding-top: var(--space-8); } /* same label style as wide cards */
+  .rows dt:first-child { padding-top: 0; }
+  .rows dd { min-height: 0; padding: var(--space-4) 0 var(--space-4); gap: var(--space-8) var(--space-12); }
+  .pair { margin-left: 0; }
+}
+
+/* Laptop: tighten columns */
+@media (max-width: 1279px) {
+  .pair { margin-left: 0; }
+  .actions li { grid-template-columns: 16px minmax(0, 1fr) auto; }
+  .actionCta { grid-column: 2 / -1; justify-self: start; margin-bottom: var(--space-12); }
+}
+
+/* Mobile (< DS --breakpoint-tablet1024px) */
+@media (max-width: 1023px) {
+  .card { padding: var(--space-16); gap: var(--space-8); }
+  .clamped > :first-child { -webkit-line-clamp: 3; }
+  .sublist { padding-left: 0; }
+  .knowledgeToggle { display: inline-flex; margin-left: auto; }
+  .sourcesCollapsed { display: none; }
+  .actions li { grid-template-columns: 16px minmax(0, 1fr) auto; min-height: 48px; }
+  .advancedList li { min-height: 48px; }
+  .actionCta { grid-column: 2 / -1; justify-self: start; } /* keeps its small size on mobile too */
+  .hideMobile { display: none; }
+}
+
+/* ── Flows 6/7: cause highlight, link banner, edit mode (m) ── */
+/* The exact sentence behind a failure or a "why" — warning tint, not a new colour */
+.causeMark {
+  padding: 1px 2px;
+  border-radius: 3px;
+  background: var(--color-background-warning-subtle);
+  color: var(--color-text-primary);
+  box-shadow: inset 0 -2px 0 var(--color-icon-warning);
+}
+.linkBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding: var(--space-8) var(--space-8) var(--space-8) var(--space-12);
+  border-radius: var(--radius-m);
+  background: var(--color-background-hover);
+  font: var(--type-body);
+  color: var(--color-text-secondary);
+}
+.linkBanner b { color: var(--color-text-primary); font-weight: var(--typography-desktop-text-m-semi-bold-weight); }
+.linkBannerActions { display: inline-flex; align-items: center; gap: var(--space-4); flex: none; }
+.iconClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--radius-s);
+  background: none;
+  color: var(--color-icon-subtle);
+  cursor: pointer;
+  position: relative;
+}
+.iconClose::after { content: ''; position: absolute; inset: -6px; }
+.iconClose:hover { background: var(--color-background-neutral); color: var(--color-icon-primary); }
+.smallBtn { position: relative; gap: var(--space-8); }
+.smallBtn::after { content: ''; position: absolute; inset: -6px -4px; }
+
+.labelRow { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); margin-top: var(--space-4); }
+.labelRow .label { margin: 0; }
+.labelRow .editLink { position: relative; gap: var(--space-8); padding: 0 var(--space-4); text-decoration: underline; text-underline-offset: 3px; }
+.labelRow .editLink::after { content: ''; position: absolute; inset: -6px -4px; }
+
+.editor { display: flex; flex-direction: column; gap: var(--space-8); }
+.editorHint { margin: 0; font: var(--type-body); color: var(--color-text-secondary); }
+.editorHint b { font-weight: var(--typography-desktop-text-m-semi-bold-weight); color: var(--color-text-primary); }
+.editorHeading { margin: 0; font: var(--type-strong); }
+.textarea {
+  width: 100%;
+  min-height: 132px;
+  padding: var(--space-12);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-m);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  font: var(--type-body);
+  resize: vertical;
+}
+.textarea:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 0; border-color: var(--color-border-focus); }
+.textarea::selection { background: var(--color-background-warning-subtle); }
+.editorActions { display: flex; justify-content: flex-end; gap: var(--space-12); }

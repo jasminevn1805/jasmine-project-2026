@@ -14,7 +14,8 @@ export const primitiveTypography = {
     roboto: 'Roboto',
     plusJakartaSans: 'Plus Jakarta Sans',
     amiri: 'Amiri',
-    mono: 'ui-monospace'
+    mono: 'ui-monospace',
+    instrumentSans: 'Instrument Sans'
   },
   weight: {
     light: 'Light',

@@ -1,0 +1,225 @@
+/* Workbench zone: Build | Test. Desktop: right pane. Mobile: bottom sheet. */
+
+.bench {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--color-background-primary);
+}
+.head { padding: var(--space-16) var(--space-24); }
+.handle, .sheetTitle, .sheetFooter { display: none; }
+.body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 var(--space-24) var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+/* Thread */
+.you {
+  align-self: flex-end;
+  max-width: 88%;
+  margin: 0;
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius-l) var(--radius-l) var(--radius-s) var(--radius-l);
+  background: var(--color-background-neutral);
+  font: var(--type-body);
+}
+.ai {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: var(--space-16);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-l);
+  font: var(--type-body);
+  animation: rise 0.35s ease;
+}
+.ai p { margin: 0; }
+.meta { display: flex; align-items: center; gap: var(--space-8); font: var(--type-small); color: var(--color-text-secondary); }
+.built { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+.built li { display: flex; gap: var(--space-8); align-items: flex-start; }
+.built li svg { flex: none; margin-top: 2px; color: var(--color-text-positive); }
+.built b, .needs b { font-weight: var(--typography-desktop-text-m-semi-bold-weight); }
+/* Warning inside Conductor's message: plain text, icon carries the severity */
+.needs {
+  display: flex;
+  gap: var(--space-12); /* optical: the warning triangle fills its box edge-to-edge */
+  align-items: flex-start;
+  margin-top: var(--space-4) !important; /* 12 (card gap) + 4 = 16px before the rule */
+  padding-top: var(--space-16);
+  border-top: 1px solid var(--color-border-subtle);
+}
+.needs > svg { flex: none; margin-top: 2px; color: var(--color-icon-warning); }
+.needsDone { gap: var(--space-8); } /* check icon has side padding — standard 8px */
+.needsDone > svg { color: var(--color-text-positive); }
+/* Product event in the thread (state change), distinct from chat turns */
+.event {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  margin: 0;
+  font: var(--type-small);
+  color: var(--color-text-tertiary);
+}
+.event > svg { color: var(--color-text-positive); }
+/* Test events are links into Test history: same quiet line, plus hover + chevron */
+.eventLink {
+  align-self: center;
+  min-height: 32px;
+  padding: 0 var(--space-8);
+  border: 0;
+  border-radius: var(--radius-s);
+  background: none;
+  cursor: pointer;
+}
+.eventLink span { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--color-border-primary); }
+.eventLink:hover { background: var(--color-background-hover); color: var(--color-text-primary); }
+.eventLink > svg:last-child { color: var(--color-icon-subtle); }
+.inlineLink {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-link);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.inlineLink:hover { color: var(--color-text-link-hover); }
+.fresh { animation: rise 0.35s ease; }
+
+/* d · Conductor next steps */
+.ai b { font-weight: var(--typography-desktop-text-m-semi-bold-weight); }
+.steps { margin: 0; padding-left: var(--space-20); list-style: decimal; display: flex; flex-direction: column; gap: var(--space-12); } /* DS reset strips markers */
+.steps li { display: flex; flex-direction: column; gap: var(--space-4); padding-left: var(--space-4); }
+.steps li::marker { font: var(--type-strong); color: var(--color-text-tertiary); }
+.stepTitle { font: var(--type-strong); }
+.stepDetail { color: var(--color-text-tertiary); }
+.steps .inlineLink { position: relative; align-self: flex-start; display: inline-flex; align-items: center; gap: var(--space-8); }
+.steps .inlineLink::after { content: ''; position: absolute; inset: -12px -4px; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+
+/* Pending changes card */
+.pending {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-16) var(--space-20) var(--space-20);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-l);
+  background: var(--color-background-primary);
+}
+.pending h2 { margin: 0; font: var(--type-heading); }
+.trail { list-style: none; margin: 0 calc(var(--space-12) * -1); padding: 0; }
+.trailBtn {
+  width: 100%;
+  min-height: 36px; /* compact for mouse; 44px on touch (below) */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  padding: 0 var(--space-12);
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-secondary);
+  font: var(--type-body);
+  text-align: left;
+  cursor: pointer;
+}
+.trailBtn b { color: var(--color-text-primary); font-weight: var(--typography-desktop-text-m-semi-bold-weight); }
+.trailBtn svg { flex: none; color: var(--color-icon-subtle); }
+/* Hover = neutral grey, like every clickable row. The violet goes to the spec
+   section it lights up (the change trail), not to the row itself. */
+.trailBtn:hover, .trailBtn:focus-visible { background: var(--color-background-hover); }
+.trailBtn:hover svg { color: var(--color-icon-primary); }
+.cardActions { display: flex; gap: var(--space-12); margin-top: var(--space-8); }
+/* Touch screens keep 44px targets */
+@media (pointer: coarse) { .trailBtn { min-height: 44px; } }
+.grow { flex: 1; }
+.confirm { display: flex; flex-direction: column; gap: var(--space-12); padding-top: var(--space-12); border-top: 1px solid var(--color-border-subtle); }
+.confirm p { margin: 0; font: var(--type-body); }
+
+/* Test */
+.modes { display: flex; gap: var(--space-8); }
+.mode {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: 44px;
+  padding: 0 var(--space-16);
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--color-border-primary);
+  color: var(--color-text-secondary);
+  font: var(--type-strong);
+  cursor: pointer;
+}
+.mode[aria-checked='true'] { background: var(--color-background-inverse); color: var(--color-text-primary-inverse); box-shadow: none; }
+.block { width: 100%; }
+
+/* Ask Conductor */
+.ask {
+  display: flex;
+  gap: var(--space-8);
+  padding: var(--space-12) var(--space-24) var(--space-20);
+  border-top: 1px solid var(--color-border-subtle);
+}
+.askField { flex: 1; min-width: 0; }
+/* DS Input border uses the decorative grey (fails 1.4.11) — [DS-UPDATE]; local fix: */
+.ask .askInput { height: 44px; border-color: var(--color-border-primary); font: var(--type-body); }
+.ask .askInput::placeholder { color: var(--color-text-tertiary); }
+
+/* ── Mobile: bottom sheet ───────────────────────────────── */
+@media (max-width: 1023px) {
+  .bench {
+    height: auto;
+    max-height: 88vh;
+    border: 1px solid var(--color-border-subtle);
+    border-bottom: 0;
+    border-radius: var(--radius-l) var(--radius-l) 0 0;
+    box-shadow: var(--shadow-overlay);
+  }
+  .open { height: 88vh; }
+  .peek .body { display: none; }
+  .handle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 24px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .handle span { width: 40px; height: 4px; border-radius: 2px; background: var(--color-border-primary); }
+  .head { display: flex; flex-direction: column; gap: var(--space-12); padding: 0 var(--space-16) var(--space-12); }
+  .sheetTitle {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-text-primary);
+    font: var(--type-heading);
+    text-align: left;
+    cursor: pointer;
+  }
+  .scroll { padding: 0 var(--space-16) var(--space-16); }
+  .ask { padding: var(--space-12) var(--space-16); }
+  .sheetFooter {
+    display: block;
+    padding: var(--space-12) var(--space-16) calc(var(--space-16) + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--color-border-subtle);
+  }
+  /* One primary on screen: the pinned thumb-zone button replaces in-panel ones */
+  .desktopPrimary { display: none; }
+  .cardActions > * { flex: 1; }
+}

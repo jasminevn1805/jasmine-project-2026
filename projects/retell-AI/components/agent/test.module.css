@@ -1,0 +1,359 @@
+/* Test mode: idle · live call (g) · result + sample calendar (w). Tokens only. */
+
+.panel {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 var(--space-24) var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+.block { width: 100%; }
+
+/* Results layout: history + Run pinned at the bottom; the area above scrolls */
+.panelPinned { overflow: hidden; }
+.scrollArea {
+  flex: 1;
+  min-height: 140px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: var(--space-12);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-m);
+  background: var(--color-background-subtle);
+}
+.scrollArea:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+.scrollPlain { padding: 0; border: 0; border-radius: 0; background: none; }
+.pinnedFoot { flex: none; display: flex; flex-direction: column; gap: var(--space-12); }
+/* Many runs: the grid scrolls inside itself so the footer never grows past ~5 rows */
+.pinnedFoot .grid2 { max-height: 216px; overflow-y: auto; }
+
+/* Audio | Text */
+.modes { display: flex; gap: var(--space-8); }
+.mode {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: 44px;
+  padding: 0 var(--space-16);
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--color-border-primary);
+  color: var(--color-text-secondary);
+  font: var(--type-strong);
+  cursor: pointer;
+}
+.mode:hover { background: var(--color-background-hover); }
+.mode[aria-checked='true'] { background: var(--color-background-inverse); color: var(--color-text-primary-inverse); box-shadow: none; }
+
+/* Test type (Audio | Text) + what it means */
+.modeBlock { display: flex; flex-direction: column; gap: var(--space-8); }
+.modeHint { margin: 0; font: var(--type-body); color: var(--color-text-tertiary); }
+
+/* ── g · Live call ─────────────────────────────── */
+.call { display: flex; flex-direction: column; gap: var(--space-16); }
+.callHead { display: flex; align-items: center; gap: var(--space-8); margin: 0; font: var(--type-strong); }
+.liveDot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-background-negative); animation: blink 1.2s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: 0.3; } }
+
+.transcript { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-12); }
+.line { display: flex; flex-direction: column; gap: var(--space-4); max-width: 88%; animation: rise 0.3s ease; }
+.line p { margin: 0; padding: var(--space-12) var(--space-16); font: var(--type-body); border-radius: var(--radius-l); }
+.agent { align-self: flex-start; }
+.agent p { background: var(--color-background-primary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-s) var(--radius-l) var(--radius-l) var(--radius-l); }
+.caller { align-self: flex-end; align-items: flex-end; }
+.caller p { background: var(--color-background-neutral); border-radius: var(--radius-l) var(--radius-s) var(--radius-l) var(--radius-l); }
+.who { font: var(--type-small); color: var(--color-text-tertiary); }
+/* "why ›" — links an agent reply to the spec that produced it */
+.why {
+  position: relative;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-link);
+  font: var(--type-small);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.why:hover { color: var(--color-text-link-hover); }
+.why::after { content: ''; position: absolute; inset: -14px -8px; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+
+/* ── w · Result card ───────────────────────────── */
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-16);
+  border-radius: var(--radius-l);
+  border: 1px solid var(--color-border-subtle);
+  animation: rise 0.3s ease;
+}
+.passed { background: var(--color-background-positive-subtle); border-color: transparent; }
+.passed .resultHead svg { color: var(--color-text-positive); }
+.ended .resultHead svg { color: var(--color-icon-warning); }
+/* q · Result: missing connection (conversation-only test) */
+.skipped { background: var(--color-background-warning-subtle); border-color: transparent; }
+/* i · Result: failed */
+.failed { background: var(--color-background-negative-subtle); border-color: transparent; }
+.failed .resultHead svg { color: var(--color-icon-negative); }
+.cause { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8); margin: 0; font: var(--type-strong); }
+.causeLabel { font: var(--type-small); color: var(--color-text-negative); text-transform: none; }
+.resultActions { display: flex; gap: var(--space-12); margin-top: var(--space-4); }
+.resultActions .fixBtn { position: relative; gap: var(--space-8); }
+.resultActions .fixBtn::after { content: ''; position: absolute; inset: -6px -4px; }
+.skipped .resultHead svg { color: var(--color-icon-warning); }
+
+/* Transcript marker for a skipped step (product note, not speech) */
+.skip {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: var(--space-12); /* optical: warning triangle */
+  padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-s);
+  background: var(--color-background-warning-subtle);
+  color: var(--color-text-warning);
+  font: var(--type-small);
+  animation: rise 0.3s ease;
+}
+.skip svg { color: var(--color-icon-warning); }
+.resultHead { display: flex; align-items: center; gap: var(--space-8); margin: 0; font: var(--type-strong); }
+.resultBody { margin: 0; font: var(--type-body); }
+.rerun {
+  position: relative;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-top: var(--space-4);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-link);
+  font: var(--type-body);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.rerun:hover { color: var(--color-text-link-hover); }
+.rerun::after { content: ''; position: absolute; inset: -12px -4px; }
+
+/* ── w · Sample calendar week view ─────────────── */
+.calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: var(--space-16);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-l);
+}
+.calHead { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); }
+.calTitle { margin: 0; font: var(--type-strong); }
+
+.grid { display: grid; grid-template-columns: 40px repeat(5, minmax(0, 1fr)); gap: 0 var(--space-4); }
+.times { position: relative; margin-top: 24px; }
+.times span {
+  position: absolute;
+  left: 0;
+  transform: translateY(-50%);
+  font: var(--type-small);
+  font-weight: var(--typography-desktop-text-s-regular-weight);
+  color: var(--color-text-tertiary);
+}
+.day { display: flex; flex-direction: column; min-width: 0; }
+.dayName { height: 24px; text-align: center; font: var(--type-small); color: var(--color-text-secondary); }
+.dayBody { position: relative; border-radius: var(--radius-s); background: var(--color-background-subtle); }
+.hourLine { position: absolute; left: 0; right: 0; height: 1px; background: var(--color-border-subtle); }
+.sampleBooking, .testBooking { position: absolute; left: 2px; right: 2px; border-radius: 4px; }
+.sampleBooking { background: var(--color-background-neutral-hover); }
+.testBooking {
+  z-index: 1;
+  padding: 2px 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: var(--color-background-mono);
+  color: var(--color-text-primary-inverse);
+  font: var(--type-small);
+  font-size: var(--typography-desktop-text-s-semi-bold-size);
+  line-height: var(--space-14);
+  animation: rise 0.3s ease;
+}
+
+.calFoot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); flex-wrap: wrap; }
+.legend { display: flex; align-items: center; gap: var(--space-8); margin: 0; font: var(--type-small); font-weight: var(--typography-desktop-text-s-regular-weight); color: var(--color-text-tertiary); }
+.keyGrey, .keyBlack { width: 12px; height: 12px; border-radius: 3px; }
+.keyGrey { background: var(--color-background-neutral-hover); }
+.keyBlack { margin-left: var(--space-8); background: var(--color-background-mono); }
+.calFoot .reset { position: relative; padding: 0 var(--space-4); text-decoration: underline; text-underline-offset: 3px; }
+.calFoot .reset::after { content: ''; position: absolute; inset: -6px -4px; }
+
+/* ── v · Test history ──────────────────────────── */
+.back {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 44px;
+  margin: calc(var(--space-8) * -1) 0 calc(var(--space-8) * -1) calc(var(--space-8) * -1);
+  padding: 0 var(--space-8);
+  border: 0;
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-secondary);
+  font: var(--type-strong);
+  cursor: pointer;
+}
+.back:hover { background: var(--color-background-hover); color: var(--color-text-primary); }
+
+.history { display: flex; flex-direction: column; gap: var(--space-12); padding-top: var(--space-16); border-top: 1px solid var(--color-border-subtle); }
+.historyTitle { margin: 0; font: var(--type-heading); }
+.historyList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-8); }
+
+/* ── Data grid pattern (Test history) ─────────────────────
+   Columns: [status icon] Test · Calendar · Result · Length · [CTA]
+   - Spacing: 12px between columns, 16px before the CTA, 8px row padding.
+   - Type:    cells --type-grid (DS text-xs 10/14, regular), header --type-grid-head (text-xs semibold).
+   - Colour:  all text --color-text-secondary; icons use the matching icon tokens
+              (status: --color-icon-positive / --color-icon-warning, chevron: --color-icon-subtle).
+   - Rows:    hairline divider between every row (and under the header).
+   - States:  hover = grey fill; open session = grey fill + near-black outline (selection language). */
+.grid2 { display: flex; flex-direction: column; } /* same edges as the title, Run button and Ask field */
+.gridRow {
+  position: relative;
+  display: grid;
+  /* Fixed widths (CTA included) so header and rows share the same columns. Fits the 392px
+     default panel at 12px text: 16 + 60 + 56 + Result + 44 + 56, gaps 8. */
+  grid-template-columns: 16px 60px 56px minmax(0, 1fr) 44px 56px;
+  align-items: center;
+  column-gap: var(--space-8);
+  min-height: 36px; /* compact for mouse; 44px on touch (below) */
+  padding: 0 var(--space-8);
+  border-top: 1px solid var(--color-border-subtle);
+  font: var(--type-grid);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+.gridHead { position: sticky; top: 0; z-index: 1; background: var(--color-background-primary); min-height: 28px; border-top: 0; font: var(--type-grid-head); color: var(--color-text-secondary); }
+.gridRow:last-child { border-bottom: 1px solid var(--color-border-subtle); }
+.gridRow:not(.gridHead):hover { background: var(--color-background-hover); }
+.gridRow[aria-current='true'] { background: var(--color-background-hover); box-shadow: inset 0 0 0 2px var(--color-border-mono); border-radius: var(--radius-s); }
+.gridRow[aria-current='true'] + .gridRow { border-top-color: transparent; }
+.gridRow:has(.rowAction:focus-visible) { outline: 2px solid var(--color-border-focus); outline-offset: 1px; }
+.gridRow > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.colIcon { display: flex; align-items: center; }
+.colTest, .colMuted, .colResult, .colWarn { color: var(--color-text-secondary); }
+.colNum { text-align: right; font-variant-numeric: tabular-nums; }
+/* CTA: right-aligned to the shared right edge */
+.gridRow > span:last-child { justify-self: end; }
+.rowAction {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-secondary);
+  font: var(--type-grid);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.rowAction svg { color: var(--color-icon-subtle); }
+.gridRow:hover .rowAction, .gridRow:hover .rowAction svg { color: var(--color-text-primary); }
+.rowAction:focus-visible { outline: none; } /* ring drawn on the row */
+.rowAction::after { content: ''; position: absolute; inset: 0; }
+.gridIconOk { color: var(--color-icon-positive); }
+.gridIconWarn { color: var(--color-icon-warning); }
+.gridIconFail { color: var(--color-icon-negative); }
+@media (pointer: coarse) { .gridRow:not(.gridHead) { min-height: 44px; } }
+
+/* ── Session transcript ───────────────────────── */
+.session { display: flex; flex-direction: column; gap: var(--space-12); }
+.sessionHead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-12); }
+.sessionTitle { margin: 0; font: var(--type-heading); }
+.sessionMeta { font: var(--type-small); color: var(--color-text-tertiary); }
+.time { font: var(--type-small); font-weight: var(--typography-desktop-text-s-regular-weight); color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; margin-left: calc(var(--space-4) * -1); }
+.who { display: inline-flex; align-items: center; gap: var(--space-8); }
+/* Key moment: the line that decided the outcome */
+.key p { box-shadow: inset 0 0 0 2px var(--color-border-mono); }
+.keyBooked p { background: var(--color-background-positive-subtle); border-color: transparent; }
+.skipRow { align-self: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
+.keySkip .skip { box-shadow: none; } /* key skipped step: tagged, not outlined — same as a normal marker */
+
+.iconOk { color: var(--color-text-positive); }
+.iconWarn { color: var(--color-icon-warning); }
+
+@media (max-width: 1023px) {
+  .panel { padding: 0 var(--space-16) var(--space-16); }
+  /* One primary on screen: the sheet's pinned footer carries it */
+  .desktopPrimary { display: none; }
+}
+
+/* ── Audio call cues ─────────────────────────── */
+.micChip {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 2px var(--space-8);
+  border-radius: var(--radius-s);
+  background: var(--color-background-neutral);
+  color: var(--color-text-secondary);
+  font: var(--type-small);
+}
+.turn { align-self: flex-start; display: inline-flex; align-items: center; gap: var(--space-8); margin: 0; font: var(--type-small); color: var(--color-text-tertiary); animation: blink 1.6s ease-in-out infinite; }
+.turnYou { align-self: flex-end; color: var(--color-text-secondary); }
+
+/* ── Text chat ───────────────────────────────── */
+.typingDots { display: inline-flex; gap: var(--space-4); align-items: center; min-height: 20px; }
+.typingDots span { width: 6px; height: 6px; border-radius: 50%; background: var(--color-icon-subtle); animation: blink 1s ease-in-out infinite; }
+.typingDots span:nth-child(2) { animation-delay: 0.15s; }
+.typingDots span:nth-child(3) { animation-delay: 0.3s; }
+.suggestion {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  max-width: 100%;
+  min-height: 32px;
+  padding: 0 var(--space-12);
+  border: 1px dashed var(--color-border-primary);
+  border-radius: var(--radius-m);
+  background: none;
+  color: var(--color-text-secondary);
+  font: var(--type-body);
+  cursor: pointer;
+}
+.suggestion:hover { background: var(--color-background-hover); color: var(--color-text-primary); }
+.suggestionLabel { font: var(--type-small); color: var(--color-text-tertiary); }
+.suggestionText { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chatForm { display: flex; gap: var(--space-8); }
+.chatInput {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-m);
+  background: var(--color-background-primary);
+  font: var(--type-body);
+  color: var(--color-text-primary);
+}
+.chatInput::placeholder { color: var(--color-text-tertiary); }
+.chatInput:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 0; border-color: var(--color-border-focus); }
+.chatInput:disabled { background: var(--color-background-subtle); }
+.chatForm .chatSend { min-width: 44px; min-height: 44px; padding: 0; }
+.sessionMeta { display: inline-flex; align-items: center; gap: var(--space-8); }
+
+.keyFailed p { background: var(--color-background-negative-subtle); border-color: transparent; }

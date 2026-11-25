@@ -97,6 +97,28 @@ const LOCAL_PRIMITIVE_COLOR_ADDITIONS = {
     // into a scale object - this isn't a new pattern.
     canvas: '#fafafa',
   },
+
+  // --- (2) permanent, retell-AI's own brand fork ---
+  // Cool, slightly blue-leaning grayscale from the retell-AI agent builder
+  // prototype (projects/retell-AI/prototype/styles.css). Same 11-step shape
+  // as warmGray. Every step that the prototype actually used is kept at its
+  // exact value: 50 page bg, 100 sunken fill, 200 decorative border,
+  // 500 interactive border (3.8:1 on white, 3.3:1 on 100 - WCAG 1.4.11),
+  // 600/700/900 tertiary/secondary/primary text (6.1:1, 8.5:1, 18.1:1 on
+  // white). 300, 400 and 800 are interpolated to complete the scale.
+  coolGray: {
+    '0': '#ffffff',
+    '50': '#f5f6f8',
+    '100': '#eef0f3',
+    '200': '#e2e5e9',
+    '300': '#c9cdd3',
+    '400': '#a3a9b1',
+    '500': '#7d848f',
+    '600': '#5c636d',
+    '700': '#464d57',
+    '800': '#2c3138',
+    '900': '#13161b',
+  },
 };
 
 const LOCAL_PRIMITIVE_TYPOGRAPHY_FAMILY_ADDITIONS = {
@@ -110,6 +132,7 @@ const LOCAL_PRIMITIVE_TYPOGRAPHY_FAMILY_ADDITIONS = {
   // yet, which silently broke `next build` for portfolio-site until now.
   amiri: 'Amiri', // portfolio's editorial display serif, loaded via next/font/google
   mono: 'ui-monospace', // portfolio's monospace token; no custom webfont loaded, resolves to the OS default
+  instrumentSans: 'Instrument Sans', // retell-AI's UI typeface, loaded via next/font/google
 };
 
 // Utility: Convert Figma name to camelCase
