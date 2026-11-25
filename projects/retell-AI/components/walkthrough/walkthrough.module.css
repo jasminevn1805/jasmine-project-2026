@@ -52,9 +52,10 @@
   align-items: center;
   gap: var(--space-8);
 }
+/* flex:1 (not margin) so the paragraph reset can't pull the controls off the right edge. */
 .title {
   font: var(--type-strong);
-  margin-right: auto;
+  flex: 1;
 }
 
 .modes {
