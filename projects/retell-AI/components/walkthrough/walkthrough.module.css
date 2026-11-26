@@ -105,6 +105,17 @@
   font: var(--type-small);
   color: var(--color-text-secondary-inverse);
 }
+.demoLink {
+  font: var(--type-strong);
+  color: var(--color-text-primary-inverse);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  align-self: flex-start;
+  min-height: 24px;
+}
+.demoLink:hover {
+  text-decoration-thickness: 2px;
+}
 .intro .muted {
   font: var(--type-caption);
 }

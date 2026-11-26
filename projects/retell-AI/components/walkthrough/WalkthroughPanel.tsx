@@ -151,6 +151,9 @@ export function WalkthroughPanel({
           A redesign of Retell’s agent builder for non-technical builders. Follow a clinic manager from Conductor’s first build to a booking agent on a
           real phone line. Pick a step to jump there; each one ticks as you go.
         </p>
+        <a className={s.demoLink} href="/demo.mp4" target="_blank" rel="noopener">
+          ▶ Watch the 2.5 min demo
+        </a>
         <p className={s.muted}>Concept prototype for a UX case study · not affiliated with Retell AI</p>
       </div>
 
